@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isUpcoming, formatDate } from '../../utils/date';
+
+const allEvents = await getCollection('events');
+const pastEvents = allEvents
+  .filter(event => !isUpcoming(event.data.date))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Archiv">
+  <header class="mb-12">
+    <h1 class="text-4xl font-extrabold tracking-tighter mb-4">Archiv</h1>
+    <p class="text-neutral-500 italic">Unsere Historie seit 1993 im Ortenburgerkeller</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[200px]">
+    {pastEvents.map((event, index) => (
+      <article 
+        class={`
+          bg-brand-dark border border-white/5 rounded-xl p-6 flex flex-col justify-between group hover:border-brand-primary/30 transition-all duration-500
+          ${index % 4 === 0 ? 'md:col-span-2 md:row-span-2' : ''}
+          ${index % 7 === 0 ? 'md:row-span-2' : ''}
+        `}
+      >
+        <div>
+          <span class="text-[10px] font-bold text-neutral-600 uppercase tracking-widest block mb-2">
+            {formatDate(event.data.date)}
+          </span>
+          <h3 class={`font-bold mb-2 group-hover:text-brand-primary transition-colors ${index % 4 === 0 ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+            {event.data.title}
+          </h3>
+          <p class="text-xs text-neutral-500 line-clamp-3">
+            {event.data.body}
+          </p>
+        </div>
+        
+        <div class="mt-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+           <span class="text-[10px] font-bold uppercase tracking-tighter text-brand-primary">Erinnerungen &rarr;</span>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  {pastEvents.length === 0 && (
+    <div class="py-24 text-center border border-dashed border-brand-dark rounded-xl">
+      <p class="text-neutral-500 italic">Noch keine Archiv-Einträge vorhanden.</p>
+    </div>
+  )}
+</BaseLayout>

@@ -1,0 +1,31 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Programm', href: '/programm' },
+  { label: 'Archiv', href: '/archiv' },
+  { label: 'Über Uns', href: '/about' },
+];
+---
+
+<header class="sticky top-0 z-50 bg-brand-bg/80 backdrop-blur-md border-b border-brand-dark px-4 py-4">
+  <div class="container mx-auto max-w-5xl flex justify-between items-center">
+    <a href="/" class="text-xl font-bold tracking-tighter text-brand-primary">
+      GUITARENA<span class="text-brand-text">.AT</span>
+    </a>
+    
+    <nav>
+      <ul class="flex gap-6 md:gap-10">
+        {navItems.map(item => (
+          <li>
+            <a 
+              href={item.href} 
+              class="text-sm font-medium hover:text-brand-primary transition-colors duration-200"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

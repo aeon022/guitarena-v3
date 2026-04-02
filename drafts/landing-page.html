@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guitarena - Ortenburgerkeller Spittal/Drau</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-orten-bg: #1a1715;
+      --color-orten-card: #24201e;
+      --color-orten-amber: #d9772b;
+      --color-orten-text: #e6e0d8;
+    }
+    body {
+      background-color: var(--color-orten-bg);
+      color: var(--color-orten-text);
+      /* Subtiler Noise für die analoge Keller-Textur */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-orten-amber selection:text-orten-bg">
+  
+  <header class="w-full p-6 md:px-12 md:py-6 flex justify-between items-center fixed top-0 z-50 bg-orten-bg/80 backdrop-blur-md border-b border-white/5">
+    <div class="text-2xl font-bold tracking-tighter">GUITARENA<span class="text-orten-amber">.</span></div>
+    <nav class="flex gap-6 font-mono text-sm uppercase tracking-widest text-white/70">
+      <a href="#programm" class="hover:text-orten-amber transition-colors">Programm</a>
+      <a href="#archiv" class="hover:text-white transition-colors">Archiv</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="relative h-screen flex flex-col justify-end p-6 md:p-16 overflow-hidden">
+      <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-luminosity"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-orten-bg via-orten-bg/50 to-transparent"></div>
+
+      <article class="relative z-10 max-w-5xl mx-auto w-full pb-12">
+        <div class="inline-block border border-orten-amber text-orten-amber font-mono text-xs px-3 py-1 mb-6 uppercase tracking-widest">>> Nächstes Event</div>
+        
+        <h1 class="text-7xl md:text-9xl font-serif leading-[0.9] mb-6 text-white">Adam <br>Rafferty</h1>
+        
+        <div class="flex flex-col md:flex-row gap-4 md:gap-8 font-mono text-white/60 mb-10">
+          <time datetime="2026-05-15T20:00" class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-orten-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            FR, 15. MAI 2026 / 20:00
+          </time>
+          <span class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-orten-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Ortenburgerkeller, Schloss Porcia
+          </span>
+        </div>
+
+        <a href="#karten" class="inline-block bg-orten-amber text-orten-bg px-8 py-4 font-bold tracking-wider hover:scale-105 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          TICKETS SICHERN
+        </a>
+      </article>
+    </section>
+
+    <section class="bg-orten-card border-y border-white/5 py-16 px-6">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="font-mono text-orten-amber text-sm tracking-widest mb-6">EST. 1993</h2>
+        <p class="text-xl md:text-3xl font-serif text-white/90 leading-relaxed">
+          Seit über 30 Jahren bringt die Kulturinitiative Guitarena die Weltelite der akustischen Gitarre nach Spittal an der Drau. Handgemachte Musik, hautnah im historischen Kreuzgewölbe.
+        </p>
+      </div>
+    </section>
+
+    <section id="programm" class="max-w-5xl w-full mx-auto px-6 md:px-12 py-24">
+      <div class="mb-16 border-b border-white/10 pb-6 flex justify-between items-end">
+        <div>
+          <h2 class="text-4xl font-serif text-white mb-2">Lineup.</h2>
+          <p class="font-mono text-sm text-white/50 uppercase tracking-widest">Die nächsten Konzert-Highlights</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-8">
+        
+        <article class="group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start md:items-center p-4 -mx-4 rounded-xl hover:bg-white/[0.02] transition-colors cursor-pointer border border-transparent hover:border-white/5">
+          <a href="#" class="absolute inset-0 z-20"><span class="sr-only">Details zu Peter Finger</span></a>
+          
+          <div class="w-full md:w-48 h-64 md:h-48 shrink-0 overflow-hidden rounded-sm relative">
+            <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
+            <img src="https://images.unsplash.com/photo-1525201548942-d8732f6617a0?q=80&w=800&auto=format&fit=crop" alt="Peter Finger" class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+          </div>
+
+          <div class="flex-1 flex flex-col justify-center py-2">
+            <time datetime="2026-09-12" class="font-mono text-sm text-white/50 tracking-widest mb-3">SA, 12. SEP 2026</time>
+            <h3 class="text-3xl md:text-4xl font-serif text-white mb-3 group-hover:translate-x-2 transition-transform duration-300">Peter Finger</h3>
+            <p class="text-white/60 line-clamp-2 md:pr-12 text-sm leading-relaxed">
+              Eine lebende Legende der Akustikgitarre. Seine musikalische Bandbreite reicht von klassischer Präzision bis hin zu dynamischem, orchestralem Fingerstyle.
+            </p>
+          </div>
+
+          <div class="md:w-32 shrink-0 flex items-center md:justify-end text-sm font-mono tracking-widest font-bold">
+             <span class="text-white/30 group-hover:text-orten-amber transition-colors">TICKETS -></span>
+          </div>
+        </article>
+
+        <article class="group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start md:items-center p-4 -mx-4 rounded-xl hover:bg-white/[0.02] transition-colors cursor-pointer border border-transparent hover:border-white/5">
+          <a href="#" class="absolute inset-0 z-20"><span class="sr-only">Details zu Acoustic Session</span></a>
+          
+          <div class="w-full md:w-48 h-64 md:h-48 shrink-0 overflow-hidden rounded-sm relative">
+            <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" alt="Acoustic Session" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+          </div>
+
+          <div class="flex-1 flex flex-col justify-center py-2">
+            <time datetime="2026-11-20" class="font-mono text-sm text-white/50 tracking-widest mb-3">FR, 20. NOV 2026</time>
+            <h3 class="text-3xl md:text-4xl font-serif text-white mb-3 group-hover:translate-x-2 transition-transform duration-300">Acoustic Blues Night</h3>
+            <p class="text-white/60 line-clamp-2 md:pr-12 text-sm leading-relaxed">
+              Ein Abend im Zeichen des Mississippi-Deltas. Zwei herausragende Gitarristen teilen sich die Bühne für eine Session voller rauer Emotionen.
+            </p>
+          </div>
+
+          <div class="md:w-32 shrink-0 flex items-center md:justify-end text-sm font-mono tracking-widest font-bold">
+            <span class="text-white/30">BALD</span>
+          </div>
+        </article>
+
+      </div>
+      
+      <div class="mt-16 text-center">
+        <a href="#archiv" class="inline-block border border-white/20 text-white/60 px-6 py-3 font-mono text-sm tracking-widest hover:bg-white hover:text-orten-bg transition-colors">
+          ZUM ARCHIV (AB 1993)
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-orten-card border-t border-white/5 pt-16 pb-8 px-6 md:px-12">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <div class="text-xl font-bold tracking-tighter mb-2">GUITARENA<span class="text-orten-amber">.</span></div>
+        <p class="text-white/50 text-sm">Kulturinitiative Spittal a. d. Drau</p>
+      </div>
+      
+      <div id="karten" class="text-center md:text-right">
+        <p class="font-mono text-orten-amber text-sm mb-1 uppercase tracking-widest">Kartenreservierung</p>
+        <a href="mailto:karten@porcia.at" class="text-white hover:text-orten-amber transition-colors font-serif text-xl">karten@porcia.at</a>
+      </div>
+    </div>
+    
+    <div class="max-w-5xl mx-auto mt-16 pt-8 border-t border-white/5 flex justify-between font-mono text-xs text-white/30">
+      <span>&copy; 2026 Guitarena</span>
+      <a href="/impressum" class="hover:text-white transition-colors">Impressum & Datenschutz</a>
+    </div>
+  </footer>
+
+</body>
+</html>

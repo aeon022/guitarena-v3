@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventCard from '../../components/EventCard.astro';
+import { isUpcoming } from '../../utils/date';
+
+const allEvents = await getCollection('events');
+const upcomingEvents = allEvents
+  .filter(event => isUpcoming(event.data.date))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+---
+
+<BaseLayout title="Programm">
+  <header class="mb-12">
+    <h1 class="text-4xl font-extrabold tracking-tighter mb-4">Programm</h1>
+    <p class="text-neutral-500">Kommende Konzerte im Ortenburgerkeller</p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {upcomingEvents.map(event => (
+      <EventCard event={{ id: event.id, ...event.data }} />
+    ))}
+  </div>
+  
+  {upcomingEvents.length === 0 && (
+    <div class="py-24 text-center border border-dashed border-brand-dark rounded-xl">
+      <p class="text-neutral-500 italic">Aktuell sind keine kommenden Konzerte geplant. Schau bald wieder vorbei!</p>
+    </div>
+  )}
+</BaseLayout>

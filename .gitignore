@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Astro
+.astro/
+dist/
+
+# Environment
+.env
+.env.production
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Orbiter / SQLite (Exclude local DB from Git if needed, or keep if shared)
+# content.pod

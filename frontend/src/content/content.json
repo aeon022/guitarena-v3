@@ -1,0 +1,62 @@
+[
+  {
+    "id": "peter-kern",
+    "title": "Peter Kern",
+    "date": "2026-03-06T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
+    "body": "Blues. Peter Kern, einer der herausragendsten Blues-Gitarristen Österreichs, stand bereits mit 15 Jahren regelmäßig auf den Bühnen Wiens. Preisträger der International Blues Challenge (IBC) 2001.",
+    "ticketLink": "mailto:karten@porcia.at"
+  },
+  {
+    "id": "crossing-strings",
+    "title": "Crossing Strings",
+    "date": "2026-04-10T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
+    "body": "Classical Fingerstyle Guitar. Ein Duo bestehend aus Markus Schlesinger und Carina Maria Linder, das die Grenzen zwischen Klassik, Folk und Blues verschmelzen lässt.",
+    "ticketLink": "mailto:karten@porcia.at"
+  },
+  {
+    "id": "michael-fix",
+    "title": "Michael Fix",
+    "date": "2026-10-16T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
+    "body": "FUNKY FEEL-GOOD FINGERSTYLE GUITAR! Virtuos, facettenreich und technisch brillant – der Ausnahmegitarrist aus Brisbane, Australien, entlockt seiner Akustikgitarre orchestrale Klänge.",
+    "ticketLink": "mailto:karten@porcia.at"
+  },
+  {
+    "id": "julian-polak",
+    "title": "Julian Polak",
+    "date": "2026-11-20T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
+    "body": "Fingerstyle. Seine Musik erzählt Geschichten – mal kraftvoll und treibend, mal sanft und träumerisch. Julian Polak nimmt sein Publikum mit auf eine musikalische Reise durch Europa und darüber hinaus.",
+    "ticketLink": "mailto:karten@porcia.at"
+  },
+  {
+    "id": "gottfried-gfrerer",
+    "title": "Gottfried D. Gfrerer (AT)",
+    "date": "2024-11-15T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia",
+    "body": "Archiv-Eintrag."
+  },
+  {
+    "id": "alberto-lombardi",
+    "title": "Alberto Lombardi (IT)",
+    "date": "2024-10-18T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia",
+    "body": "Archiv-Eintrag."
+  },
+  {
+    "id": "david-mana",
+    "title": "David Mana (IT)",
+    "date": "2024-06-14T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia",
+    "body": "Archiv-Eintrag."
+  },
+  {
+    "id": "ignaz-netzer",
+    "title": "Ignaz Netzer (D)",
+    "date": "2024-05-17T19:30:00",
+    "location": "Ortenburgerkeller, Schloss Porcia",
+    "body": "Archiv-Eintrag."
+  }
+]

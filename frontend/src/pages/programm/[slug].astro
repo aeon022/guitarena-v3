@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate, formatTime } from '../../utils/date';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map(event => ({
+    params: { slug: event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { title, date, location, body, ticketLink, image } = event.data;
+---
+
+<BaseLayout title={title}>
+  <article class="max-w-4xl mx-auto py-12">
+    <a href="/programm" class="text-sm font-semibold text-brand-primary hover:underline mb-8 inline-block">
+      ← Zurück zum Programm
+    </a>
+
+    <header class="mb-12">
+      <div class="flex items-center gap-3 mb-6">
+        <time datetime={date.toISOString()} class="px-3 py-1 bg-brand-primary text-brand-bg text-xs font-bold rounded uppercase tracking-widest">
+          {formatDate(date)}
+        </time>
+        <span class="text-neutral-500">{formatTime(date)} Uhr</span>
+        <span class="text-neutral-700">|</span>
+        <span class="text-neutral-400 text-sm">{location}</span>
+      </div>
+      
+      <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-tight">
+        {title}
+      </h1>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="md:col-span-2">
+        {image && (
+          <div class="aspect-video bg-neutral-800 rounded-2xl overflow-hidden mb-12 border border-white/5">
+             <img src={`/api/media/${image}`} alt={title} class="w-full h-full object-cover" />
+          </div>
+        )}
+        
+        <div class="prose prose-invert prose-amber max-w-none">
+          <div class="text-xl text-neutral-300 leading-relaxed whitespace-pre-line" set:html={body}></div>
+        </div>
+      </div>
+
+      <aside class="space-y-8">
+        <div class="bg-brand-dark p-8 rounded-2xl border border-white/5 sticky top-24">
+          <h3 class="font-bold text-lg mb-4">Tickets & Reservierung</h3>
+          <p class="text-sm text-neutral-400 mb-6">
+            Kartenreservierungen für Konzerte im Ortenburgerkeller.
+          </p>
+          
+          {ticketLink ? (
+            <a 
+              href={ticketLink} 
+              class="block w-full text-center bg-brand-primary text-brand-bg py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-secondary transition-all transform active:scale-95 shadow-lg shadow-brand-primary/10"
+            >
+              Karten Reservieren
+            </a>
+          ) : (
+             <p class="text-xs italic text-neutral-600">Keine Online-Reservierung verfügbar.</p>
+          )}
+          
+          <div class="mt-8 pt-6 border-t border-white/5 text-[10px] text-neutral-500 uppercase tracking-widest leading-relaxed">
+            Abendkasse ab 18:30 Uhr geöffnet.<br />
+            Freie Platzwahl.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

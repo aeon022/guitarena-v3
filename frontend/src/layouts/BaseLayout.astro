@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Guitarena.at - Akustik- & Fingerstyle-Gitarre im Ortenburgerkeller" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="de" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Guitarena.at</title>
+		<meta name="description" content={description} />
+		<ViewTransitions />
+	</head>
+	<body class="min-h-screen flex flex-col selection:bg-brand-primary selection:text-brand-bg">
+		<Header />
+		<main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
+			<slot />
+		</main>
+		<footer class="py-12 md:py-24 text-center border-t border-white/5 bg-brand-dark/30">
+      <div class="container mx-auto px-4">
+        <div class="text-brand-primary font-black tracking-tighter text-2xl mb-8 uppercase">Guitarena</div>
+        <nav class="flex justify-center gap-8 mb-8 text-xs font-bold uppercase tracking-widest text-neutral-500">
+          <a href="/programm" class="hover:text-white transition-colors">Programm</a>
+          <a href="/archiv" class="hover:text-white transition-colors">Archiv</a>
+          <a href="/about" class="hover:text-white transition-colors">Über Uns</a>
+          <a href="https://guitarena.at/impressum/" class="hover:text-white transition-colors">Impressum</a>
+        </nav>
+        <p class="text-xs text-neutral-600">&copy; {new Date().getFullYear()} Kulturinitiative Spittal/Drau. <br class="md:hidden" /> Made with Astro & ❤️ in Austria.</p>
+      </div>
+		</footer>
+	</body>
+</html>
