@@ -1,48 +1,29 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EventCard from '../components/EventCard.astro';
+import Hero from '../components/Hero.astro';
+import Intro from '../components/Intro.astro';
+import EventLineup from '../components/EventLineup.astro';
+import Guestbook from '../components/Guestbook.astro';
 import { isUpcoming } from '../utils/date';
 
 const allEvents = await getCollection('events');
-const nextEvent = allEvents
+const upcomingEvents = allEvents
   .filter(event => isUpcoming(event.data.date))
-  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())[0];
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const nextEvent = upcomingEvents[0];
+const otherUpcoming = upcomingEvents.slice(1);
 ---
 
 <BaseLayout title="Home">
-  <section class="py-12 md:py-24 flex flex-col items-center text-center">
-    <h1 class="text-4xl md:text-7xl font-extrabold tracking-tighter mb-6">
-      Akustik- & Fingerstyle <br />
-      <span class="text-brand-primary">Gitarre Pur.</span>
-    </h1>
-    <p class="text-lg md:text-xl text-neutral-400 max-w-2xl mb-12">
-      Guitarena bringt seit 1993 internationale Gitarren-Größen in das historische Ambiente des Ortenburgerkellers in Schloss Porcia.
-    </p>
-    
-    <div class="flex gap-4">
-      <a href="/programm" class="bg-brand-primary text-brand-bg px-8 py-3 rounded font-bold uppercase tracking-wider btn-hover">
-        Zum Programm
-      </a>
-      <a href="/archiv" class="border border-brand-dark px-8 py-3 rounded font-bold uppercase tracking-wider hover:bg-brand-dark transition-colors">
-        Archiv
-      </a>
-    </div>
-  </section>
+  {nextEvent && <Hero event={{ id: nextEvent.id, ...nextEvent.data }} />}
+  
+  <Intro />
 
-  {nextEvent && (
-    <section class="py-12 border-t border-brand-dark">
-      <div class="flex justify-between items-end mb-8">
-        <div>
-          <h2 class="text-2xl font-bold">Nächstes Event</h2>
-          <p class="text-neutral-500">Sei dabei im Ortenburgerkeller</p>
-        </div>
-        <a href="/programm" class="text-sm font-semibold text-brand-primary hover:underline">Alle Events ansehen →</a>
-      </div>
-      
-      <div class="max-w-2xl mx-auto">
-        <EventCard event={{ id: nextEvent.id, ...nextEvent.data }} />
-      </div>
-    </section>
+  {upcomingEvents.length > 0 && (
+    <EventLineup events={upcomingEvents.map(e => ({ id: e.id, ...e.data }))} />
   )}
+
+  <Guestbook limit={10} />
 </BaseLayout>

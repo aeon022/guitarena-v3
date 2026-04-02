@@ -1,0 +1,58 @@
+---
+// Guestbook.astro
+import { guestbookFiles, parseGuestbookEntry } from '../utils/guestbook';
+
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+
+const allEntries = guestbookFiles.map(parseGuestbookEntry);
+const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
+---
+<section id="gaestebuch" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24 border-t border-white/5">
+  <div class="mb-16 flex flex-col md:flex-row justify-between md:items-end gap-8 border-b border-white/10 pb-8">
+    <div>
+      <h2 class="text-6xl md:text-7xl font-serif text-white leading-none mb-4">Gästebuch</h2>
+      <p class="font-mono text-sm text-white/50 uppercase tracking-widest">Ein Stück Geschichte. Signiert.</p>
+    </div>
+    {limit && (
+      <a href="/gaestebuch" class="group flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">
+        Alle Einträge <span class="group-hover:translate-x-2 transition-transform">&rarr;</span>
+      </a>
+    )}
+  </div>
+
+  <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+    {displayEntries.map(entry => (
+      <div class="break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-white/10 shadow-xl reveal-on-scroll">
+        <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
+        
+        <img 
+          src={`/images/guestbook/${entry.filename}`} 
+          alt={`${entry.artistName} Gästebuch`} 
+          class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700"
+          loading="lazy"
+        />
+        
+        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+          <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
+            {entry.artistName}, {entry.year}
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {limit && (
+    <div class="mt-24 text-center">
+      <a 
+        href="/gaestebuch" 
+        class="inline-block px-12 py-5 rounded-full border border-white/10 font-mono text-xs uppercase tracking-[0.3em] text-white hover:border-orten-amber hover:text-orten-amber transition-all"
+      >
+        Mehr entdecken
+      </a>
+    </div>
+  )}
+</section>

@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guestbookFiles, parseGuestbookEntry } from '../../utils/guestbook';
+
+const initialLimit = 20;
+const allEntries = guestbookFiles.map(parseGuestbookEntry);
+const initialEntries = allEntries.slice(0, initialLimit);
+const remainingEntries = allEntries.slice(initialLimit);
+---
+
+<BaseLayout title="Gästebuch">
+  <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 pb-24">
+    <header class="mb-20 border-b border-white/10 pb-12">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-[1px] bg-orten-amber"></span>
+        <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Historie</span>
+      </div>
+      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-white mb-4">
+        Gästebuch<span class="italic text-orten-amber">.</span>
+      </h1>
+      <p class="font-mono text-sm text-white/50 uppercase tracking-widest mt-8">
+        Ein Stück Geschichte. Signiert seit 1993.
+      </p>
+    </header>
+
+    <div id="guestbook-container" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+      {initialEntries.map(entry => (
+        <div class="guestbook-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-white/10 shadow-xl reveal-on-scroll">
+          <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
+          
+          <img 
+            src={`/images/guestbook/${entry.filename}`} 
+            alt={`${entry.artistName} Gästebuch`} 
+            class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700"
+            loading="lazy"
+          />
+          
+          <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+            <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
+              {entry.artistName}, {entry.year}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div id="load-more-trigger" class="h-20 flex items-center justify-center mt-12">
+      <div class="animate-pulse font-mono text-[10px] uppercase tracking-[0.3em] text-white/20">Lade weitere Geschichte...</div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ remainingEntries }}>
+  let loadedCount = 0;
+  const CHUNK_SIZE = 15;
+  const container = document.getElementById('guestbook-container');
+  const trigger = document.getElementById('load-more-trigger');
+
+  const createItem = (entry) => {
+    const div = document.createElement('div');
+    div.className = "guestbook-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-white/10 shadow-xl opacity-0 translate-y-8 transition-all duration-1000";
+    
+    div.innerHTML = `
+      <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
+      <img 
+        src="/images/guestbook/${entry.filename}" 
+        alt="${entry.artistName} Gästebuch" 
+        class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700"
+        loading="lazy"
+      />
+      <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+        <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
+          ${entry.artistName}, ${entry.year}
+        </span>
+      </div>
+    `;
+    return div;
+  };
+
+  const loadMore = () => {
+    if (loadedCount >= remainingEntries.length) {
+      if (trigger) trigger.remove();
+      return;
+    }
+
+    const nextChunk = remainingEntries.slice(loadedCount, loadedCount + CHUNK_SIZE);
+    nextChunk.forEach(entry => {
+      const item = createItem(entry);
+      container.appendChild(item);
+      // Trigger reveal after append
+      requestAnimationFrame(() => {
+        item.classList.remove('opacity-0', 'translate-y-8');
+      });
+    });
+
+    loadedCount += CHUNK_SIZE;
+  };
+
+  // Intersection Observer for Infinite Scroll
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      loadMore();
+    }
+  }, { rootMargin: '400px' });
+
+  if (trigger) observer.observe(trigger);
+</script>
+
+<style>
+  .guestbook-item {
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+</style>

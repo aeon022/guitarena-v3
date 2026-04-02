@@ -1,0 +1,154 @@
+---
+import { formatDate } from '../utils/date';
+import type { GuitarenaEvent } from '../content/config';
+
+interface Props {
+  event: GuitarenaEvent & { id: string };
+}
+
+const { event } = Astro.props;
+
+// Split title for the two-line design
+const titleParts = event.title.split(' ');
+const firstName = titleParts[0];
+const lastName = titleParts.slice(1).join(' ');
+
+const isYouTube = event.video?.includes('youtube.com') || event.video?.includes('youtu.be');
+let youtubeId = '';
+
+if (isYouTube && event.video) {
+  const match = event.video.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  youtubeId = match ? match[1] : '';
+}
+
+const backgroundImage = event.image?.startsWith('http') 
+  ? event.image 
+  : event.image 
+    ? `/images/events/${event.image}` 
+    : '/images/hero.webp';
+---
+
+<section class="relative h-screen flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-orten-bg">
+  
+  <!-- Fallback Background Image -->
+  <div 
+    id="hero-fallback"
+    class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity transition-opacity duration-1000 z-0"
+    style={`background-image: url('${backgroundImage}')`}
+  ></div>
+
+  <!-- Video Background Overlay -->
+  {event.video && (
+    <div id="hero-video-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-40 mix-blend-luminosity">
+      {isYouTube ? (
+        <iframe
+          id="hero-youtube"
+          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${youtubeId}&rel=0&showinfo=0&enablejsapi=1`}
+          class="absolute top-1/2 left-1/2 w-[120vw] h-[120vh] -translate-x-1/2 -translate-y-1/2 object-cover"
+          allow="autoplay; encrypted-media"
+          frameborder="0"
+        ></iframe>
+      ) : (
+        <video
+          id="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover"
+        >
+          <source src={event.video} type="video/mp4" />
+        </video>
+      )}
+    </div>
+  )}
+
+  <div class="absolute inset-0 bg-gradient-to-t from-orten-bg via-orten-bg/60 to-transparent z-5"></div>
+  <div class="absolute inset-0 bg-radial from-transparent via-orten-bg/40 to-orten-bg opacity-90 z-5"></div>
+
+  <article class="relative z-10 max-w-6xl mx-auto w-full pb-12 flex flex-col md:flex-row md:items-end justify-between gap-12">
+    
+    <div class="flex-1">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="w-12 h-[1px] bg-orten-amber"></span>
+        <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Nächstes Konzert</span>
+      </div>
+      
+      <h1 class="text-7xl md:text-[9rem] font-serif leading-[0.9] tracking-tight mb-8 text-white drop-shadow-2xl">
+        {firstName}<br>
+        <span class="italic text-white/90">{lastName}</span>
+      </h1>
+      
+      <div class="flex flex-col md:flex-row gap-6 md:gap-12 font-mono text-sm uppercase tracking-widest text-white/50">
+        <time datetime={event.date.toISOString()} class="flex items-center gap-3">
+          <span class="text-orten-amber">Datum /</span> {formatDate(event.date)}
+        </time>
+        <span class="flex items-center gap-3">
+          <span class="text-orten-amber">Ort /</span> {event.location.split(',')[0]}
+        </span>
+      </div>
+    </div>
+
+    <div class="shrink-0">
+      <a 
+        href={`/programm/${event.id}`} 
+        data-astro-transition-scope="hero-details"
+        class="group relative flex items-center justify-center w-40 h-40 transition-all duration-700 ease-out cursor-pointer"
+      >
+        <!-- Animated Ring -->
+        <div class="absolute inset-0 border border-white/10 rounded-full group-hover:border-orten-amber/40 group-hover:scale-110 transition-all duration-700"></div>
+        <div class="absolute inset-2 border border-white/5 rounded-full group-hover:scale-125 group-hover:rotate-12 transition-all duration-1000"></div>
+        
+        <!-- Rotating Text Ring (SVG) -->
+        <div class="absolute inset-0 animate-[spin_10s_linear_infinite] opacity-0 group-hover:opacity-40 transition-opacity duration-700">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none"></path>
+            <text class="fill-white font-mono text-[6px] uppercase tracking-[0.2em]">
+              <textPath href="#circlePath">Details • Details • Details • Details •</textPath>
+            </text>
+          </svg>
+        </div>
+
+        <!-- Center Label -->
+        <div class="relative z-10 w-32 h-32 rounded-full bg-transparent group-hover:bg-orten-amber flex items-center justify-center transition-all duration-500 overflow-hidden">
+          <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-orten-bg transition-colors font-bold z-10">Details</span>
+          <!-- Liquid Fill Effect -->
+          <div class="absolute bottom-0 left-0 right-0 h-0 bg-orten-amber group-hover:h-full transition-all duration-500 ease-in-out -z-1"></div>
+        </div>
+      </a>
+    </div>
+    
+  </article>
+</section>
+
+<style>
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  [data-astro-transition-scope="hero-details"] {
+    view-transition-name: hero-details;
+  }
+</style>
+
+<script>
+  const initHero = () => {
+    const fallback = document.getElementById('hero-fallback');
+    const video = document.getElementById('hero-video') as HTMLVideoElement;
+    const iframe = document.getElementById('hero-youtube') as HTMLIFrameElement;
+
+    if (fallback) {
+      if (video) {
+        video.addEventListener('playing', () => fallback.style.opacity = '0');
+        if (video.readyState >= 3) fallback.style.opacity = '0';
+      }
+      if (iframe) {
+        iframe.addEventListener('load', () => setTimeout(() => fallback.style.opacity = '0', 1500));
+      }
+    }
+  };
+
+  initHero();
+  document.addEventListener('astro:after-swap', initHero);
+</script>

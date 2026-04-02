@@ -5,6 +5,8 @@
     "date": "2026-03-06T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
     "body": "Blues. Peter Kern, einer der herausragendsten Blues-Gitarristen Österreichs, stand bereits mit 15 Jahren regelmäßig auf den Bühnen Wiens. Preisträger der International Blues Challenge (IBC) 2001.",
+    "image": "peter-kern.webp",
+    "video": "https://www.youtube.com/watch?v=Mlw3tEh0JV4",
     "ticketLink": "mailto:karten@porcia.at"
   },
   {
@@ -13,6 +15,8 @@
     "date": "2026-04-10T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
     "body": "Classical Fingerstyle Guitar. Ein Duo bestehend aus Markus Schlesinger und Carina Maria Linder, das die Grenzen zwischen Klassik, Folk und Blues verschmelzen lässt.",
+    "image": "crossing-strings.webp",
+    "video": "https://www.youtube.com/watch?v=x8y0pZCsmuM",
     "ticketLink": "mailto:karten@porcia.at"
   },
   {
@@ -21,6 +25,8 @@
     "date": "2026-10-16T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
     "body": "FUNKY FEEL-GOOD FINGERSTYLE GUITAR! Virtuos, facettenreich und technisch brillant – der Ausnahmegitarrist aus Brisbane, Australien, entlockt seiner Akustikgitarre orchestrale Klänge.",
+    "image": "michael-fix.webp",
+    "video": "https://www.youtube.com/watch?v=JaeFfsbcLMc",
     "ticketLink": "mailto:karten@porcia.at"
   },
   {
@@ -29,6 +35,8 @@
     "date": "2026-11-20T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia, Spittal/Drau",
     "body": "Fingerstyle. Seine Musik erzählt Geschichten – mal kraftvoll und treibend, mal sanft und träumerisch. Julian Polak nimmt sein Publikum mit auf eine musikalische Reise durch Europa und darüber hinaus.",
+    "image": "julian-polak.webp",
+    "video": "https://www.youtube.com/watch?v=Lj9ISC4cco0",
     "ticketLink": "mailto:karten@porcia.at"
   },
   {
@@ -36,27 +44,35 @@
     "title": "Gottfried D. Gfrerer (AT)",
     "date": "2024-11-15T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia",
-    "body": "Archiv-Eintrag."
+    "body": "Gottfried David Gfrerer gilt als einer der besten Resonator-Gitarristen Europas. Sein Spiel auf der National Steel Guitar ist geprägt von einer tiefen Verwurzelung im Blues und Folk.",
+    "image": "gottfried-gfrerer.webp",
+    "ticketLink": "mailto:karten@porcia.at"
   },
   {
     "id": "alberto-lombardi",
     "title": "Alberto Lombardi (IT)",
     "date": "2024-10-18T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia",
-    "body": "Archiv-Eintrag."
+    "body": "Alberto Lombardi ist ein italienischer Virtuose, der klassisches Fingerstyle mit Rock-Energie verbindet. Seine Arrangements von Rock-Klassikern sind legendär.",
+    "image": "alberto-lombardi.webp",
+    "ticketLink": "mailto:karten@porcia.at"
   },
   {
     "id": "david-mana",
     "title": "David Mana (IT)",
     "date": "2024-06-14T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia",
-    "body": "Archiv-Eintrag."
+    "body": "David Mana bringt italienisches Flair und technische Perfektion in den Ortenburgerkeller. Seine Kompositionen sind kleine musikalische Gemälde.",
+    "image": "david-mana.webp",
+    "ticketLink": "mailto:karten@porcia.at"
   },
   {
     "id": "ignaz-netzer",
     "title": "Ignaz Netzer (D)",
     "date": "2024-05-17T19:30:00",
     "location": "Ortenburgerkeller, Schloss Porcia",
-    "body": "Archiv-Eintrag."
+    "body": "Ignaz Netzer ist der 'Blues-Professor'. Mit Humor und unbändiger Spielfreude präsentiert er die Geschichte des Blues auf seiner Gitarre.",
+    "image": "ignaz-netzer.webp",
+    "ticketLink": "mailto:karten@porcia.at"
   }
 ]

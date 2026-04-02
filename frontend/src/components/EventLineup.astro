@@ -1,0 +1,51 @@
+---
+import { formatDate } from '../utils/date';
+import type { GuitarenaEvent } from '../content/config';
+
+interface Props {
+  events: (GuitarenaEvent & { id: string })[];
+}
+
+const { events } = Astro.props;
+
+const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+---
+
+<section id="programm" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24">
+  <div class="mb-16 flex flex-col md:flex-row justify-between md:items-end gap-8 border-b border-white/10 pb-8">
+    <h2 class="text-6xl md:text-7xl font-serif text-white leading-none">Lineup</h2>
+  </div>
+
+  <div class="flex flex-col gap-6">
+    {events.map(event => (
+      <article class="group relative flex flex-col md:flex-row gap-6 md:gap-10 p-6 -mx-6 rounded-2xl hover:bg-white/[0.02] transition-colors border border-transparent hover:border-white/5">
+        <a href={`/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
+        
+        <div class="flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 border border-white/10 bg-white/[0.02] rounded-md shrink-0 group-hover:border-orten-amber group-hover:bg-orten-amber/5 transition-colors shadow-lg">
+          <span class="text-orten-amber text-xs font-mono uppercase tracking-widest">{months[event.date.getMonth()]}</span>
+          <span class="text-4xl md:text-5xl font-serif text-white leading-none my-2">{event.date.getDate()}</span>
+          <span class="text-white/40 text-[10px] font-mono tracking-widest">{event.date.getFullYear()}</span>
+        </div>
+
+        <div class="w-full md:w-48 h-64 md:h-auto shrink-0 overflow-hidden rounded-md relative shadow-lg">
+          <div class="absolute inset-0 bg-orten-amber/10 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
+          <img 
+            src={event.image ? (event.image.startsWith('http') ? event.image : `/images/events/${event.image}`) : "https://images.unsplash.com/photo-1525201548942-d8732f6617a0?q=80&w=800&auto=format&fit=crop"} 
+            class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+          />
+        </div>
+
+        <div class="flex-1 flex flex-col justify-center py-2">
+          <h3 class="text-4xl md:text-5xl font-serif text-white mb-4 group-hover:translate-x-2 transition-transform duration-300">{event.title}</h3>
+          <p class="text-white/60 max-w-xl font-light leading-relaxed text-lg line-clamp-2">
+            {event.body}
+          </p>
+        </div>
+
+        <div class="shrink-0 flex items-center md:items-end md:pb-4 font-mono text-sm tracking-widest font-bold">
+          <a href="mailto:karten@porcia.at" class="text-white/30 group-hover:text-orten-amber transition-colors relative z-30">[ TICKETS ]</a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

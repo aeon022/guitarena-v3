@@ -1,78 +1,132 @@
 ---
-import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatDate, formatTime } from '../../utils/date';
 
-export async function getStaticPaths() {
-  const events = await getCollection('events');
-  return events.map(event => ({
-    params: { slug: event.id },
-    props: { event },
-  }));
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
 }
 
-const { event } = Astro.props;
-const { title, date, location, body, ticketLink, image } = event.data;
+const event = await getEntry('events', slug);
+
+if (!event) {
+  return Astro.redirect('/404');
+}
+
+const { title, date, location, body, ticketLink, image, video } = event.data;
+
+// Split title for the two-line design
+const titleParts = title.split(' ');
+const firstName = titleParts[0];
+const lastName = titleParts.slice(1).join(' ');
+
+// YouTube Logic
+const isYouTube = video?.includes('youtube.com') || video?.includes('youtu.be');
+let youtubeId = '';
+if (isYouTube && video) {
+  const match = video.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  youtubeId = match ? match[1] : '';
+}
 ---
 
 <BaseLayout title={title}>
-  <article class="max-w-4xl mx-auto py-12">
-    <a href="/programm" class="text-sm font-semibold text-brand-primary hover:underline mb-8 inline-block">
-      ← Zurück zum Programm
-    </a>
+  <article class="relative min-h-screen pt-32 pb-24">
+    
+    <div class="max-w-6xl mx-auto px-8 md:px-16">
+      <a href="/programm" class="group inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40 hover:text-orten-amber transition-colors mb-16">
+        <span class="group-hover:-translate-x-1 transition-transform">←</span> Zurück zum Programm
+      </a>
 
-    <header class="mb-12">
-      <div class="flex items-center gap-3 mb-6">
-        <time datetime={date.toISOString()} class="px-3 py-1 bg-brand-primary text-brand-bg text-xs font-bold rounded uppercase tracking-widest">
-          {formatDate(date)}
-        </time>
-        <span class="text-neutral-500">{formatTime(date)} Uhr</span>
-        <span class="text-neutral-700">|</span>
-        <span class="text-neutral-400 text-sm">{location}</span>
-      </div>
-      
-      <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-tight">
-        {title}
-      </h1>
-    </header>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-      <div class="md:col-span-2">
-        {image && (
-          <div class="aspect-video bg-neutral-800 rounded-2xl overflow-hidden mb-12 border border-white/5">
-             <img src={`/api/media/${image}`} alt={title} class="w-full h-full object-cover" />
-          </div>
-        )}
+      <header class="mb-20">
+        <div class="flex items-center gap-4 mb-8">
+          <span class="w-12 h-[1px] bg-orten-amber"></span>
+          <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Konzert-Details</span>
+        </div>
         
-        <div class="prose prose-invert prose-amber max-w-none">
-          <div class="text-xl text-neutral-300 leading-relaxed whitespace-pre-line" set:html={body}></div>
-        </div>
-      </div>
+        <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight mb-12 text-white">
+          {firstName}<br>
+          <span class="italic text-white/90">{lastName}</span>
+        </h1>
 
-      <aside class="space-y-8">
-        <div class="bg-brand-dark p-8 rounded-2xl border border-white/5 sticky top-24">
-          <h3 class="font-bold text-lg mb-4">Tickets & Reservierung</h3>
-          <p class="text-sm text-neutral-400 mb-6">
-            Kartenreservierungen für Konzerte im Ortenburgerkeller.
-          </p>
-          
-          {ticketLink ? (
-            <a 
-              href={ticketLink} 
-              class="block w-full text-center bg-brand-primary text-brand-bg py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-secondary transition-all transform active:scale-95 shadow-lg shadow-brand-primary/10"
-            >
-              Karten Reservieren
-            </a>
-          ) : (
-             <p class="text-xs italic text-neutral-600">Keine Online-Reservierung verfügbar.</p>
-          )}
-          
-          <div class="mt-8 pt-6 border-t border-white/5 text-[10px] text-neutral-500 uppercase tracking-widest leading-relaxed">
-            Abendkasse ab 18:30 Uhr geöffnet.<br />
-            Freie Platzwahl.
+        <div class="flex flex-col md:flex-row gap-8 md:gap-16 font-mono text-xs uppercase tracking-widest text-white/50 border-y border-white/5 py-8">
+          <div class="flex flex-col gap-2">
+            <span class="text-orten-amber">Datum /</span>
+            <time datetime={date.toISOString()} class="text-white text-sm">{formatDate(date)}</time>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="text-orten-amber">Uhrzeit /</span>
+            <span class="text-white text-sm">{formatTime(date)} Uhr</span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="text-orten-amber">Ort /</span>
+            <span class="text-white text-sm">{location}</span>
           </div>
         </div>
-      </aside>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 items-start">
+        <div class="md:col-span-2">
+          
+          <!-- Media Gallery -->
+          <div class="space-y-8 mb-16">
+            {video && (
+              <div class="aspect-video bg-orten-card rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                {isYouTube ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${youtubeId}`}
+                    class="w-full h-full"
+                    allowfullscreen
+                    frameborder="0"
+                  ></iframe>
+                ) : (
+                  <video controls class="w-full h-full object-cover">
+                    <source src={video} type="video/mp4" />
+                  </video>
+                )}
+              </div>
+            )}
+
+            {image && (
+              <div class="aspect-video bg-orten-card rounded-2xl overflow-hidden relative group shadow-2xl border border-white/5">
+                <div class="absolute inset-0 bg-orten-amber/5 mix-blend-overlay z-10 pointer-events-none"></div>
+                <img src={image.startsWith('http') ? image : `/images/events/${image}`} alt={title} class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
+              </div>
+            )}
+          </div>
+          
+          <div class="prose prose-invert prose-amber max-w-none">
+            <div class="text-2xl md:text-3xl font-serif text-white/90 leading-relaxed italic mb-12">
+              {body?.split('.')[0]}.
+            </div>
+            <div class="text-lg text-white/60 leading-loose font-light space-y-6" set:html={body}></div>
+          </div>
+        </div>
+
+        <aside class="sticky top-32">
+          <div class="bg-orten-card p-10 rounded-2xl border border-white/5 shadow-2xl">
+            <h3 class="font-serif text-2xl text-white mb-6">Reservierung</h3>
+            <p class="text-sm text-white/50 leading-relaxed mb-10 font-light">
+              Sichere dir jetzt deinen Platz im historischen Ortenburgerkeller. Die Abendkassa öffnet 60 Minuten vor Konzertbeginn.
+            </p>
+            
+            <a 
+              href="mailto:karten@porcia.at" 
+              class="group relative flex items-center justify-center w-full py-5 rounded-full border border-white/20 hover:border-orten-amber hover:bg-orten-amber transition-all duration-500 ease-out"
+            >
+              <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-orten-bg transition-colors font-bold z-10">Tickets</span>
+            </a>
+            
+            <div class="mt-12 pt-8 border-t border-white/5">
+              <div class="flex items-start gap-4 text-[10px] font-mono text-white/30 uppercase tracking-[0.2em] leading-loose">
+                <span class="text-orten-amber">Info /</span>
+                <span>Freie Platzwahl im Kreuzgewölbe.</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </article>
 </BaseLayout>
