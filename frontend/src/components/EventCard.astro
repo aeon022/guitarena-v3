@@ -8,10 +8,17 @@ interface Props {
 
 const { event } = Astro.props;
 
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const isPast = event.date < today;
+
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 ---
 
-<article class="group relative bg-orten-card border border-orten-border/50 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:border-orten-amber/20 hover:-translate-y-1 shadow-2xl">
+<article class:list={[
+  "group relative bg-orten-card border border-orten-border/50 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 shadow-2xl",
+  isPast ? "opacity-60 grayscale hover:opacity-80" : "hover:border-orten-amber/20 hover:-translate-y-1"
+]}>
   <a href={`/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
   
   <div class="aspect-[16/10] bg-neutral-900 overflow-hidden relative">
@@ -20,17 +27,29 @@ const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 
       <img 
         src={event.image.startsWith('http') ? event.image : `/images/events/${event.image}`} 
         alt={event.title} 
-        class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
+        class:list={[
+          "w-full h-full object-cover transition-all duration-1000",
+          isPast ? "grayscale opacity-50" : "grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105"
+        ]}
       />
     ) : (
       <div class="w-full h-full flex items-center justify-center text-6xl opacity-20 grayscale group-hover:grayscale-0 transition-all">🎸</div>
     )}
     
     <!-- Floating Date Badge -->
-    <div class="absolute top-4 left-4 z-30 flex flex-col items-center justify-center w-14 h-16 bg-orten-bg/90 backdrop-blur-md border border-orten-border rounded-lg group-hover:border-orten-amber/50 transition-colors">
+    <div class:list={[
+      "absolute top-4 left-4 z-30 flex flex-col items-center justify-center w-14 h-16 bg-orten-bg/90 backdrop-blur-md border rounded-lg transition-colors",
+      isPast ? "border-orten-border opacity-50" : "border-orten-border group-hover:border-orten-amber/50"
+    ]}>
       <span class="text-orten-amber text-[10px] font-mono uppercase tracking-widest">{months[event.date.getMonth()]}</span>
       <span class="text-2xl font-serif text-orten-text leading-none my-1">{event.date.getDate()}</span>
     </div>
+
+    {isPast && (
+      <div class="absolute inset-0 flex items-center justify-center z-15 pointer-events-none">
+        <span class="bg-orten-bg/80 backdrop-blur-md border border-orten-border px-4 py-2 rounded-full font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted">Vorbei</span>
+      </div>
+    )}
   </div>
   
   <div class="p-8 flex flex-col flex-grow">
@@ -39,7 +58,10 @@ const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 
       <span>{event.location.split(',')[0]}</span>
     </div>
     
-    <h3 class="text-3xl font-serif text-orten-text mb-4 group-hover:text-orten-amber transition-colors leading-tight">
+    <h3 class:list={[
+      "text-3xl font-serif text-orten-text mb-4 transition-colors leading-tight",
+      !isPast && "group-hover:text-orten-amber"
+    ]}>
       {event.title}
     </h3>
     
@@ -48,8 +70,12 @@ const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 
     </p>
     
     <div class="mt-auto pt-6 border-t border-orten-border/50 flex justify-between items-center">
-      <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-orten-muted/60 group-hover:text-orten-text transition-colors">[ Details ]</span>
-      <a href="mailto:karten@porcia.at" class="text-orten-amber font-mono text-[10px] uppercase tracking-widest font-bold relative z-30 hover:underline">Tickets &rarr;</a>
+      <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-orten-muted/60 group-hover:text-orten-text transition-colors">[ DETAILS ]</span>
+      {!isPast ? (
+        <a href="mailto:karten@porcia.at" class="text-orten-amber font-mono text-[10px] uppercase tracking-widest font-bold relative z-30 hover:underline">Tickets &rarr;</a>
+      ) : (
+        <span class="text-orten-muted/40 font-mono text-[10px] uppercase tracking-widest font-bold">Archiviert</span>
+      )}
     </div>
   </div>
 </article>

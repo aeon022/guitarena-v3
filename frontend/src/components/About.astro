@@ -2,31 +2,32 @@
 import Social from './Social.astro';
 ---
 
-<section class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24 border-t border-orten-border/50">
-  <div class="max-w-3xl mx-auto">
-    <h2 class="text-5xl md:text-6xl font-serif text-orten-text mb-12">
-      Gitarre der Extraklasse
+<section class="max-w-4xl mx-auto px-8 py-24 text-center border-t border-orten-border">
+  <div class="flex flex-col items-center gap-8">
+    <div class="w-12 h-[1px] bg-orten-amber"></div>
+    
+    <h2 class="text-5xl md:text-6xl font-serif text-orten-text leading-tight">
+      Die Weltelite der Gitarre,<br>
+      <span class="italic text-orten-amber text-4xl md:text-5xl">hautnah im Kreuzgewölbe.</span>
     </h2>
-    <div class="prose prose-lg">
+    
+    <div class="text-lg md:text-xl text-orten-muted leading-relaxed font-light max-w-2xl">
       <p>
-        In der Renaissance erfüllten die Klänge von Lauten und Harfen die Räume
-        des Schlosses Porcia in Spittal an der Drau, doch seit über 30 Jahren geben
-        sich die weltbesten Fingerstyle-Gitarristen im Ortenburgerkeller ein
-        Stelldichein.
-      </p>
-      <p>
-        <strong>Guitarena</strong> ist eine Kulturinitative in Spittal an der Drau, die vom
-        Gitarrenliebhaber Hartwig Weiher ins Leben gerufen wurde.
-      </p>
-      <p>
-        Das Gewölbe des Ortenburgerkellers im Schloss Porcia bietet den denkbar
-        stimmungsvollsten Rahmen für Saitenklänge der besonderen Art. Seit der
-        Gründung 1993 traten sowohl hochkarätige Gitarrenvirtuosen als auch
-        Nachwuchstalente auf.
+        Seit 1993 verwandelt die Guitarena den historischen Ortenburgerkeller in Schloss Porcia in eine internationale Pilgerstätte für Fingerstyle, Blues und Roots-Musik. Wo Distanz ein Fremdwort ist und nur die reine, handgemachte Kunst zählt.
       </p>
     </div>
-    <div class="mt-16 pt-8 border-t border-orten-border">
-      <Social />
+
+    <div class="flex flex-col items-center gap-12 mt-4">
+      <a 
+        href="/about" 
+        class="inline-block px-12 py-5 rounded-full border border-orten-border font-mono text-xs uppercase tracking-[0.3em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-all"
+      >
+        Unsere ganze Story lesen
+      </a>
+      
+      <div class="pt-8 border-t border-orten-border w-full max-w-xs">
+        <Social />
+      </div>
     </div>
   </div>
 </section>

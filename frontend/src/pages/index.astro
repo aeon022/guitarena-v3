@@ -7,6 +7,7 @@ import EventLineup from '../components/EventLineup.astro';
 import TicketInfo from '../components/TicketInfo.astro';
 import Guestbook from '../components/Guestbook.astro';
 import About from '../components/About.astro';
+import Supporters from '../components/Supporters.astro';
 import { isUpcoming } from '../utils/date';
 
 const allEvents = await getCollection('events');
@@ -33,6 +34,7 @@ const nextEvent = upcomingEvents[0];
     </>
   )}
 
+  <Supporters />
   <About />
   <Guestbook limit={10} />
 </BaseLayout>

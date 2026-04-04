@@ -6,9 +6,12 @@ import TicketInfo from '../../components/TicketInfo.astro';
 import { isUpcoming } from '../../utils/date';
 
 const allEvents = await getCollection('events');
-const upcomingEvents = allEvents
-  .filter(event => isUpcoming(event.data.date))
+const currentYear = new Date().getFullYear();
+const currentYearEvents = allEvents
+  .filter((event) => event.data.date.getFullYear() === currentYear)
   .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const upcomingEvents = currentYearEvents.filter(event => isUpcoming(event.data.date));
 ---
 
 <BaseLayout title="Programm">
@@ -16,7 +19,7 @@ const upcomingEvents = allEvents
     <header class="mb-20 border-b border-orten-border pb-12">
       <div class="flex items-center gap-4 mb-8">
         <span class="w-12 h-[1px] bg-orten-amber"></span>
-        <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Nächste Konzerte</span>
+        <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Programm {currentYear}</span>
       </div>
       <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4">
         Programm<span class="italic text-orten-amber">.</span>
@@ -27,7 +30,7 @@ const upcomingEvents = allEvents
     </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
-      {upcomingEvents.map(event => (
+      {currentYearEvents.map(event => (
         <EventCard event={{ id: event.id, ...event.data }} />
       ))}
     </div>

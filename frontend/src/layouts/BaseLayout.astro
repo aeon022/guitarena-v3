@@ -49,7 +49,16 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 	<body class="min-h-screen flex flex-col selection:bg-orten-amber selection:text-orten-bg">
 		
 		<header id="main-header" class="w-full px-8 py-8 md:px-16 flex justify-between items-center fixed top-0 z-50 transition-all duration-500 ease-in-out">
-			<a href="/" class="text-xl font-bold tracking-tighter uppercase drop-shadow-md">Guitarena<span class="text-orten-amber">.</span></a>
+			<a href="/" class="header-logo group flex items-baseline text-xl font-bold tracking-tighter uppercase drop-shadow-md">
+				<span class="flex overflow-hidden">
+					{"Guitarena".split("").map((char, i) => (
+						<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
+							{char}
+						</span>
+					))}
+				</span>
+				<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
+			</a>
 			<div class="flex items-center gap-8">
 				<nav class="hidden md:flex gap-8 font-mono text-xs uppercase tracking-[0.2em] drop-shadow-md">
 					<a href="/programm" class="transition-colors">Programm</a>
@@ -79,7 +88,16 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 		<footer class="bg-orten-card pt-24 pb-12 px-8 md:px-16 border-t border-orten-border">
 			<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 border-b border-orten-border pb-16">
 				<div>
-					<a href="/" class="text-3xl font-serif tracking-tight mb-4 text-orten-text block hover:text-orten-amber transition-colors">Guitarena<span class="text-orten-amber">.</span></a>
+					<a href="/" class="footer-logo group flex items-baseline text-3xl font-serif tracking-tight mb-4 text-orten-text transition-colors">
+						<span class="flex overflow-hidden">
+							{"Guitarena".split("").map((char, i) => (
+								<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
+									{char}
+								</span>
+							))}
+						</span>
+						<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
+					</a>
 					<p class="text-orten-text/80 font-light max-w-xs leading-relaxed">
 						Kulturinitiative Spittal a. d. Drau.<br>
 						Musik, die bleibt.

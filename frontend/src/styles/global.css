@@ -17,9 +17,9 @@
 :root {
   --orten-bg: #efeadf;
   --orten-card: #e5dec9;
-  --orten-text: #2a2620;
-  --orten-border: rgba(42, 38, 32, 0.15);
-  --orten-muted: rgba(42, 38, 32, 0.6);
+  --orten-text: #1a1814;
+  --orten-border: rgba(26, 24, 20, 0.15);
+  --orten-muted: rgba(26, 24, 20, 0.75);
   --orten-red: #b91c1c;
 }
 
@@ -30,6 +30,15 @@
   --orten-border: rgba(255, 255, 255, 0.1);
   --orten-muted: rgba(255, 255, 255, 0.5);
   --orten-red: #ef4444;
+}
+
+@theme {
+  --animate-infinite-scroll: infinite-scroll 40s linear infinite;
+
+  @keyframes infinite-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
 }
 
 @layer base {
@@ -46,6 +55,15 @@
   header nav a:hover {
     color: var(--orten-red) !important;
   }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); filter: blur(1px); }
 }
 
 .dark header nav a:hover {

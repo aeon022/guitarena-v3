@@ -28,18 +28,24 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
 
   <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
     {displayEntries.map(entry => (
-      <div class="guestbook-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-orten-card border border-orten-border shadow-xl reveal-on-scroll">
+      <div 
+        class="guestbook-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-orten-border shadow-xl reveal-on-scroll"
+        data-guestbook-entry
+        data-filename={entry.filename}
+        data-artist={entry.artistName}
+        data-year={entry.year}
+      >
         <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
-        
+
         <img 
           src={`/images/guestbook/${entry.filename}`} 
           alt={`${entry.artistName} Gästebuch`} 
           class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700"
           loading="lazy"
         />
-        
+
         <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
-          <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-orten-border">
+          <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
             {entry.artistName}, {entry.year}
           </span>
         </div>
@@ -47,6 +53,29 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
     ))}
   </div>
 
+  <!-- Cinematic Lightbox Modal -->
+  <div id="guestbook-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500 backdrop-blur-xl bg-orten-bg/90">
+    <button id="modal-prev" class="absolute left-4 md:left-8 text-orten-text/30 hover:text-orten-amber transition-colors z-[110] p-4 cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+
+    <button id="modal-next" class="absolute right-4 md:right-8 text-orten-text/30 hover:text-orten-amber transition-colors z-[110] p-4 cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+
+    <button id="modal-close" class="absolute top-8 right-8 text-orten-text/50 hover:text-orten-amber transition-colors z-[110] cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    <div class="relative max-w-5xl w-full max-h-[90vh] p-4 flex flex-col items-center">
+      <img id="modal-img" src="" alt="" class="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-sm border border-white/5 scale-95 transition-all duration-500 ease-out" />
+
+      <div class="mt-8 text-center">
+        <h3 id="modal-artist" class="text-3xl font-serif text-orten-text mb-2"></h3>
+        <p id="modal-year" class="font-mono text-xs uppercase tracking-[0.3em] text-orten-amber"></p>
+      </div>
+    </div>
+  </div>
   {limit && (
     <div class="mt-24 text-center">
       <a 
@@ -57,10 +86,85 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
       </a>
     </div>
   )}
-</section>
+  </section>
 
-<script>
-  const initReveal = () => {
+  <script>
+  const initGuestbook = () => {
+    const modal = document.getElementById('guestbook-modal');
+    const modalImg = document.getElementById('modal-img') as HTMLImageElement;
+    const modalArtist = document.getElementById('modal-artist');
+    const modalYear = document.getElementById('modal-year');
+    const closeBtn = document.getElementById('modal-close');
+    const prevBtn = document.getElementById('modal-prev');
+    const nextBtn = document.getElementById('modal-next');
+    const entries = document.querySelectorAll('[data-guestbook-entry]');
+
+    let currentEntries = Array.from(entries);
+    let currentIndex = 0;
+
+    const updateModalContent = (index: number) => {
+      const entry = currentEntries[index] as HTMLElement;
+      if (!entry || !modalImg || !modalArtist || !modalYear) return;
+      
+      modalImg.style.opacity = '0';
+      modalImg.style.transform = 'scale(0.98)';
+      
+      setTimeout(() => {
+        const { filename, artist, year } = entry.dataset;
+        modalImg.src = `/images/guestbook/${filename}`;
+        modalArtist.textContent = artist || '';
+        modalYear.textContent = year || '';
+        modalImg.style.opacity = '1';
+        modalImg.style.transform = 'scale(1)';
+      }, 200);
+      
+      currentIndex = index;
+    };
+
+    const openModal = (index: number) => {
+      const entry = currentEntries[index] as HTMLElement;
+      const { filename, artist, year } = entry.dataset;
+      if (!modal || !modalImg || !modalArtist || !modalYear) return;
+
+      modalImg.src = `/images/guestbook/${filename}`;
+      modalArtist.textContent = artist || '';
+      modalYear.textContent = year || '';
+      currentIndex = index;
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        modalImg.classList.add('scale-100');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+      if (!modal || !modalImg) return;
+      modalImg.classList.remove('scale-100');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+    };
+
+    entries.forEach((entry, index) => {
+      entry.addEventListener('click', () => openModal(index));
+    });
+
+    closeBtn?.addEventListener('click', closeModal);
+    prevBtn?.addEventListener('click', () => updateModalContent((currentIndex - 1 + currentEntries.length) % currentEntries.length));
+    nextBtn?.addEventListener('click', () => updateModalContent((currentIndex + 1) % currentEntries.length));
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (modal?.classList.contains('opacity-0')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') prevBtn?.click();
+      if (e.key === 'ArrowRight') nextBtn?.click();
+    });
+
+    // Reveal Logic
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -72,6 +176,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
     document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
   };
 
-  initReveal();
-  document.addEventListener('astro:after-swap', initReveal);
-</script>
+  initGuestbook();
+  document.addEventListener('astro:after-swap', initGuestbook);
+  </script>
+
