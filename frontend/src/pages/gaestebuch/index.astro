@@ -37,7 +37,7 @@ const remainingEntries = allEntries.slice(initialLimit);
           <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
           
           <img 
-            src={`/images/guestbook/${entry.filename}`} 
+            src={import.meta.env.BASE_URL + `/images/guestbook/${entry.filename}`} 
             alt={`${entry.artistName} Gästebuch`} 
             class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700"
             loading="lazy"
@@ -82,7 +82,7 @@ const remainingEntries = allEntries.slice(initialLimit);
   </div>
 </BaseLayout>
 
-<script define:vars={{ remainingEntries }}>
+<script define:vars={{ remainingEntries, baseUrl: import.meta.env.BASE_URL }}>
   let loadedCount = 0;
   const CHUNK_SIZE = 12;
   const container = document.getElementById('guestbook-container');
@@ -109,7 +109,7 @@ const remainingEntries = allEntries.slice(initialLimit);
     modalImg.style.transform = 'scale(0.98)';
     
     setTimeout(() => {
-      modalImg.src = `/images/guestbook/${entry.dataset.filename}`;
+      modalImg.src = `${baseUrl}/images/guestbook/${entry.dataset.filename}`;
       modalArtist.textContent = entry.dataset.artist;
       modalYear.textContent = entry.dataset.year;
       modalImg.style.opacity = '1';
@@ -124,7 +124,7 @@ const remainingEntries = allEntries.slice(initialLimit);
     currentIndex = index;
     
     const { filename, artist, year } = entry.dataset;
-    modalImg.src = `/images/guestbook/${filename}`;
+    modalImg.src = `${baseUrl}/images/guestbook/${filename}`;
     modalArtist.textContent = artist;
     modalYear.textContent = year;
 
@@ -168,7 +168,7 @@ const remainingEntries = allEntries.slice(initialLimit);
     
     div.innerHTML = `
       <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
-      <img src="/images/guestbook/${entry.filename}" alt="${entry.artistName} Gästebuch" class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700" loading="lazy" />
+      <img src="${baseUrl}/images/guestbook/${entry.filename}" alt="${entry.artistName} Gästebuch" class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700" loading="lazy" />
       <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
         <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-orten-border">
           ${entry.artistName}, ${entry.year}

@@ -17,7 +17,7 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={import.meta.env.BASE_URL + "/favicon.svg"} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Guitarena</title>
 		<meta name="description" content={description} />
@@ -49,7 +49,7 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 	<body class="min-h-screen flex flex-col selection:bg-orten-amber selection:text-orten-bg">
 		
 		<header id="main-header" class="w-full px-8 py-8 md:px-16 flex justify-between items-center fixed top-0 z-50 transition-all duration-500 ease-in-out">
-			<a href="/" class="header-logo group flex items-baseline text-xl font-bold tracking-tighter uppercase drop-shadow-md">
+			<a href={import.meta.env.BASE_URL} class="header-logo group flex items-baseline text-xl font-bold tracking-tighter uppercase drop-shadow-md">
 				<span class="flex overflow-hidden">
 					{"Guitarena".split("").map((char, i) => (
 						<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
@@ -61,10 +61,10 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 			</a>
 			<div class="flex items-center gap-8">
 				<nav class="hidden md:flex gap-8 font-mono text-xs uppercase tracking-[0.2em] drop-shadow-md">
-					<a href="/programm" class="transition-colors">Programm</a>
-					<a href="/gaestebuch" class="transition-colors">Gästebuch</a>
-					<a href="/archiv" class="transition-colors">Archiv</a>
-					<a href="/about" class="transition-colors">Über Uns</a>
+					<a href={import.meta.env.BASE_URL + "/programm"} class="transition-colors">Programm</a>
+					<a href={import.meta.env.BASE_URL + "/gaestebuch"} class="transition-colors">Gästebuch</a>
+					<a href={import.meta.env.BASE_URL + "/archiv"} class="transition-colors">Archiv</a>
+					<a href={import.meta.env.BASE_URL + "/about"} class="transition-colors">Über Uns</a>
 				</nav>
 				
 				<div id="theme-switcher-container" class="flex items-center border border-orten-border rounded-full px-2 py-1 gap-1 transition-colors bg-black/5 backdrop-blur-sm shadow-sm">
@@ -88,7 +88,7 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 		<footer class="bg-orten-card pt-24 pb-12 px-8 md:px-16 border-t border-orten-border">
 			<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 border-b border-orten-border pb-16">
 				<div>
-					<a href="/" class="footer-logo group flex items-baseline text-3xl font-serif tracking-tight mb-4 text-orten-text transition-colors">
+					<a href={import.meta.env.BASE_URL} class="footer-logo group flex items-baseline text-3xl font-serif tracking-tight mb-4 text-orten-text transition-colors">
 						<span class="flex overflow-hidden">
 							{"Guitarena".split("").map((char, i) => (
 								<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
@@ -113,9 +113,9 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 				<span>&copy; {new Date().getFullYear()} Guitarena</span>
 				<Social />
 				<div class="flex gap-8 text-[10px]">
-					<a href="/impressum" class="hover:text-orten-text transition-colors">Impressum</a>
-					<a href="/datenschutz" class="hover:text-orten-text transition-colors">Datenschutz</a>
-					<a href="/cookies" class="hover:text-orten-text transition-colors">Cookies</a>
+					<a href={import.meta.env.BASE_URL + "/impressum"} class="hover:text-orten-text transition-colors">Impressum</a>
+					<a href={import.meta.env.BASE_URL + "/datenschutz"} class="hover:text-orten-text transition-colors">Datenschutz</a>
+					<a href={import.meta.env.BASE_URL + "/cookies"} class="hover:text-orten-text transition-colors">Cookies</a>
 					<button type="button" data-open-cookie-settings class="hover:text-orten-text transition-colors cursor-pointer">Cookie-Einstellungen</button>
 				</div>
 			</div>

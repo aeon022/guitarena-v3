@@ -19,13 +19,13 @@ const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 
   "group relative bg-orten-card border border-orten-border/50 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 shadow-2xl",
   isPast ? "opacity-60 grayscale hover:opacity-80" : "hover:border-orten-amber/20 hover:-translate-y-1"
 ]}>
-  <a href={`/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
+  <a href={import.meta.env.BASE_URL + `/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
   
   <div class="aspect-[16/10] bg-neutral-900 overflow-hidden relative">
     <div class="absolute inset-0 bg-orten-amber/10 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
     {event.image ? (
       <img 
-        src={event.image.startsWith('http') ? event.image : `/images/events/${event.image}`} 
+        src={event.image.startsWith('http') ? event.image : import.meta.env.BASE_URL + `/images/events/${event.image}`} 
         alt={event.title} 
         class:list={[
           "w-full h-full object-cover transition-all duration-1000",

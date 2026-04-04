@@ -25,8 +25,8 @@ if (isYouTube && event.video) {
 const backgroundImage = event.image?.startsWith('http') 
   ? event.image 
   : event.image 
-    ? `/images/events/${event.image}` 
-    : '/images/hero.webp';
+    ? import.meta.env.BASE_URL + `/images/events/${event.image}` 
+    : import.meta.env.BASE_URL + '/images/hero.webp';
 ---
 
 <section data-dark-bg class="relative h-screen flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-[#110e0d]">
@@ -95,7 +95,7 @@ const backgroundImage = event.image?.startsWith('http')
 
     <div class="shrink-0">
       <a 
-        href={`/programm/${event.id}`} 
+        href={import.meta.env.BASE_URL + `/programm/${event.id}`} 
         data-astro-transition-scope="hero-details"
         class="group relative flex items-center justify-center w-40 h-40 transition-all duration-700 ease-out cursor-pointer"
       >
