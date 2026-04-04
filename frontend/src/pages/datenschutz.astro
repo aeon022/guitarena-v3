@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Datenschutz">
+  <article class="relative overflow-hidden px-8 pt-32 pb-24 md:px-16">
+    <div class="absolute inset-x-0 top-0 -z-10 h-[26rem] bg-[radial-gradient(circle_at_top,rgba(232,139,58,0.16),transparent_55%)]"></div>
+
+    <div class="mx-auto max-w-5xl">
+      <header class="mb-16">
+        <div class="mb-8 inline-flex items-center gap-3 rounded-full border border-orten-border bg-orten-card/30 px-4 py-2 backdrop-blur">
+          <span class="h-2 w-2 rounded-full bg-orten-amber"></span>
+          <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted">Datenschutz</span>
+        </div>
+        <h1 class="max-w-4xl text-6xl font-serif leading-[0.9] tracking-tight text-orten-text md:text-[7.5rem]">
+          Wenig Daten.
+          <span class="block italic text-orten-amber">Klare Regeln.</span>
+        </h1>
+        <p class="mt-8 max-w-3xl border-l border-orten-border pl-6 text-sm leading-relaxed text-orten-muted md:pl-8">
+          Stand: 04. April 2026. Diese Datenschutzerklärung beschreibt, welche personenbezogenen Daten beim Besuch von guitarena.at verarbeitet werden und zu welchen Zwecken dies erfolgt.
+        </p>
+      </header>
+
+      <section class="mb-10 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/40 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.15)] backdrop-blur">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Verantwortliche Stelle</p>
+          <h2 class="mb-5 text-3xl font-serif text-orten-text">Guitarena</h2>
+          <p class="text-orten-muted">
+            Schloß Porcia, Burgplatz 1<br />
+            9800 Spittal an der Drau<br />
+            Österreich
+          </p>
+          <p class="mt-5 text-orten-muted">
+            E-Mail:
+            <a href="mailto:hartwig@guitarena.com" class="text-orten-amber transition hover:text-orten-text"> hartwig@guitarena.com</a>
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card p-8 shadow-2xl">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Kurzüberblick</p>
+          <ul class="space-y-3 text-orten-muted/80">
+            <li>Keine Webanalyse und kein Tracking zu Marketingzwecken.</li>
+            <li>Keine externen Google Fonts beim Seitenaufruf.</li>
+            <li>YouTube-Inhalte werden erst nach Einwilligung geladen.</li>
+            <li>Kontaktaufnahme erfolgt ausschließlich über E-Mail-Links.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="mb-10 grid gap-6 md:grid-cols-2">
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Server-Logfiles</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Technisch notwendige Verarbeitung</h2>
+          <p class="text-orten-muted">
+            Beim Aufruf dieser Website verarbeitet der Hosting-Anbieter technisch erforderliche Verbindungsdaten, insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Datei, übertragene Datenmenge, Referrer, Browsertyp und Betriebssystem. Diese Verarbeitung erfolgt zur Sicherstellung des technischen Betriebs, zur Fehleranalyse und zur Abwehr von Missbrauch auf Grundlage unserer berechtigten Interessen gemäß Art. 6 Abs. 1 lit. f DSGVO.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Kontaktaufnahme</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">E-Mail</h2>
+          <p class="text-orten-muted">
+            Wenn Sie uns per E-Mail kontaktieren, werden die von Ihnen übermittelten Angaben ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet. Rechtsgrundlage ist je nach Inhalt der Anfrage Art. 6 Abs. 1 lit. b DSGVO oder Art. 6 Abs. 1 lit. f DSGVO.
+          </p>
+        </div>
+      </section>
+
+      <section class="mb-10 grid gap-6 md:grid-cols-2">
+        <div class="rounded-[2rem] border border-orten-border bg-gradient-to-br from-orten-card/40 to-transparent p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Externe Inhalte</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">YouTube</h2>
+          <p class="text-orten-muted">
+            Auf einzelnen Veranstaltungsseiten können Videos von YouTube eingebunden werden. Diese Inhalte werden erst geladen, nachdem Sie ausdrücklich zugestimmt haben. Erst dann kann es zu einer Übertragung personenbezogener Daten, insbesondere Ihrer IP-Adresse und technischer Nutzungsdaten, an YouTube bzw. Google kommen. Rechtsgrundlage ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-gradient-to-br from-orten-card to-orten-bg p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Social Media</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Externe Links</h2>
+          <p class="text-orten-muted">
+            Verlinkungen zu Facebook und X sind reine externe Links. Beim bloßen Besuch unserer Website werden dadurch keine Daten an diese Plattformen übertragen. Eine Datenübertragung findet erst statt, wenn Sie einen solchen Link aktiv anklicken.
+          </p>
+        </div>
+      </section>
+
+      <section class="mb-10 rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+        <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Cookies & Einwilligung</p>
+        <h2 class="mb-4 text-2xl font-serif text-orten-text">Nur für externe Medien</h2>
+        <p class="text-orten-muted">
+          Diese Website verwendet keine Analyse- oder Marketing-Cookies. Sofern Sie YouTube-Inhalte freigeben, speichern wir lediglich Ihre Einwilligungsentscheidung in einem technisch einfachen First-Party-Cookie, damit die Auswahl nicht bei jedem Seitenaufruf erneut abgefragt werden muss. Details dazu finden Sie auf der
+          <a href="/cookies" class="text-orten-amber transition hover:text-orten-text"> Cookie-Seite</a>.
+        </p>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Speicherdauer</p>
+          <p class="text-orten-muted">
+            Personenbezogene Daten werden nur so lange gespeichert, wie dies für die jeweiligen Zwecke erforderlich ist oder gesetzliche Aufbewahrungspflichten bestehen.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Ihre Rechte</p>
+          <p class="text-orten-muted">
+            Sie haben grundsätzlich das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerruf einer Einwilligung sowie Widerspruch. Wenn Sie der Meinung sind, dass die Verarbeitung Ihrer Daten gegen Datenschutzrecht verstößt, können Sie sich bei der österreichischen Datenschutzbehörde beschweren.
+          </p>
+        </div>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

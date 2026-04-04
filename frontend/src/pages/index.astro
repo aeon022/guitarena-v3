@@ -4,16 +4,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Intro from '../components/Intro.astro';
 import EventLineup from '../components/EventLineup.astro';
+import TicketInfo from '../components/TicketInfo.astro';
 import Guestbook from '../components/Guestbook.astro';
+import About from '../components/About.astro';
 import { isUpcoming } from '../utils/date';
 
 const allEvents = await getCollection('events');
+const currentYear = new Date().getFullYear();
+const currentYearEvents = allEvents
+  .filter((event) => event.data.date.getFullYear() === currentYear)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 const upcomingEvents = allEvents
   .filter(event => isUpcoming(event.data.date))
   .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 
 const nextEvent = upcomingEvents[0];
-const otherUpcoming = upcomingEvents.slice(1);
 ---
 
 <BaseLayout title="Home">
@@ -21,9 +26,13 @@ const otherUpcoming = upcomingEvents.slice(1);
   
   <Intro />
 
-  {upcomingEvents.length > 0 && (
-    <EventLineup events={upcomingEvents.map(e => ({ id: e.id, ...e.data }))} />
+  {currentYearEvents.length > 0 && (
+    <>
+      <EventLineup events={currentYearEvents.map(e => ({ id: e.id, ...e.data }))} />
+      <TicketInfo />
+    </>
   )}
 
+  <About />
   <Guestbook limit={10} />
 </BaseLayout>

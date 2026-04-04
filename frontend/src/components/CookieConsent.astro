@@ -1,0 +1,93 @@
+<div
+  id="cookie-consent"
+  class="fixed inset-x-4 bottom-4 z-[90] hidden rounded-[1.75rem] border border-orten-border bg-orten-card/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur md:inset-x-auto md:right-6 md:bottom-6 md:max-w-md"
+>
+  <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.28em] text-orten-amber">Cookies & Externe Medien</p>
+  <h2 class="mb-3 text-2xl font-serif text-orten-text">YouTube nur mit Zustimmung</h2>
+  <p class="text-sm leading-relaxed text-orten-muted">
+    Diese Website verwendet standardmäßig keine Analyse- oder Marketing-Cookies. Externe Inhalte von YouTube werden erst nach Ihrer Zustimmung geladen.
+  </p>
+  <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+    <button
+      type="button"
+      data-cookie-accept
+      class="flex-1 rounded-full bg-orten-amber px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-bg transition hover:brightness-105"
+    >
+      Externe Medien erlauben
+    </button>
+    <button
+      type="button"
+      data-cookie-decline
+      class="flex-1 rounded-full border border-orten-border px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-text/75 transition hover:border-orten-text/30 hover:text-orten-text"
+    >
+      Ablehnen
+    </button>
+  </div>
+  <div class="mt-4 flex items-center justify-between gap-4 text-[11px] text-orten-muted">
+    <a href="/cookies" class="transition hover:text-orten-text">Cookie-Details</a>
+    <a href="/datenschutz" class="transition hover:text-orten-text">Datenschutz</a>
+  </div>
+</div>
+
+<script>
+  const CONSENT_COOKIE_NAME = 'guitarena_consent_media';
+  const CONSENT_MAX_AGE = 60 * 60 * 24 * 180;
+
+  const readConsent = () => {
+    const match = document.cookie.match(new RegExp(`(?:^|; )${CONSENT_COOKIE_NAME}=([^;]*)`));
+    return match ? decodeURIComponent(match[1]) : null;
+  };
+
+  const writeConsent = (value) => {
+    document.cookie = `${CONSENT_COOKIE_NAME}=${encodeURIComponent(value)}; path=/; max-age=${CONSENT_MAX_AGE}; SameSite=Lax`;
+  };
+
+  const applyMediaConsent = (granted) => {
+    document.dispatchEvent(new CustomEvent('guitarena:media-consent-changed', { detail: { granted } }));
+  };
+
+  const initCookieConsent = () => {
+    const banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+
+    const acceptButton = banner.querySelector('[data-cookie-accept]');
+    const declineButton = banner.querySelector('[data-cookie-decline]');
+    const currentConsent = readConsent();
+
+    if (!currentConsent) {
+      banner.classList.remove('hidden');
+    } else {
+      banner.classList.add('hidden');
+      applyMediaConsent(currentConsent === 'accepted');
+    }
+
+    if (acceptButton && acceptButton.dataset.bound !== 'true') {
+      acceptButton.dataset.bound = 'true';
+      acceptButton.addEventListener('click', () => {
+        writeConsent('accepted');
+        banner.classList.add('hidden');
+        applyMediaConsent(true);
+      });
+    }
+
+    if (declineButton && declineButton.dataset.bound !== 'true') {
+      declineButton.dataset.bound = 'true';
+      declineButton.addEventListener('click', () => {
+        writeConsent('declined');
+        banner.classList.add('hidden');
+        applyMediaConsent(false);
+      });
+    }
+
+    document.querySelectorAll('[data-open-cookie-settings]').forEach((button) => {
+      if (button.dataset.bound === 'true') return;
+      button.dataset.bound = 'true';
+      button.addEventListener('click', () => {
+        banner.classList.remove('hidden');
+      });
+    });
+  };
+
+  initCookieConsent();
+  document.addEventListener('astro:after-swap', initCookieConsent);
+</script>

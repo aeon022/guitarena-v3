@@ -1,6 +1,6 @@
 ---
 import { formatDate, formatTime } from '../utils/date';
-import type { GuitarenaEvent } from '../content/config';
+import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
   event: GuitarenaEvent & { id: string };
@@ -11,7 +11,7 @@ const { event } = Astro.props;
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 ---
 
-<article class="group relative bg-orten-card border border-white/5 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:border-orten-amber/20 hover:-translate-y-1 shadow-2xl">
+<article class="group relative bg-orten-card border border-orten-border/50 rounded-2xl overflow-hidden flex flex-col transition-all duration-500 hover:border-orten-amber/20 hover:-translate-y-1 shadow-2xl">
   <a href={`/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
   
   <div class="aspect-[16/10] bg-neutral-900 overflow-hidden relative">
@@ -27,28 +27,28 @@ const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 
     )}
     
     <!-- Floating Date Badge -->
-    <div class="absolute top-4 left-4 z-30 flex flex-col items-center justify-center w-14 h-16 bg-orten-bg/90 backdrop-blur-md border border-white/10 rounded-lg group-hover:border-orten-amber/50 transition-colors">
+    <div class="absolute top-4 left-4 z-30 flex flex-col items-center justify-center w-14 h-16 bg-orten-bg/90 backdrop-blur-md border border-orten-border rounded-lg group-hover:border-orten-amber/50 transition-colors">
       <span class="text-orten-amber text-[10px] font-mono uppercase tracking-widest">{months[event.date.getMonth()]}</span>
-      <span class="text-2xl font-serif text-white leading-none my-1">{event.date.getDate()}</span>
+      <span class="text-2xl font-serif text-orten-text leading-none my-1">{event.date.getDate()}</span>
     </div>
   </div>
   
   <div class="p-8 flex flex-col flex-grow">
-    <div class="flex items-center gap-3 mb-4 text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">
+    <div class="flex items-center gap-3 mb-4 text-[10px] font-mono uppercase tracking-[0.2em] text-orten-muted">
       <span class="text-orten-amber">Ort /</span>
       <span>{event.location.split(',')[0]}</span>
     </div>
     
-    <h3 class="text-3xl font-serif text-white mb-4 group-hover:text-orten-amber transition-colors leading-tight">
+    <h3 class="text-3xl font-serif text-orten-text mb-4 group-hover:text-orten-amber transition-colors leading-tight">
       {event.title}
     </h3>
     
-    <p class="text-sm text-white/50 font-light line-clamp-2 mb-8 leading-relaxed">
+    <p class="text-sm text-orten-muted font-light line-clamp-2 mb-8 leading-relaxed">
       {event.body}
     </p>
     
-    <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-center">
-      <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-white/30 group-hover:text-white transition-colors">[ Details ]</span>
+    <div class="mt-auto pt-6 border-t border-orten-border/50 flex justify-between items-center">
+      <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-orten-muted/60 group-hover:text-orten-text transition-colors">[ Details ]</span>
       <a href="mailto:karten@porcia.at" class="text-orten-amber font-mono text-[10px] uppercase tracking-widest font-bold relative z-30 hover:underline">Tickets &rarr;</a>
     </div>
   </div>

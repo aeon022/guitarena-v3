@@ -1,6 +1,5 @@
 ---
-import { formatDate } from '../utils/date';
-import type { GuitarenaEvent } from '../content/config';
+import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
   events: (GuitarenaEvent & { id: string })[];
@@ -9,43 +8,79 @@ interface Props {
 const { events } = Astro.props;
 
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 ---
 
 <section id="programm" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24">
-  <div class="mb-16 flex flex-col md:flex-row justify-between md:items-end gap-8 border-b border-white/10 pb-8">
-    <h2 class="text-6xl md:text-7xl font-serif text-white leading-none">Lineup</h2>
+  <div class="mb-16 flex flex-col md:flex-row justify-between md:items-end gap-8 border-b border-orten-border pb-8">
+    <h2 class="text-6xl md:text-7xl font-serif text-orten-text leading-none">Lineup</h2>
   </div>
 
   <div class="flex flex-col gap-6">
-    {events.map(event => (
-      <article class="group relative flex flex-col md:flex-row gap-6 md:gap-10 p-6 -mx-6 rounded-2xl hover:bg-white/[0.02] transition-colors border border-transparent hover:border-white/5">
+    {events.map(event => {
+      const isPast = event.date < today;
+
+      return (
+      <article class:list={[
+        "group relative flex flex-col md:flex-row gap-6 md:gap-10 p-6 -mx-6 rounded-2xl transition-all border border-transparent",
+        isPast ? "opacity-50 hover:opacity-70" : "hover:bg-orten-card hover:border-orten-border",
+      ]}>
         <a href={`/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
         
-        <div class="flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 border border-white/10 bg-white/[0.02] rounded-md shrink-0 group-hover:border-orten-amber group-hover:bg-orten-amber/5 transition-colors shadow-lg">
-          <span class="text-orten-amber text-xs font-mono uppercase tracking-widest">{months[event.date.getMonth()]}</span>
-          <span class="text-4xl md:text-5xl font-serif text-white leading-none my-2">{event.date.getDate()}</span>
-          <span class="text-white/40 text-[10px] font-mono tracking-widest">{event.date.getFullYear()}</span>
+        <div class:list={[
+          "flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 border rounded-md shrink-0 transition-colors shadow-lg",
+          isPast
+            ? "border-orten-border/50 bg-orten-card/30"
+            : "border-orten-border bg-orten-card group-hover:border-orten-amber group-hover:bg-orten-amber/5",
+        ]}>
+          <span class:list={[
+            "text-xs font-mono uppercase tracking-widest",
+            isPast ? "text-orten-muted" : "text-orten-amber",
+          ]}>{months[event.date.getMonth()]}</span>
+          <span class="text-4xl md:text-5xl font-serif text-orten-text leading-none my-2">{event.date.getDate()}</span>
+          <span class="text-orten-muted text-[10px] font-mono tracking-widest">{event.date.getFullYear()}</span>
         </div>
 
         <div class="w-full md:w-48 h-64 md:h-auto shrink-0 overflow-hidden rounded-md relative shadow-lg">
-          <div class="absolute inset-0 bg-orten-amber/10 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-500"></div>
+          <div class:list={[
+            "absolute inset-0 z-10 transition-opacity duration-500",
+            isPast
+              ? "bg-orten-bg/35"
+              : "bg-orten-amber/10 mix-blend-overlay group-hover:opacity-0",
+          ]}></div>
           <img 
-            src={event.image ? (event.image.startsWith('http') ? event.image : `/images/events/${event.image}`) : "https://images.unsplash.com/photo-1525201548942-d8732f6617a0?q=80&w=800&auto=format&fit=crop"} 
-            class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+            src={event.image ? (event.image.startsWith('http') ? event.image : `/images/events/${event.image}`) : "https://via.placeholder.com/400x600/1c1816/e88b3a.png?text=Guitarena"} 
+            class:list={[
+              "w-full h-full object-cover transition-all duration-700",
+              isPast
+                ? "grayscale opacity-45"
+                : "grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105",
+            ]}
           />
         </div>
 
         <div class="flex-1 flex flex-col justify-center py-2">
-          <h3 class="text-4xl md:text-5xl font-serif text-white mb-4 group-hover:translate-x-2 transition-transform duration-300">{event.title}</h3>
-          <p class="text-white/60 max-w-xl font-light leading-relaxed text-lg line-clamp-2">
+          <h3 class:list={[
+            "text-4xl md:text-5xl font-serif mb-4 transition-transform duration-300",
+            isPast ? "text-orten-text/70" : "text-orten-text group-hover:translate-x-2",
+          ]}>{event.title}</h3>
+          <p class="text-orten-muted max-w-xl font-light leading-relaxed text-lg line-clamp-2">
             {event.body}
           </p>
         </div>
 
-        <div class="shrink-0 flex items-center md:items-end md:pb-4 font-mono text-sm tracking-widest font-bold">
-          <a href="mailto:karten@porcia.at" class="text-white/30 group-hover:text-orten-amber transition-colors relative z-30">[ TICKETS ]</a>
+        <div class="shrink-0 flex flex-col items-start md:items-end justify-center md:justify-end gap-3 md:pb-4 font-mono text-sm tracking-widest font-bold">
+          <a href={`/programm/${event.id}`} class:list={[
+            "relative z-30 transition-colors",
+            isPast ? "text-orten-muted/70" : "text-orten-muted group-hover:text-orten-text",
+          ]}>[ DETAILS ]</a>
+          <a href="mailto:karten@porcia.at" class:list={[
+            "transition-colors relative z-30",
+            isPast ? "text-orten-muted/40" : "text-orten-muted/60 group-hover:text-orten-amber",
+          ]}>[ TICKETS ]</a>
         </div>
       </article>
-    ))}
+    )})}
   </div>
 </section>

@@ -3,29 +3,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { guestbookFiles, parseGuestbookEntry } from '../../utils/guestbook';
 
 const initialLimit = 20;
-const allEntries = guestbookFiles.map(parseGuestbookEntry);
+const allEntries = guestbookFiles
+  .sort((a, b) => b.localeCompare(a))
+  .map(parseGuestbookEntry);
 const initialEntries = allEntries.slice(0, initialLimit);
 const remainingEntries = allEntries.slice(initialLimit);
 ---
 
 <BaseLayout title="Gästebuch">
   <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 pb-24">
-    <header class="mb-20 border-b border-white/10 pb-12">
+    <header class="mb-20 border-b border-orten-border pb-12">
       <div class="flex items-center gap-4 mb-8">
         <span class="w-12 h-[1px] bg-orten-amber"></span>
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Historie</span>
       </div>
-      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-white mb-4">
+      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4">
         Gästebuch<span class="italic text-orten-amber">.</span>
       </h1>
-      <p class="font-mono text-sm text-white/50 uppercase tracking-widest mt-8">
+      <p class="font-mono text-sm text-orten-muted uppercase tracking-widest mt-8">
         Ein Stück Geschichte. Signiert seit 1993.
       </p>
     </header>
 
     <div id="guestbook-container" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
       {initialEntries.map(entry => (
-        <div class="guestbook-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-white/10 shadow-xl reveal-on-scroll">
+        <div class="guestbook-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-orten-card border border-orten-border shadow-xl reveal-on-scroll">
           <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
           
           <img 
@@ -36,7 +38,7 @@ const remainingEntries = allEntries.slice(initialLimit);
           />
           
           <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
-            <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
+            <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-orten-border">
               {entry.artistName}, {entry.year}
             </span>
           </div>
@@ -44,21 +46,34 @@ const remainingEntries = allEntries.slice(initialLimit);
       ))}
     </div>
 
-    <div id="load-more-trigger" class="h-20 flex items-center justify-center mt-12">
-      <div class="animate-pulse font-mono text-[10px] uppercase tracking-[0.3em] text-white/20">Lade weitere Geschichte...</div>
+    <div id="load-more-trigger" class="h-40 flex items-center justify-center mt-12">
+      <div class="animate-pulse font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted/30 italic">Blättere in der Geschichte...</div>
     </div>
   </div>
 </BaseLayout>
 
 <script define:vars={{ remainingEntries }}>
   let loadedCount = 0;
-  const CHUNK_SIZE = 15;
+  const CHUNK_SIZE = 12;
   const container = document.getElementById('guestbook-container');
   const trigger = document.getElementById('load-more-trigger');
 
+  // Reveal Function for dynamic items
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const initInitialReveal = () => {
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+  };
+
   const createItem = (entry) => {
     const div = document.createElement('div');
-    div.className = "guestbook-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-white/10 shadow-xl opacity-0 translate-y-8 transition-all duration-1000";
+    div.className = "guestbook-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-orten-card border border-orten-border shadow-xl reveal-on-scroll";
     
     div.innerHTML = `
       <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
@@ -69,7 +84,7 @@ const remainingEntries = allEntries.slice(initialLimit);
         loading="lazy"
       />
       <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
-        <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
+        <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-orten-border">
           ${entry.artistName}, ${entry.year}
         </span>
       </div>
@@ -79,7 +94,7 @@ const remainingEntries = allEntries.slice(initialLimit);
 
   const loadMore = () => {
     if (loadedCount >= remainingEntries.length) {
-      if (trigger) trigger.remove();
+      if (trigger) trigger.style.display = 'none';
       return;
     }
 
@@ -87,27 +102,41 @@ const remainingEntries = allEntries.slice(initialLimit);
     nextChunk.forEach(entry => {
       const item = createItem(entry);
       container.appendChild(item);
-      // Trigger reveal after append
-      requestAnimationFrame(() => {
-        item.classList.remove('opacity-0', 'translate-y-8');
-      });
+      observer.observe(item);
     });
 
     loadedCount += CHUNK_SIZE;
   };
 
   // Intersection Observer for Infinite Scroll
-  const observer = new IntersectionObserver((entries) => {
+  const scrollObserver = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
       loadMore();
     }
-  }, { rootMargin: '400px' });
+  }, { rootMargin: '600px' });
 
-  if (trigger) observer.observe(trigger);
+  if (trigger) scrollObserver.observe(trigger);
+  initInitialReveal();
+  
+  // Re-init on Astro View Transitions
+  document.addEventListener('astro:after-swap', () => {
+    initInitialReveal();
+  });
 </script>
 
-<style>
-  .guestbook-item {
-    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+<style is:global>
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-on-scroll.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .guestbook-card {
+    will-change: transform, opacity;
   }
 </style>

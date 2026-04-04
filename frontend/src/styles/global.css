@@ -1,24 +1,73 @@
 @import "tailwindcss";
 
 @theme {
-  --color-orten-bg: #110e0d;
-  --color-orten-card: #1c1816;
+  --color-orten-bg: var(--orten-bg);
+  --color-orten-card: var(--orten-card);
   --color-orten-amber: #e88b3a;
-  --color-orten-text: #f0ebe1;
+  --color-orten-text: var(--orten-text);
+  --color-orten-border: var(--orten-border);
+  --color-orten-muted: var(--orten-muted);
   
   /* Font Overrides */
-  --font-serif: 'DM Serif Display', serif;
-  --font-sans: 'Outfit', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-sans: Inter, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "SFMono-Regular", "SF Mono", "JetBrains Mono", Consolas, "Liberation Mono", monospace;
+}
+
+:root {
+  --orten-bg: #efeadf;
+  --orten-card: #e5dec9;
+  --orten-text: #2a2620;
+  --orten-border: rgba(42, 38, 32, 0.15);
+  --orten-muted: rgba(42, 38, 32, 0.6);
+}
+
+.dark {
+  --orten-bg: #110e0d;
+  --orten-card: #1c1816;
+  --orten-text: #f0ebe1;
+  --orten-border: rgba(255, 255, 255, 0.1);
+  --orten-muted: rgba(255, 255, 255, 0.5);
 }
 
 @layer base {
   body {
     @apply bg-orten-bg text-orten-text font-sans antialiased relative;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  html.is-transitioning,
+  html.is-transitioning body,
+  html.is-transitioning *,
+  html.is-transitioning *:before,
+  html.is-transitioning *:after {
+    transition: all 700ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-property: background-color, color, border-color, opacity, fill, stroke !important;
   }
 }
 
 /* Custom Utilities from Draft */
 .mix-blend-difference { mix-blend-mode: difference; }
 .bg-radial { background-image: radial-gradient(var(--tw-gradient-stops)); }
+
+/* Markdown Paragraph Styles */
+.prose p {
+  @apply mb-8 leading-relaxed text-orten-muted;
+}
+
+.prose p:last-child {
+  @apply mb-0;
+}
+
+.prose strong {
+  @apply text-orten-text font-bold;
+}
+
+/* Custom Reveal Animation */
+.reveal-on-scroll {
+  @apply opacity-0 translate-y-8 transition-all duration-1000;
+}
+
+.reveal-on-scroll.active {
+  @apply opacity-100 translate-y-0;
+}

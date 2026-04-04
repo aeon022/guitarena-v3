@@ -1,46 +1,59 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Social from '../components/Social.astro';
 ---
 
 <BaseLayout title="Über Uns">
-  <article class="max-w-3xl mx-auto py-12 md:py-24">
-    <h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-12">
-      Kulturinitiative <span class="text-brand-primary">Guitarena.</span>
-    </h1>
-    
-    <div class="space-y-12 text-lg text-neutral-300 leading-relaxed">
+  <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 pb-24">
+    <header class="mb-20 border-b border-orten-border pb-12">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-[1px] bg-orten-amber"></span>
+        <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Unsere Geschichte</span>
+      </div>
+      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4">
+        Über Uns<span class="italic text-orten-amber">.</span>
+      </h1>
+      <p class="font-mono text-sm text-orten-muted uppercase tracking-widest mt-8">
+        Kulturinitiative Guitarena Spittal
+      </p>
+    </header>
+
+    <div class="max-w-3xl space-y-12 text-lg text-orten-muted leading-relaxed">
       <section>
-        <h2 class="text-2xl font-bold text-white mb-4">Seit 1993 im Ortenburgerkeller</h2>
+        <h2 class="text-2xl font-serif text-orten-text mb-4 italic">Seit 1993 im Ortenburgerkeller</h2>
         <p>
           Die Guitarena ist eine Kulturinitiative aus Spittal an der Drau, die sich der Förderung der akustischen Gitarrenmusik in all ihren Facetten verschrieben hat. Seit über 30 Jahren bringen wir internationale Größen der Fingerstyle- und Akustik-Gitarrenszene in das einzigartige Ambiente des Ortenburgerkellers in Schloss Porcia.
         </p>
       </section>
 
-      <section class="p-8 bg-brand-dark rounded-2xl border border-white/5 italic">
+      <section class="p-8 bg-orten-card rounded-2xl border border-orten-border italic">
         "Akustik-Gitarre in ihrer reinsten Form, präsentiert von Musikern, die ihre Instrumente nicht nur spielen, sondern leben."
       </section>
 
       <section>
-        <h2 class="text-2xl font-bold text-white mb-4">Unsere Mission</h2>
+        <h2 class="text-2xl font-serif text-orten-text mb-4 italic">Unsere Mission</h2>
         <p>
           Wir bieten Künstlern eine Bühne, auf der die Musik im Vordergrund steht – ohne überflüssigen Schnickschnack. Der Ortenburgerkeller bietet dafür die perfekte Akustik und Intimität, um die feinsten Nuancen des Saitenspiels erlebbar zu machen.
         </p>
       </section>
 
-      <div class="pt-12 border-t border-white/5 grid grid-cols-2 md:grid-cols-3 gap-8 text-center uppercase tracking-widest text-[10px] font-bold text-neutral-500">
+      <div class="pt-12 border-t border-orten-border grid grid-cols-2 md:grid-cols-3 gap-8 text-center uppercase tracking-widest text-[10px] font-bold text-orten-muted/60">
         <div>
-          <span class="block text-2xl text-brand-primary mb-2">30+</span>
+          <span class="block text-4xl font-serif text-orten-amber mb-2">30+</span>
           Jahre
         </div>
         <div>
-          <span class="block text-2xl text-brand-primary mb-2">150+</span>
+          <span class="block text-4xl font-serif text-orten-amber mb-2">150+</span>
           Konzerte
         </div>
         <div>
-          <span class="block text-2xl text-brand-primary mb-2">∞</span>
+          <span class="block text-4xl font-serif text-orten-amber mb-2">∞</span>
           Saitenklänge
         </div>
       </div>
     </div>
-  </article>
+    <div class="mt-16">
+      <Social />
+    </div>
+  </div>
 </BaseLayout>

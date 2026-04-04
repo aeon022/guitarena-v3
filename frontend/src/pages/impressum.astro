@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Impressum">
+  <article class="relative overflow-hidden px-8 pt-32 pb-24 md:px-16">
+    <div class="absolute inset-x-0 top-0 -z-10 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(232,139,58,0.18),transparent_55%)]"></div>
+    <div class="absolute right-0 top-32 -z-10 h-72 w-72 rounded-full bg-orten-amber/5 blur-3xl"></div>
+
+    <div class="mx-auto max-w-5xl">
+      <header class="mb-16">
+        <div class="mb-8 inline-flex items-center gap-3 rounded-full border border-orten-border bg-orten-card/30 px-4 py-2 backdrop-blur">
+          <span class="h-2 w-2 rounded-full bg-orten-amber"></span>
+          <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted">Rechtliches</span>
+        </div>
+        <h1 class="max-w-4xl text-6xl font-serif leading-[0.9] tracking-tight text-orten-text md:text-[7.5rem]">
+          Klar. Direkt.
+          <span class="block italic text-orten-amber">Impressum.</span>
+        </h1>
+        <div class="mt-8 flex flex-col gap-3 border-l border-orten-border pl-6 text-orten-muted md:flex-row md:items-center md:gap-8 md:pl-8">
+          <p class="font-mono text-[10px] uppercase tracking-[0.28em]">Stand: 04. April 2026</p>
+          <p class="max-w-2xl text-sm leading-relaxed">
+            Angaben gemäß Informationspflicht laut §5 ECG, §14 UGB, §63 GewO und §25 Mediengesetz, reduziert auf die wesentlichen Angaben für diese Website.
+          </p>
+        </div>
+      </header>
+
+      <section class="mb-10 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/40 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.15)] backdrop-blur">
+          <p class="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Betreiber</p>
+          <h2 class="mb-6 text-4xl font-serif text-orten-text">Guitarena</h2>
+          <div class="grid gap-8 md:grid-cols-2">
+            <div>
+              <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Adresse</p>
+              <p class="text-orten-muted">
+                Schloß Porcia, Burgplatz 1<br />
+                9800 Spittal an der Drau<br />
+                Österreich
+              </p>
+            </div>
+            <div>
+              <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Kontakt</p>
+              <p class="text-orten-muted">
+                Veranstaltungen / Kulturinitiative<br />
+                <a href="mailto:hartwig@guitarena.com" class="text-orten-amber hover:text-orten-text transition-colors">
+                  hartwig@guitarena.com
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card p-8 shadow-2xl">
+          <p class="mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Behörde</p>
+          <div class="space-y-6 text-orten-muted">
+            <div>
+              <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Gewerbebehörde</p>
+              <p>Stadtgemeinde Spittal an der Drau</p>
+            </div>
+            <div>
+              <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Berufsbezeichnung</p>
+              <p>Kulturinitiative</p>
+              <p class="text-orten-muted/60">Verleihungsstaat: Österreich</p>
+            </div>
+            <div>
+              <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Berufsrecht</p>
+              <a href="https://www.ris.bka.gv.at" target="_blank" rel="noreferrer" class="text-orten-amber hover:text-orten-text transition-colors">
+                www.ris.bka.gv.at
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10 grid gap-6 md:grid-cols-2">
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Datenschutz</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Verantwortliche Stelle</h2>
+          <p class="text-orten-muted">
+            Verantwortlich für diese Website ist Guitarena, Schloß Porcia, Burgplatz 1, 9800 Spittal an der Drau.
+            Datenschutzanfragen bitte an
+            <a href="mailto:hartwig@guitarena.com" class="text-orten-amber hover:text-orten-text transition-colors"> hartwig@guitarena.com</a>.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">EU-Streitschlichtung</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Online-Streitbeilegung</h2>
+          <p class="text-orten-muted">
+            Verbraucherinnen und Verbraucher können Beschwerden über die
+            <a
+              href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&lng=DE"
+              target="_blank"
+              rel="noreferrer"
+              class="text-orten-amber hover:text-orten-text transition-colors"
+            >
+              EU-OS-Plattform
+            </a>
+            einreichen. Wir sind jedoch nicht bereit und nicht verpflichtet, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+          </p>
+        </div>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-[2rem] border border-orten-border bg-gradient-to-br from-orten-card/40 to-transparent p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Haftung</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Inhalte und Links</h2>
+          <p class="text-orten-muted">
+            Trotz sorgfältiger Prüfung übernehmen wir keine Haftung für Inhalte, die von Dritten bereitgestellt wurden, sowie für Inhalte externer Links. Bei Hinweisen auf rechtswidrige Inhalte oder Verlinkungen bitten wir um Nachricht an
+            <a href="mailto:hartwig@guitarena.com" class="text-orten-amber hover:text-orten-text transition-colors"> hartwig@guitarena.com</a>.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-gradient-to-br from-orten-card to-orten-bg p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Urheberrecht</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Texte, Bilder, Fotos, Videos</h2>
+          <p class="text-orten-muted">
+            Sämtliche Inhalte dieser Website sind urheberrechtlich geschützt. Bildrechte liegen unter anderem bei Envato Elements, Stockily, Unsplash, Thomas Koch sowie bei Pressefotos der jeweiligen Künstlerinnen und Künstler.
+          </p>
+        </div>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Cookies">
+  <article class="relative overflow-hidden px-8 pt-32 pb-24 md:px-16">
+    <div class="absolute inset-x-0 top-0 -z-10 h-[24rem] bg-[radial-gradient(circle_at_top,rgba(232,139,58,0.12),transparent_55%)]"></div>
+
+    <div class="mx-auto max-w-4xl">
+      <header class="mb-14">
+        <div class="mb-8 inline-flex items-center gap-3 rounded-full border border-orten-border bg-orten-card/30 px-4 py-2 backdrop-blur">
+          <span class="h-2 w-2 rounded-full bg-orten-amber"></span>
+          <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted">Cookies</span>
+        </div>
+        <h1 class="text-6xl font-serif leading-[0.9] tracking-tight text-orten-text md:text-[7rem]">
+          So wenig wie möglich<span class="italic text-orten-amber">.</span>
+        </h1>
+        <p class="mt-8 max-w-3xl text-sm leading-relaxed text-orten-muted">
+          Stand: 04. April 2026. Diese Website setzt standardmäßig keine Analyse- oder Werbe-Cookies. Ein Cookie wird nur verwendet, wenn Sie externe YouTube-Inhalte freigeben oder ablehnen.
+        </p>
+      </header>
+
+      <section class="mb-10 rounded-[2rem] border border-orten-border bg-orten-card/40 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.15)] backdrop-blur">
+        <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Eingesetztes Cookie</p>
+        <div class="overflow-hidden rounded-3xl border border-orten-border">
+          <div class="grid gap-px bg-orten-border md:grid-cols-[1.2fr_1fr_1fr_0.8fr]">
+            <div class="bg-orten-card px-5 py-4 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Name</div>
+            <div class="bg-orten-card px-5 py-4 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Zweck</div>
+            <div class="bg-orten-card px-5 py-4 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Rechtsgrundlage</div>
+            <div class="bg-orten-card px-5 py-4 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-muted/50">Speicherdauer</div>
+
+            <div class="bg-orten-card/30 px-5 py-5 text-orten-muted"><code>guitarena_consent_media</code></div>
+            <div class="bg-orten-card/30 px-5 py-5 text-orten-muted">Speichert, ob externe YouTube-Inhalte geladen werden dürfen.</div>
+            <div class="bg-orten-card/30 px-5 py-5 text-orten-muted">Einwilligung, Art. 6 Abs. 1 lit. a DSGVO</div>
+            <div class="bg-orten-card/30 px-5 py-5 text-orten-muted">180 Tage</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Keine Tracking-Cookies</p>
+          <p class="text-orten-muted">
+            Wir verwenden keine Cookies für Reichweitenmessung, Nutzerprofile, Retargeting oder Werbezwecke. Ohne Ihre Einwilligung werden auch keine YouTube-Inhalte geladen.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-orten-border bg-orten-card/20 p-8">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Einstellungen ändern</p>
+          <p class="text-orten-muted">
+            Ihre Auswahl können Sie jederzeit über den Link „Cookie-Einstellungen“ im Footer erneut öffnen und anpassen. Zusätzlich können Sie Cookies jederzeit in Ihrem Browser löschen.
+          </p>
+        </div>
+      </section>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import { formatDate } from '../utils/date';
-import type { GuitarenaEvent } from '../content/config';
+import ConsentYouTubeEmbed from './ConsentYouTubeEmbed.astro';
+import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
   event: GuitarenaEvent & { id: string };
@@ -28,7 +29,7 @@ const backgroundImage = event.image?.startsWith('http')
     : '/images/hero.webp';
 ---
 
-<section class="relative h-screen flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-orten-bg">
+<section class="relative h-screen flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-[#110e0d]">
   
   <!-- Fallback Background Image -->
   <div 
@@ -39,15 +40,17 @@ const backgroundImage = event.image?.startsWith('http')
 
   <!-- Video Background Overlay -->
   {event.video && (
-    <div id="hero-video-container" class="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-40 mix-blend-luminosity">
+    <div id="hero-video-container" class:list={[
+      "absolute inset-0 z-0 overflow-hidden opacity-40 mix-blend-luminosity",
+      isYouTube ? "pointer-events-auto" : "pointer-events-none",
+    ]}>
       {isYouTube ? (
-        <iframe
-          id="hero-youtube"
-          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${youtubeId}&rel=0&showinfo=0&enablejsapi=1`}
-          class="absolute top-1/2 left-1/2 w-[120vw] h-[120vh] -translate-x-1/2 -translate-y-1/2 object-cover"
-          allow="autoplay; encrypted-media"
-          frameborder="0"
-        ></iframe>
+        <ConsentYouTubeEmbed
+          youtubeId={youtubeId}
+          title={`${event.title} Video`}
+          containerClass="pointer-events-auto opacity-70 mix-blend-luminosity"
+          iframeClass="absolute top-1/2 left-1/2 h-[120vh] w-[120vw] -translate-x-1/2 -translate-y-1/2 object-cover"
+        />
       ) : (
         <video
           id="hero-video"
@@ -63,8 +66,8 @@ const backgroundImage = event.image?.startsWith('http')
     </div>
   )}
 
-  <div class="absolute inset-0 bg-gradient-to-t from-orten-bg via-orten-bg/60 to-transparent z-5"></div>
-  <div class="absolute inset-0 bg-radial from-transparent via-orten-bg/40 to-orten-bg opacity-90 z-5"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-[#110e0d] via-[#110e0d]/60 to-transparent z-5"></div>
+  <div class="absolute inset-0 bg-radial from-transparent via-[#110e0d]/40 to-[#110e0d] opacity-90 z-5"></div>
 
   <article class="relative z-10 max-w-6xl mx-auto w-full pb-12 flex flex-col md:flex-row md:items-end justify-between gap-12">
     
@@ -74,12 +77,12 @@ const backgroundImage = event.image?.startsWith('http')
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Nächstes Konzert</span>
       </div>
       
-      <h1 class="text-7xl md:text-[9rem] font-serif leading-[0.9] tracking-tight mb-8 text-white drop-shadow-2xl">
+      <h1 class="text-7xl md:text-[9rem] font-serif leading-[0.9] tracking-tight mb-8 text-[#f0ebe1] drop-shadow-2xl">
         {firstName}<br>
-        <span class="italic text-white/90">{lastName}</span>
+        <span class="italic text-[#f0ebe1]/90">{lastName}</span>
       </h1>
       
-      <div class="flex flex-col md:flex-row gap-6 md:gap-12 font-mono text-sm uppercase tracking-widest text-white/50">
+      <div class="flex flex-col md:flex-row gap-6 md:gap-12 font-mono text-sm uppercase tracking-widest text-[#f0ebe1]/50">
         <time datetime={event.date.toISOString()} class="flex items-center gap-3">
           <span class="text-orten-amber">Datum /</span> {formatDate(event.date)}
         </time>
@@ -111,7 +114,7 @@ const backgroundImage = event.image?.startsWith('http')
 
         <!-- Center Label -->
         <div class="relative z-10 w-32 h-32 rounded-full bg-transparent group-hover:bg-orten-amber flex items-center justify-center transition-all duration-500 overflow-hidden">
-          <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-orten-bg transition-colors font-bold z-10">Details</span>
+          <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-[#110e0d] transition-colors font-bold z-10 text-white">Details</span>
           <!-- Liquid Fill Effect -->
           <div class="absolute bottom-0 left-0 right-0 h-0 bg-orten-amber group-hover:h-full transition-all duration-500 ease-in-out -z-1"></div>
         </div>
@@ -136,7 +139,7 @@ const backgroundImage = event.image?.startsWith('http')
   const initHero = () => {
     const fallback = document.getElementById('hero-fallback');
     const video = document.getElementById('hero-video') as HTMLVideoElement;
-    const iframe = document.getElementById('hero-youtube') as HTMLIFrameElement;
+    const iframe = document.querySelector('#hero-video-container iframe') as HTMLIFrameElement;
 
     if (fallback) {
       if (video) {
@@ -151,4 +154,5 @@ const backgroundImage = event.image?.startsWith('http')
 
   initHero();
   document.addEventListener('astro:after-swap', initHero);
+  document.addEventListener('guitarena:youtube-loaded', initHero);
 </script>

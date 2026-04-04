@@ -15,3 +15,7 @@ Thumbs.db
 
 # Orbiter / SQLite (Exclude local DB from Git if needed, or keep if shared)
 # content.pod
+
+# User specified
+drafts/
+"drafts & content/"

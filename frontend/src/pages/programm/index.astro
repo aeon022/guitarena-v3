@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EventCard from '../../components/EventCard.astro';
+import TicketInfo from '../../components/TicketInfo.astro';
 import { isUpcoming } from '../../utils/date';
 
 const allEvents = await getCollection('events');
@@ -12,15 +13,15 @@ const upcomingEvents = allEvents
 
 <BaseLayout title="Programm">
   <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 pb-24">
-    <header class="mb-20 border-b border-white/10 pb-12">
+    <header class="mb-20 border-b border-orten-border pb-12">
       <div class="flex items-center gap-4 mb-8">
         <span class="w-12 h-[1px] bg-orten-amber"></span>
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Nächste Konzerte</span>
       </div>
-      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-white mb-4">
+      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4">
         Programm<span class="italic text-orten-amber">.</span>
       </h1>
-      <p class="font-mono text-sm text-white/50 uppercase tracking-widest mt-8">
+      <p class="font-mono text-sm text-orten-muted uppercase tracking-widest mt-8">
         Handgemachte Musik im Ortenburgerkeller
       </p>
     </header>
@@ -30,11 +31,13 @@ const upcomingEvents = allEvents
         <EventCard event={{ id: event.id, ...event.data }} />
       ))}
     </div>
+
+    {upcomingEvents.length > 0 && <TicketInfo />}
     
     {upcomingEvents.length === 0 && (
-      <div class="py-32 text-center bg-orten-card border border-white/5 rounded-3xl shadow-2xl">
-        <p class="font-serif text-3xl text-white/40 italic">Aktuell sind keine kommenden Konzerte geplant.</p>
-        <p class="font-mono text-[10px] text-white/20 uppercase tracking-[0.3em] mt-8">Schau bald wieder vorbei</p>
+      <div class="py-32 text-center bg-orten-card border border-orten-border rounded-3xl shadow-2xl">
+        <p class="font-serif text-3xl text-orten-muted italic">Aktuell sind keine kommenden Konzerte geplant.</p>
+        <p class="font-mono text-[10px] text-orten-muted/50 uppercase tracking-[0.3em] mt-8">Schau bald wieder vorbei</p>
       </div>
     )}
   </div>
