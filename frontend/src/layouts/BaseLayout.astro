@@ -23,44 +23,49 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 		<meta name="description" content={description} />
 		<ClientRouter />
 		<script is:inline>
-			const theme = (() => {
-				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-					return localStorage.getItem('theme');
+			const applyTheme = () => {
+				const theme = (() => {
+					if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+						return localStorage.getItem('theme');
+					}
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						return 'dark';
+					}
+					return 'light';
+				})();
+			
+				if (theme === 'light') {
+					document.documentElement.classList.remove('dark');
+				} else {
+					document.documentElement.classList.add('dark');
 				}
-				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-					return 'dark';
-				}
-				return 'light';
-			})();
-		
-			if (theme === 'light') {
-				document.documentElement.classList.remove('dark');
-			} else {
-				document.documentElement.classList.add('dark');
-			}
-			window.localStorage.setItem('theme', theme);
+				window.localStorage.setItem('theme', theme);
+			};
+
+			applyTheme();
+			document.addEventListener('astro:after-swap', applyTheme);
 		</script>
 	</head>
 	<body class="min-h-screen flex flex-col selection:bg-orten-amber selection:text-orten-bg">
 		
-		<header class="w-full px-8 py-8 md:px-16 flex justify-between items-center fixed top-0 z-50 mix-blend-difference text-white">
-			<a href="/" class="text-xl font-bold tracking-tighter uppercase">Guitarena<span class="text-orten-amber">.</span></a>
+		<header id="main-header" class="w-full px-8 py-8 md:px-16 flex justify-between items-center fixed top-0 z-50 transition-all duration-500 ease-in-out">
+			<a href="/" class="text-xl font-bold tracking-tighter uppercase drop-shadow-md">Guitarena<span class="text-orten-amber">.</span></a>
 			<div class="flex items-center gap-8">
-				<nav class="hidden md:flex gap-8 font-mono text-xs uppercase tracking-[0.2em]">
-					<a href="/programm" class="hover:text-orten-amber transition-colors">Programm</a>
-					<a href="/gaestebuch" class="hover:text-orten-amber transition-colors">Gästebuch</a>
-					<a href="/archiv" class="hover:text-orten-amber transition-colors">Archiv</a>
-					<a href="/about" class="hover:text-orten-amber transition-colors">Über Uns</a>
+				<nav class="hidden md:flex gap-8 font-mono text-xs uppercase tracking-[0.2em] drop-shadow-md">
+					<a href="/programm" class="transition-colors">Programm</a>
+					<a href="/gaestebuch" class="transition-colors">Gästebuch</a>
+					<a href="/archiv" class="transition-colors">Archiv</a>
+					<a href="/about" class="transition-colors">Über Uns</a>
 				</nav>
 				
-				<div class="flex items-center border border-white/20 rounded-full px-2 py-1 gap-1">
-					<button id="theme-light" class="p-1 rounded-full hover:bg-white/10 transition-colors" title="Light Mode">
+				<div id="theme-switcher-container" class="flex items-center border border-orten-border rounded-full px-2 py-1 gap-1 transition-colors bg-black/5 backdrop-blur-sm shadow-sm">
+					<button id="theme-light" class="p-1 rounded-full hover:bg-orten-text/10 transition-colors" title="Light Mode">
 						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
 					</button>
-					<button id="theme-dark" class="p-1 rounded-full hover:bg-white/10 transition-colors" title="Dark Mode">
+					<button id="theme-dark" class="p-1 rounded-full hover:bg-orten-text/10 transition-colors" title="Dark Mode">
 						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
 					</button>
-					<button id="theme-system" class="p-1 rounded-full hover:bg-white/10 transition-colors" title="System Settings">
+					<button id="theme-system" class="p-1 rounded-full hover:bg-orten-text/10 transition-colors" title="System Settings">
 						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
 					</button>
 				</div>
@@ -74,8 +79,8 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 		<footer class="bg-orten-card pt-24 pb-12 px-8 md:px-16 border-t border-orten-border">
 			<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 border-b border-orten-border pb-16">
 				<div>
-					<div class="text-3xl font-serif tracking-tight mb-4 text-orten-text">Guitarena<span class="text-orten-amber">.</span></div>
-					<p class="text-orten-muted font-light max-w-xs leading-relaxed">
+					<a href="/" class="text-3xl font-serif tracking-tight mb-4 text-orten-text block hover:text-orten-amber transition-colors">Guitarena<span class="text-orten-amber">.</span></a>
+					<p class="text-orten-text/80 font-light max-w-xs leading-relaxed">
 						Kulturinitiative Spittal a. d. Drau.<br>
 						Musik, die bleibt.
 					</p>
@@ -100,6 +105,30 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 		<CookieConsent />
 
 		<script>
+			const initHeader = () => {
+				const header = document.getElementById('main-header');
+				const themeContainer = document.getElementById('theme-switcher-container');
+				
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							header?.classList.add('is-on-dark');
+							themeContainer?.classList.remove('border-orten-border');
+							themeContainer?.classList.add('border-white/20');
+						} else {
+							header?.classList.remove('is-on-dark');
+							themeContainer?.classList.add('border-orten-border');
+							themeContainer?.classList.remove('border-white/20');
+						}
+					});
+				}, {
+					rootMargin: '-80px 0px 0px 0px', // Trigger when header leaves/enters section
+					threshold: 0
+				});
+
+				document.querySelectorAll('[data-dark-bg]').forEach(section => observer.observe(section));
+			};
+
 			const initThemeSwitcher = () => {
 				const lightBtn = document.getElementById('theme-light');
 				const darkBtn = document.getElementById('theme-dark');
@@ -133,11 +162,14 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 
 				const updateActiveButton = () => {
 					const theme = localStorage.getItem('theme') || 'system';
-					[lightBtn, darkBtn, systemBtn].forEach(btn => btn?.classList.remove('bg-white/20', 'text-orten-amber'));
+					[lightBtn, darkBtn, systemBtn].forEach(btn => btn?.classList.remove('bg-white/20', 'bg-orten-text/10', 'text-orten-amber', 'text-orten-red'));
 					
-					if (theme === 'light') lightBtn?.classList.add('bg-white/20', 'text-orten-amber');
-					else if (theme === 'dark') darkBtn?.classList.add('bg-white/20', 'text-orten-amber');
-					else systemBtn?.classList.add('bg-white/20', 'text-orten-amber');
+					const activeClass = document.documentElement.classList.contains('dark') ? 'text-orten-amber' : 'text-orten-red';
+					const bgClass = document.documentElement.classList.contains('dark') ? 'bg-white/20' : 'bg-orten-text/10';
+
+					if (theme === 'light') { lightBtn?.classList.add(bgClass, activeClass); }
+					else if (theme === 'dark') { darkBtn?.classList.add(bgClass, activeClass); }
+					else { systemBtn?.classList.add(bgClass, activeClass); }
 				};
 
 				lightBtn?.addEventListener('click', () => setTheme('light'));
@@ -151,12 +183,17 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 					if (!localStorage.getItem('theme')) {
 						if (e.matches) document.documentElement.classList.add('dark');
 						else document.documentElement.classList.remove('dark');
+						updateActiveButton();
 					}
 				});
 			};
 
+			initHeader();
 			initThemeSwitcher();
-			document.addEventListener('astro:after-swap', initThemeSwitcher);
+			document.addEventListener('astro:after-swap', () => {
+				initHeader();
+				initThemeSwitcher();
+			});
 		</script>
 	</body>
 </html>

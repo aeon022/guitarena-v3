@@ -20,6 +20,7 @@
   --orten-text: #2a2620;
   --orten-border: rgba(42, 38, 32, 0.15);
   --orten-muted: rgba(42, 38, 32, 0.6);
+  --orten-red: #b91c1c;
 }
 
 .dark {
@@ -28,6 +29,27 @@
   --orten-text: #f0ebe1;
   --orten-border: rgba(255, 255, 255, 0.1);
   --orten-muted: rgba(255, 255, 255, 0.5);
+  --orten-red: #ef4444;
+}
+
+@layer base {
+  header {
+    @apply transition-all duration-500 ease-in-out text-orten-text;
+  }
+  
+  /* Over Dark Backgrounds (like Hero) - Force White */
+  header.is-on-dark {
+    color: white !important;
+  }
+  
+  /* Red hover for Light Mode, Amber for Dark Mode */
+  header nav a:hover {
+    color: var(--orten-red) !important;
+  }
+}
+
+.dark header nav a:hover {
+  @apply text-orten-amber;
 }
 
 @layer base {
