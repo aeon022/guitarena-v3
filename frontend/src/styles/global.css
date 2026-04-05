@@ -34,10 +34,16 @@
 
 @theme {
   --animate-infinite-scroll: infinite-scroll 40s linear infinite;
+  --animate-float: float 10s ease-in-out infinite;
 
   @keyframes infinite-scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-100%); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-15px) rotate(3deg); }
   }
 }
 

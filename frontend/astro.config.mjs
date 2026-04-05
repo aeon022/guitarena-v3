@@ -5,6 +5,9 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://yard.starbase11.com',
+  base: '/html/guitarena',
+  trailingSlash: 'always',
   integrations: [
     icon(),
     /* 
