@@ -16,8 +16,11 @@ server {
     root /usr/share/nginx/html;
     index index.html;
     
+    # Verhindert, dass der interne Nginx auf HTTP umleitet
+    absolute_redirect off;
+
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri /index.html;
     }
 
     # Error pages
