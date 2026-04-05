@@ -1,4 +1,6 @@
 ---
+import ConsentExternalEmbed from './ConsentExternalEmbed.astro';
+
 interface Props {
   youtubeId: string;
   title: string;
@@ -10,86 +12,13 @@ const { youtubeId, title, containerClass = '', iframeClass = '' } = Astro.props;
 const iframeSrc = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${youtubeId}&rel=0&showinfo=0&enablejsapi=1`;
 ---
 
-<div
-  class:list={[
-    'js-consent-youtube absolute inset-0 z-0 overflow-hidden',
-    containerClass,
-  ]}
-  data-youtube-id={youtubeId}
-  data-youtube-title={title}
-  data-youtube-src={iframeSrc}
-  data-iframe-class={iframeClass}
->
-  <div class="absolute inset-0 flex items-end bg-gradient-to-t from-orten-bg/80 via-orten-bg/35 to-transparent p-6 md:p-8">
-    <div class="max-w-md rounded-[1.75rem] border border-orten-border bg-orten-bg/80 p-5 shadow-2xl backdrop-blur">
-      <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Externer Inhalt</p>
-      <h3 class="mb-3 text-2xl font-serif text-orten-text">YouTube-Video aktivieren</h3>
-      <p class="text-sm leading-relaxed text-orten-muted">
-        Mit dem Laden des Videos können personenbezogene Daten an YouTube bzw. Google übertragen werden.
-      </p>
-      <div class="mt-5 flex flex-col gap-3 sm:flex-row">
-        <button
-          type="button"
-          class="rounded-full bg-orten-amber px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-bg transition hover:brightness-105"
-          data-accept-media
-        >
-          Video laden
-        </button>
-        <a href={import.meta.env.BASE_URL + "cookies/"} class="rounded-full border border-orten-border/50 px-5 py-3 text-center font-mono text-[10px] uppercase tracking-[0.24em] text-orten-text/75 transition hover:border-orten-amber hover:text-orten-amber">
-          Mehr Infos
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  const CONSENT_COOKIE_NAME = 'guitarena_consent_media';
-
-  const readConsent = () => {
-    const match = document.cookie.match(new RegExp(`(?:^|; )${CONSENT_COOKIE_NAME}=([^;]*)`));
-    return match ? decodeURIComponent(match[1]) : null;
-  };
-
-  const writeConsent = (value) => {
-    document.cookie = `${CONSENT_COOKIE_NAME}=${encodeURIComponent(value)}; path=/; max-age=${60 * 60 * 24 * 180}; SameSite=Lax`;
-  };
-
-  const mountIframes = (scope = document) => {
-    const consent = readConsent();
-    if (consent !== 'accepted') return;
-
-    scope.querySelectorAll('.js-consent-youtube').forEach((node) => {
-      if (node.dataset.loaded === 'true') return;
-
-      const iframe = document.createElement('iframe');
-      iframe.src = node.dataset.youtubeSrc;
-      iframe.title = node.dataset.youtubeTitle || 'YouTube video';
-      iframe.allow = 'autoplay; encrypted-media';
-      iframe.setAttribute('frameborder', '0');
-      iframe.className = node.dataset.iframeClass || '';
-      node.innerHTML = '';
-      node.appendChild(iframe);
-      node.dataset.loaded = 'true';
-      node.dispatchEvent(new CustomEvent('guitarena:youtube-loaded', { bubbles: true }));
-    });
-  };
-
-  const initConsentEmbeds = () => {
-    document.querySelectorAll('.js-consent-youtube [data-accept-media]').forEach((button) => {
-      if (button.dataset.bound === 'true') return;
-      button.dataset.bound = 'true';
-      button.addEventListener('click', () => {
-        writeConsent('accepted');
-        document.dispatchEvent(new CustomEvent('guitarena:media-consent-changed', { detail: { granted: true } }));
-        mountIframes();
-      });
-    });
-
-    mountIframes();
-  };
-
-  initConsentEmbeds();
-  document.addEventListener('astro:after-swap', initConsentEmbeds);
-  document.addEventListener('guitarena:media-consent-changed', () => mountIframes());
-</script>
+<ConsentExternalEmbed
+  src={iframeSrc}
+  title={title}
+  headline="YouTube-Video aktivieren"
+  description="Mit dem Laden des Videos können personenbezogene Daten an YouTube bzw. Google übertragen werden."
+  acceptLabel="Video laden"
+  containerClass={containerClass}
+  iframeClass={iframeClass}
+  iframeAllow="autoplay; encrypted-media; picture-in-picture"
+/>

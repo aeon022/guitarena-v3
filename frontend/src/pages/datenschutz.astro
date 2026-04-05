@@ -17,7 +17,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <span class="block italic text-orten-amber">Klare Regeln.</span>
         </h1>
         <p class="mt-8 max-w-3xl border-l border-orten-border pl-6 text-sm leading-relaxed text-orten-muted md:pl-8">
-          Stand: 04. April 2026. Diese Datenschutzerklärung beschreibt, welche personenbezogenen Daten beim Besuch von guitarena.at verarbeitet werden und zu welchen Zwecken dies erfolgt.
+          Stand: 05. April 2026. Diese Datenschutzerklärung beschreibt, welche personenbezogenen Daten beim Besuch von guitarena.at verarbeitet werden und zu welchen Zwecken dies erfolgt.
         </p>
       </header>
 
@@ -41,8 +41,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <ul class="space-y-3 text-orten-muted/80">
             <li>Keine Webanalyse und kein Tracking zu Marketingzwecken.</li>
             <li>Keine externen Google Fonts beim Seitenaufruf.</li>
-            <li>YouTube-Inhalte werden erst nach Einwilligung geladen.</li>
+            <li>YouTube- und Google-Maps-Inhalte werden erst nach Einwilligung geladen.</li>
             <li>Kontaktaufnahme erfolgt ausschließlich über E-Mail-Links.</li>
+            <li>Die gewählte Darstellung Hell/Dunkel wird lokal im Browser gespeichert.</li>
           </ul>
         </div>
       </section>
@@ -75,10 +76,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="rounded-[2rem] border border-orten-border bg-gradient-to-br from-orten-card to-orten-bg p-8">
-          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Social Media</p>
-          <h2 class="mb-4 text-2xl font-serif text-orten-text">Externe Links</h2>
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Externe Inhalte</p>
+          <h2 class="mb-4 text-2xl font-serif text-orten-text">Google Maps und Social Links</h2>
           <p class="text-orten-muted">
-            Verlinkungen zu Facebook und X sind reine externe Links. Beim bloßen Besuch unserer Website werden dadurch keine Daten an diese Plattformen übertragen. Eine Datenübertragung findet erst statt, wenn Sie einen solchen Link aktiv anklicken.
+            Auf der Kontaktseite kann eine Karte von Google Maps geladen werden. Auch diese wird erst nach Ihrer Einwilligung angezeigt. Erst dann kann es zu einer Übertragung personenbezogener Daten an Google kommen. Verlinkungen zu Facebook und X sind hingegen reine externe Links; eine Datenübertragung findet dort erst statt, wenn Sie einen solchen Link aktiv anklicken.
           </p>
         </div>
       </section>
@@ -87,7 +88,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <p class="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Cookies & Einwilligung</p>
         <h2 class="mb-4 text-2xl font-serif text-orten-text">Nur für externe Medien</h2>
         <p class="text-orten-muted">
-          Diese Website verwendet keine Analyse- oder Marketing-Cookies. Sofern Sie YouTube-Inhalte freigeben, speichern wir lediglich Ihre Einwilligungsentscheidung in einem technisch einfachen First-Party-Cookie, damit die Auswahl nicht bei jedem Seitenaufruf erneut abgefragt werden muss. Details dazu finden Sie auf der
+          Diese Website verwendet keine Analyse- oder Marketing-Cookies. Sofern Sie YouTube- oder Google-Maps-Inhalte freigeben, speichern wir lediglich Ihre Einwilligungsentscheidung in einem technisch einfachen First-Party-Cookie, damit die Auswahl nicht bei jedem Seitenaufruf erneut abgefragt werden muss. Zusätzlich wird Ihr Theme-Wunsch lokal im Browser per Local Storage gespeichert. Details dazu finden Sie auf der
           <a href={import.meta.env.BASE_URL + "cookies/"} class="text-orten-amber transition hover:text-orten-text"> Cookie-Seite</a>.
         </p>
       </section>

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import CookieConsent from '../components/CookieConsent.astro';
+import FooterSignature from '../components/FooterSignature.astro';
 import Social from '../components/Social.astro';
 
 interface Props {
@@ -10,6 +11,17 @@ interface Props {
 }
 
 const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+
+const navItems = [
+	{ label: 'Home', href: base },
+	{ label: 'Programm', href: base + "programm/" },
+	{ label: 'Gästebuch', href: base + "gaestebuch/" },
+	{ label: 'Archiv', href: base + "archiv/" },
+	{ label: 'Über Uns', href: base + "about/" },
+	{ label: 'Kontakt', href: base + "kontakt/" },
+];
 ---
 
 <!doctype html>
@@ -17,8 +29,8 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/png" href={import.meta.env.BASE_URL + "favicon-32x32.png"} />
-		<link rel="apple-touch-icon" href={import.meta.env.BASE_URL + "apple-touch-icon.png"} />
+		<link rel="icon" type="image/png" href={base + "favicon-32x32.png"} />
+		<link rel="apple-touch-icon" href={base + "apple-touch-icon.png"} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Guitarena</title>
 		<meta name="description" content={description} />
@@ -26,200 +38,267 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 		<script is:inline>
 			const applyTheme = () => {
 				const theme = (() => {
-					if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-						return localStorage.getItem('theme');
-					}
-					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-						return 'dark';
-					}
+					if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) return localStorage.getItem('theme');
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
 					return 'light';
 				})();
-			
-				if (theme === 'light') {
-					document.documentElement.classList.remove('dark');
-				} else {
-					document.documentElement.classList.add('dark');
-				}
+				if (theme === 'light') document.documentElement.classList.remove('dark');
+				else document.documentElement.classList.add('dark');
 				window.localStorage.setItem('theme', theme);
 			};
-
 			applyTheme();
 			document.addEventListener('astro:after-swap', applyTheme);
 		</script>
 	</head>
-	<body class="min-h-screen flex flex-col selection:bg-orten-amber selection:text-orten-bg">
+	<body class="min-h-screen flex flex-col selection:bg-orten-amber selection:text-orten-bg overflow-x-hidden">
 		
-		<header id="main-header" class="w-full px-8 py-8 md:px-16 flex justify-between items-center fixed top-0 z-50 transition-all duration-500 ease-in-out">
-			<a href={import.meta.env.BASE_URL} class="header-logo group flex items-baseline text-xl font-bold tracking-tighter uppercase drop-shadow-md">
+		<header id="main-header" class="w-full px-8 py-8 md:px-16 flex justify-between items-center fixed top-0 z-50 transition-all duration-1000 ease-in-out">
+			<!-- Logo -->
+			<a href={base} id="header-logo" class="header-logo group flex items-baseline text-xl font-bold tracking-tighter uppercase drop-shadow-md z-[60]">
 				<span class="flex overflow-hidden">
 					{"Guitarena".split("").map((char, i) => (
-						<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
-							{char}
-						</span>
+						<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>{char}</span>
 					))}
 				</span>
 				<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
 			</a>
-			<div class="flex items-center gap-8">
-				<nav class="hidden md:flex gap-8 font-mono text-xs uppercase tracking-[0.2em] drop-shadow-md">
-					<a href={import.meta.env.BASE_URL + "programm/"} class="transition-colors">Programm</a>
-					<a href={import.meta.env.BASE_URL + "gaestebuch/"} class="transition-colors">Gästebuch</a>
-					<a href={import.meta.env.BASE_URL + "archiv/"} class="transition-colors">Archiv</a>
-					<a href={import.meta.env.BASE_URL + "about/"} class="transition-colors">Über Uns</a>
-					<a href={import.meta.env.BASE_URL + "kontakt/"} class="transition-colors">Kontakt</a>
-				</nav>
+
+			<!-- Interaction Container -->
+			<div id="header-nav-container" class="flex items-center gap-4 group/nav">
 				
-				<div id="theme-switcher-container" class="flex items-center border border-orten-border rounded-full px-2 py-1 gap-1 transition-colors bg-black/5 backdrop-blur-sm shadow-sm">
-					<button id="theme-light" class="p-1 rounded-full hover:bg-orten-text/10 transition-colors" title="Light Mode">
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+				<!-- Desktop Navigation: Morphing Width & Opacity -->
+				<div id="nav-pill-wrapper" class="hidden lg:flex items-center transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden max-w-[1000px] opacity-100">
+					<nav id="desktop-nav" class="flex items-center gap-8 font-mono text-xs uppercase tracking-[0.2em] drop-shadow-md px-4">
+						{navItems.map(item => (
+							<a href={item.href} class="transition-colors hover:text-[var(--orten-red)] text-current whitespace-nowrap">{item.label}</a>
+						))}
+					</nav>
+				</div>
+
+				<!-- Satellite Actions (Button & Switcher) -->
+				<div id="satellite-ui" class="flex items-center gap-2 transition-all duration-1000 ease-in-out">
+					<!-- Compact Menu Trigger (Desktop only, visible when collapsed) -->
+					<button id="desktop-menu-trigger" class="hidden lg:flex w-0 h-10 opacity-0 scale-50 items-center justify-center rounded-full text-orten-text transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden cursor-pointer hover:text-orten-amber">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
 					</button>
-					<button id="theme-dark" class="p-1 rounded-full hover:bg-orten-text/10 transition-colors" title="Dark Mode">
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-					</button>
-					<button id="theme-system" class="p-1 rounded-full hover:bg-orten-text/10 transition-colors" title="System Settings">
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-					</button>
+
+					<!-- Theme Switcher Pill -->
+					<div id="theme-pill" class="flex items-center border border-orten-border/20 rounded-full px-2 py-1 gap-1 transition-all duration-1000 bg-black/5 backdrop-blur-sm shadow-sm">
+						<button data-set-theme="light" class="p-1.5 rounded-full hover:bg-orten-text/10 transition-colors cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+						<button data-set-theme="dark" class="p-1.5 rounded-full hover:bg-orten-text/10 transition-colors cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+						<button data-set-theme="system" class="p-1.5 rounded-full hover:bg-orten-text/10 transition-colors cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+					</div>
+				</div>
+
+				<!-- Mobile Hamburger (Independent) -->
+				<button id="mobile-toggle" class="lg:hidden p-2 text-current cursor-pointer z-[60]">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+				</button>
+			</div>
+
+			<!-- Mobile Menu Overlay -->
+			<div id="mobile-menu" class="fixed inset-0 bg-orten-bg z-[100] flex flex-col items-center justify-center translate-x-full transition-transform duration-500 lg:hidden">
+				<button id="mobile-close" class="absolute top-8 right-8 p-4 text-orten-text hover:text-orten-amber transition-colors cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+				<nav class="flex flex-col items-center gap-8 font-serif text-4xl">
+					{navItems.map(item => (<a href={item.href} class="mobile-nav-link text-orten-text hover:text-orten-amber transition-colors italic">{item.label}</a>))}
+				</nav>
+				<div class="mt-16 flex items-center border border-orten-border rounded-full px-4 py-2 gap-4 bg-orten-card">
+					<button data-set-theme="light" class="p-2 rounded-full hover:bg-orten-text/10 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+					<button data-set-theme="dark" class="p-2 rounded-full hover:bg-orten-text/10 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+					<button data-set-theme="system" class="p-2 rounded-full hover:bg-orten-text/10 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
 				</div>
 			</div>
 		</header>
 
-		<main>
-			<slot />
-		</main>
+		<!-- States for the Header (Managed via JS) -->
+		<style is:global>
+			/* Desktop Collapsed State */
+			header.is-collapsed #nav-pill-wrapper {
+				max-width: 0;
+				opacity: 0;
+				pointer-events: none;
+			}
+			header.is-collapsed #desktop-menu-trigger {
+				width: 40px;
+				opacity: 1;
+				scale: 1;
+				margin-right: 8px;
+			}
+			header.is-collapsed #theme-pill {
+				background: var(--orten-card);
+				backdrop-filter: blur(20px);
+				border-color: var(--orten-amber);
+				box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+			}
+		</style>
+
+		<main><slot /></main>
 
 		<footer class="bg-orten-card pt-24 pb-12 px-8 md:px-16 border-t border-orten-border">
 			<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 border-b border-orten-border pb-16">
-				<div>
-					<a href={import.meta.env.BASE_URL} class="footer-logo group flex items-baseline text-3xl font-serif tracking-tight mb-4 text-orten-text transition-colors">
-						<span class="flex overflow-hidden">
-							{"Guitarena".split("").map((char, i) => (
-								<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
-									{char}
-								</span>
-							))}
-						</span>
-						<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
-					</a>
-					<p class="text-orten-text/80 font-light max-w-xs leading-relaxed">
-						Kulturinitiative Spittal a. d. Drau.<br>
-						Musik, die bleibt.
-					</p>
-				</div>
-
-				<div class="md:text-right flex flex-col md:items-end gap-6">
-					<div>
-						<p class="font-mono text-orten-muted text-[10px] mb-2 uppercase tracking-[0.2em]">Kartenreservierung</p>
-						<a href="mailto:karten@porcia.at" class="text-2xl md:text-3xl font-serif text-orten-text hover:text-orten-amber transition-colors italic leading-none">karten@porcia.at</a>
+				<div class="flex items-start gap-6">
+					<div class="relative group">
+						<img 
+							src={base + "icon-512.png"} 
+							alt="Guitarena Logo" 
+							class="w-16 h-16 object-contain opacity-90 group-hover:opacity-100 transition-all duration-700 animate-float group-hover:scale-110 group-hover:[filter:drop-shadow(0_0_15px_rgba(232,139,58,0.4))]"
+						/>
 					</div>
-					<a href={import.meta.env.BASE_URL + "kontakt/"} class="inline-flex items-center px-8 py-4 rounded-full border border-orten-border font-mono text-[10px] uppercase tracking-[0.3em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-all">
-						Kontakt & Anfahrt
-					</a>
+					<div>
+						<a href={base} class="footer-logo group flex items-baseline text-xl font-bold tracking-tighter uppercase text-orten-text transition-colors">
+							<span class="flex overflow-hidden">
+								{"Guitarena".split("").map((char, i) => (
+									<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>{char}</span>
+								))}
+							</span>
+							<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
+						</a>
+						<p class="text-orten-text/80 font-light max-w-xs leading-relaxed mt-4">Kulturinitiative Spittal a. d. Drau.<br>Musik, die bleibt.</p>
+					</div>
+				</div>
+				<div class="md:text-right flex flex-col md:items-end gap-6">
+					<div><p class="font-mono text-orten-muted text-[10px] mb-2 uppercase tracking-[0.2em]">Kartenreservierung</p><a href="mailto:karten@porcia.at" class="text-2xl md:text-3xl font-serif text-orten-text hover:text-orten-amber transition-colors italic leading-none">karten@porcia.at</a></div>
+					<a href={base + "kontakt/"} class="inline-flex items-center px-8 py-4 rounded-full border border-orten-border font-mono text-[10px] uppercase tracking-[0.3em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-all">Kontakt & Anfahrt</a>
 				</div>
 			</div>
-			
 			<div class="max-w-6xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center font-mono text-xs uppercase tracking-widest text-orten-muted gap-4">
 				<span>&copy; {new Date().getFullYear()} Guitarena</span>
 				<Social />
 				<div class="flex gap-8 text-[10px]">
-					<a href={import.meta.env.BASE_URL + "impressum/"} class="hover:text-orten-text transition-colors">Impressum</a>
-					<a href={import.meta.env.BASE_URL + "datenschutz/"} class="hover:text-orten-text transition-colors">Datenschutz</a>
-					<a href={import.meta.env.BASE_URL + "cookies/"} class="hover:text-orten-text transition-colors">Cookies</a>
+					<a href={base + "impressum/"} class="hover:text-orten-text transition-colors">Impressum</a>
+					<a href={base + "datenschutz/"} class="hover:text-orten-text transition-colors">Datenschutz</a>
+					<a href={base + "cookies/"} class="hover:text-orten-text transition-colors">Cookies</a>
 					<button type="button" data-open-cookie-settings class="hover:text-orten-text transition-colors cursor-pointer">Cookie-Einstellungen</button>
 				</div>
 			</div>
 		</footer>
+		<FooterSignature />
 		<CookieConsent />
 
 		<script>
+			// Global Audio Controller for all Hero Videos
+			const handleAudioToggle = (e: MouseEvent) => {
+				const btn = (e.target as HTMLElement).closest('[data-audio-toggle]');
+				if (!btn) return;
+
+				const container = btn.closest('section');
+				if (!container) return;
+
+				const video = container.querySelector('video');
+				const iframe = container.querySelector('iframe');
+				const mutedIcon = btn.querySelector('[data-icon-muted]');
+				const playingIcon = btn.querySelector('[data-icon-playing]');
+
+				const isMuted = !mutedIcon?.classList.contains('hidden');
+
+				// UI Update
+				mutedIcon?.classList.toggle('hidden');
+				playingIcon?.classList.toggle('hidden');
+				(btn as HTMLElement).title = isMuted ? "Stummschalten" : "Ton einschalten";
+
+				// Action
+				if (video) {
+					video.muted = !isMuted;
+					if (video.paused) video.play().catch(() => {});
+				} else if (iframe && iframe.contentWindow) {
+					iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+					const command = isMuted ? 'unMute' : 'mute';
+					iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: command, args: [] }), '*');
+					if (isMuted) {
+						iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [100] }), '*');
+					} else {
+						iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [0] }), '*');
+					}
+				}
+			};
+
+			document.addEventListener('click', handleAudioToggle);
+
 			const initHeader = () => {
 				const header = document.getElementById('main-header');
-				const themeContainer = document.getElementById('theme-switcher-container');
+				const desktopTrigger = document.getElementById('desktop-menu-trigger');
+				const mobileToggle = document.getElementById('mobile-toggle');
+				const mobileMenu = document.getElementById('mobile-menu');
+				const mobileClose = document.getElementById('mobile-close');
 				
+				let lastScrollY = window.scrollY;
+				let scrollTimeout: any;
+
+				const handleScroll = () => {
+					const currentScrollY = window.scrollY;
+					
+					// Expand on Scroll Up
+					if (currentScrollY < lastScrollY || currentScrollY < 100) {
+						header?.classList.remove('is-collapsed');
+						clearTimeout(scrollTimeout);
+					} 
+					// Collapse on Scroll Down after 1.5s
+					else if (currentScrollY > 100) {
+						clearTimeout(scrollTimeout);
+						scrollTimeout = setTimeout(() => {
+							header?.classList.add('is-collapsed');
+						}, 1500);
+					}
+					lastScrollY = currentScrollY;
+				};
+
+				window.addEventListener('scroll', handleScroll, { passive: true });
+				
+				// DESKTOP: Click satellite button to expand
+				desktopTrigger?.addEventListener('click', () => {
+					header?.classList.remove('is-collapsed');
+				});
+
+				// MOBIL: Click Hamburger for Overlay
+				const toggleMobile = () => {
+					mobileMenu?.classList.toggle('translate-x-full');
+					document.body.style.overflow = mobileMenu?.classList.contains('translate-x-full') ? '' : 'hidden';
+				};
+				mobileToggle?.addEventListener('click', toggleMobile);
+				mobileClose?.addEventListener('click', toggleMobile);
+				document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', toggleMobile));
+
+				// Intersection Observer for color switching
 				const observer = new IntersectionObserver((entries) => {
 					entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							header?.classList.add('is-on-dark');
-							themeContainer?.classList.remove('border-orten-border');
-							themeContainer?.classList.add('border-white/20');
-						} else {
-							header?.classList.remove('is-on-dark');
-							themeContainer?.classList.add('border-orten-border');
-							themeContainer?.classList.remove('border-white/20');
-						}
+						if (entry.isIntersecting) header?.classList.add('is-on-dark');
+						else header?.classList.remove('is-on-dark');
 					});
-				}, {
-					rootMargin: '-80px 0px 0px 0px', // Trigger when header leaves/enters section
-					threshold: 0
-				});
-
-				document.querySelectorAll('[data-dark-bg]').forEach(section => observer.observe(section));
+				}, { rootMargin: '-80px 0px 0px 0px' });
+				document.querySelectorAll('[data-dark-bg]').forEach(s => observer.observe(s));
 			};
 
-			const initThemeSwitcher = () => {
-				const lightBtn = document.getElementById('theme-light');
-				const darkBtn = document.getElementById('theme-dark');
-				const systemBtn = document.getElementById('theme-system');
-
-				const setTheme = (theme: 'light' | 'dark' | 'system') => {
+			const initTheme = () => {
+				const buttons = document.querySelectorAll('[data-set-theme]');
+				const update = () => {
+					const t = localStorage.getItem('theme') || 'system';
+					const isDark = document.documentElement.classList.contains('dark');
+					buttons.forEach(b => {
+						const bt = (b as HTMLElement).dataset.setTheme;
+						b.classList.remove('bg-white/20', 'bg-orten-text/10', 'text-orten-amber', 'text-orten-red');
+						if (bt === t) b.classList.add(isDark ? 'bg-white/20' : 'bg-orten-text/10', isDark ? 'text-orten-amber' : 'text-orten-red');
+					});
+				};
+				buttons.forEach(b => b.addEventListener('click', () => {
+					const t = (b as HTMLElement).dataset.setTheme;
 					document.documentElement.classList.add('is-transitioning');
-					
-					if (theme === 'system') {
+					if (t === 'system') {
 						localStorage.removeItem('theme');
-						if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-							document.documentElement.classList.add('dark');
-						} else {
-							document.documentElement.classList.remove('dark');
-						}
-					} else {
-						localStorage.setItem('theme', theme);
-						if (theme === 'dark') {
-							document.documentElement.classList.add('dark');
-						} else {
-							document.documentElement.classList.remove('dark');
-						}
-					}
-					
-					updateActiveButton();
-					
-					setTimeout(() => {
-						document.documentElement.classList.remove('is-transitioning');
-					}, 700);
-				};
-
-				const updateActiveButton = () => {
-					const theme = localStorage.getItem('theme') || 'system';
-					[lightBtn, darkBtn, systemBtn].forEach(btn => btn?.classList.remove('bg-white/20', 'bg-orten-text/10', 'text-orten-amber', 'text-orten-red'));
-					
-					const activeClass = document.documentElement.classList.contains('dark') ? 'text-orten-amber' : 'text-orten-red';
-					const bgClass = document.documentElement.classList.contains('dark') ? 'bg-white/20' : 'bg-orten-text/10';
-
-					if (theme === 'light') { lightBtn?.classList.add(bgClass, activeClass); }
-					else if (theme === 'dark') { darkBtn?.classList.add(bgClass, activeClass); }
-					else { systemBtn?.classList.add(bgClass, activeClass); }
-				};
-
-				lightBtn?.addEventListener('click', () => setTheme('light'));
-				darkBtn?.addEventListener('click', () => setTheme('dark'));
-				systemBtn?.addEventListener('click', () => setTheme('system'));
-
-				updateActiveButton();
-
-				// Listen for system theme changes if in system mode
-				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-					if (!localStorage.getItem('theme')) {
-						if (e.matches) document.documentElement.classList.add('dark');
+						if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.classList.add('dark');
 						else document.documentElement.classList.remove('dark');
-						updateActiveButton();
+					} else {
+						localStorage.setItem('theme', t as string);
+						if (t === 'dark') document.documentElement.classList.add('dark');
+						else document.documentElement.classList.remove('dark');
 					}
-				});
+					update();
+					setTimeout(() => document.documentElement.classList.remove('is-transitioning'), 700);
+				}));
+				update();
 			};
 
-			initHeader();
-			initThemeSwitcher();
-			document.addEventListener('astro:after-swap', () => {
-				initHeader();
-				initThemeSwitcher();
-			});
+			initHeader(); initTheme();
+			document.addEventListener('astro:after-swap', () => { initHeader(); initTheme(); });
 		</script>
 	</body>
 </html>

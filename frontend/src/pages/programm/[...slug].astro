@@ -6,34 +6,26 @@ import { formatDate, formatTime } from '../../utils/date';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
-
   return events.map((event) => ({
     params: { slug: event.id },
   }));
 }
 
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 const slugParam = Astro.params.slug;
 const slug = Array.isArray(slugParam) ? slugParam.join('/') : slugParam;
 
-if (!slug) {
-  return Astro.redirect('/404');
-}
-
+if (!slug) return Astro.redirect(base + '404/');
 const event = await getEntry('events', slug);
-
-if (!event) {
-  return Astro.redirect('/404');
-}
+if (!event) return Astro.redirect(base + '404/');
 
 const { title, date, location, image, video } = event.data;
 const { Content } = await render(event);
 
-// Split title
 const titleParts = title.split(' ');
 const firstName = titleParts[0];
 const lastName = titleParts.slice(1).join(' ');
 
-// Media Logic
 const isYouTube = video?.includes('youtube.com') || video?.includes('youtu.be');
 let youtubeId = '';
 if (isYouTube && video) {
@@ -44,16 +36,15 @@ if (isYouTube && video) {
 const backgroundImage = image?.startsWith('http') 
   ? image 
   : image 
-    ? import.meta.env.BASE_URL + `images/events/${image}` 
-    : import.meta.env.BASE_URL + `images/hero.webp`;
+    ? base + `images/events/${image}` 
+    : base + `images/hero.webp`;
     
-const imageUrl = image?.startsWith('http') ? image : import.meta.env.BASE_URL + `images/events/${image}`;
+const imageUrl = image?.startsWith('http') ? image : base + `images/events/${image}`;
 ---
 
 <BaseLayout title={title}>
   <article class="relative min-h-screen">
     
-    <!-- Dynamic Hero Section (Always Dark) -->
     <section data-dark-bg class="relative h-[70vh] md:h-[85vh] flex flex-col justify-end overflow-hidden bg-[#110e0d]">
       <div id="detail-fallback" class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity z-0" style={`background-image: url('${backgroundImage}')`}></div>
 
@@ -77,12 +68,29 @@ const imageUrl = image?.startsWith('http') ? image : import.meta.env.BASE_URL + 
         </div>
       )}
 
+      <!-- Audio Toggle Button -->
+      {video && (
+        <button 
+          data-audio-toggle
+          class="absolute bottom-12 right-8 md:right-16 z-20 flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-black/20 backdrop-blur-md text-white/60 hover:text-orten-amber hover:border-orten-amber/40 transition-all cursor-pointer group"
+          title="Ton einschalten"
+        >
+          <span class="font-mono text-[10px] uppercase tracking-[0.2em] hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">Audio</span>
+          <div data-icon-muted>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </div>
+          <div data-icon-playing class="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 10 0 0 1 0 7.07"></path></svg>
+          </div>
+        </button>
+      )}
+
       <div class="absolute inset-0 bg-gradient-to-t from-[#110e0d] via-[#110e0d]/40 to-transparent z-5"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-[#110e0d]/50 via-transparent to-transparent z-5"></div>
       <div class="absolute inset-0 bg-radial from-transparent via-[#110e0d]/20 to-[#110e0d] opacity-90 z-5"></div>
 
       <div class="relative z-10 max-w-6xl mx-auto w-full px-8 md:px-16 pb-16">
-        <a href={import.meta.env.BASE_URL + "programm/"} class="group inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/60 hover:text-orten-amber transition-colors mb-12">
+        <a href={base + "programm/"} class="group inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/60 hover:text-orten-amber transition-colors mb-12">
           <span class="group-hover:-translate-x-1 transition-transform">←</span> Zurück zum Programm
         </a>
         <div class="flex items-center gap-4 mb-8">
@@ -104,7 +112,6 @@ const imageUrl = image?.startsWith('http') ? image : import.meta.env.BASE_URL + 
           <div class="prose prose-orten max-w-none prose-lg md:prose-xl text-orten-text">
             <Content />
           </div>
-
           {video && image && (
             <div class="mt-16 pt-16 border-t border-orten-border">
               <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted block mb-8">Impression</span>
@@ -119,29 +126,17 @@ const imageUrl = image?.startsWith('http') ? image : import.meta.env.BASE_URL + 
         <aside class="sticky top-32">
           <div class="bg-orten-card/30 backdrop-blur-sm p-10 rounded-3xl border border-orten-border/50 shadow-xl relative overflow-hidden group transition-all duration-500 hover:shadow-orten-amber/5 hover:bg-orten-card/50">
             <div class="absolute -top-24 -right-24 w-48 h-48 bg-orten-amber/5 rounded-full blur-3xl group-hover:bg-orten-amber/15 transition-all duration-700"></div>
-            
             <h3 class="font-serif text-2xl text-orten-text mb-2">Reservierung</h3>
             <p class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Ortenburgerkeller</p>
-            
-            <p class="text-sm text-orten-muted leading-relaxed mb-10 font-light italic">
-              Erleben Sie die Weltelite der Gitarrenmusik im intimen Rahmen des historischen Schlosses.
-            </p>
-            
+            <p class="text-sm text-orten-muted leading-relaxed mb-10 font-light italic">Erleben Sie die Weltelite der Gitarrenmusik im intimen Rahmen des historischen Schlosses.</p>
             <a href="mailto:karten@porcia.at" class="group relative flex items-center justify-center w-full py-5 rounded-full border border-orten-text/20 hover:border-orten-amber hover:bg-orten-amber transition-all duration-500 ease-out overflow-hidden">
               <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-[#110e0d] transition-colors font-bold z-10 text-orten-text">Tickets</span>
               <div class="absolute inset-0 bg-orten-amber translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
             </a>
-            
             <div class="mt-12 pt-8 border-t border-orten-border/50">
               <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-3 text-[10px] font-mono text-orten-muted uppercase tracking-[0.2em]">
-                  <span class="text-orten-amber">Einlass /</span>
-                  <span>19:00 Uhr</span>
-                </div>
-                <div class="flex items-center gap-3 text-[10px] font-mono text-orten-muted uppercase tracking-[0.2em]">
-                  <span class="text-orten-amber">Beginn /</span>
-                  <span>19:30 Uhr</span>
-                </div>
+                <div class="flex items-center gap-3 text-[10px] font-mono text-orten-muted uppercase tracking-[0.2em]"><span class="text-orten-amber">Einlass /</span><span>19:00 Uhr</span></div>
+                <div class="flex items-center gap-3 text-[10px] font-mono text-orten-muted uppercase tracking-[0.2em]"><span class="text-orten-amber">Beginn /</span><span>19:30 Uhr</span></div>
               </div>
             </div>
           </div>
@@ -152,21 +147,33 @@ const imageUrl = image?.startsWith('http') ? image : import.meta.env.BASE_URL + 
 </BaseLayout>
 
 <script>
+  const postYouTubePlaybackSetup = (iframe) => {
+    if (!iframe?.contentWindow) return;
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [0] }), '*');
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+  };
+
   const initDetailHero = () => {
     const fallback = document.getElementById('detail-fallback');
     const video = document.getElementById('detail-video') as HTMLVideoElement;
     const iframe = document.querySelector('#detail-video-container iframe') as HTMLIFrameElement;
     if (fallback) {
       if (video) {
+        video.play().catch(() => {});
         video.addEventListener('playing', () => fallback.style.opacity = '0');
         if (video.readyState >= 3) fallback.style.opacity = '0';
       }
       if (iframe) {
-        iframe.addEventListener('load', () => setTimeout(() => fallback.style.opacity = '0', 1500));
+        iframe.addEventListener('load', () => {
+          postYouTubePlaybackSetup(iframe);
+          setTimeout(() => fallback.style.opacity = '0', 1500);
+        }, { once: true });
+        postYouTubePlaybackSetup(iframe);
       }
     }
   };
   initDetailHero();
   document.addEventListener('astro:after-swap', initDetailHero);
-  document.addEventListener('guitarena:youtube-loaded', initDetailHero);
+  document.addEventListener('guitarena:external-embed-loaded', initDetailHero);
 </script>

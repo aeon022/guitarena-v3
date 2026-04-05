@@ -9,14 +9,14 @@ interface Props {
 
 const { event } = Astro.props;
 
-// Split title for the two-line design
+// Split title
 const titleParts = event.title.split(' ');
 const firstName = titleParts[0];
 const lastName = titleParts.slice(1).join(' ');
 
+// Media Logic
 const isYouTube = event.video?.includes('youtube.com') || event.video?.includes('youtu.be');
 let youtubeId = '';
-
 if (isYouTube && event.video) {
   const match = event.video.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
   youtubeId = match ? match[1] : '';
@@ -26,7 +26,7 @@ const backgroundImage = event.image?.startsWith('http')
   ? event.image 
   : event.image 
     ? import.meta.env.BASE_URL + `images/events/${event.image}` 
-    : import.meta.env.BASE_URL + 'images/hero.webp';
+    : import.meta.env.BASE_URL + `images/hero.webp`;
 ---
 
 <section data-dark-bg class="relative h-screen flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-[#110e0d]">
@@ -64,6 +64,23 @@ const backgroundImage = event.image?.startsWith('http')
         </video>
       )}
     </div>
+  )}
+
+  <!-- Audio Toggle Button -->
+  {event.video && (
+    <button 
+      data-audio-toggle
+      class="absolute bottom-12 right-8 md:right-16 z-20 flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-black/20 backdrop-blur-md text-white/60 hover:text-orten-amber hover:border-orten-amber/40 transition-all cursor-pointer group"
+      title="Ton einschalten"
+    >
+      <span class="font-mono text-[10px] uppercase tracking-[0.2em] hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">Audio</span>
+      <div data-icon-muted>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+      </div>
+      <div data-icon-playing class="hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 10 0 0 1 0 7.07"></path></svg>
+      </div>
+    </button>
   )}
 
   <div class="absolute inset-0 bg-gradient-to-t from-[#110e0d] via-[#110e0d]/60 to-transparent z-5"></div>
@@ -125,18 +142,14 @@ const backgroundImage = event.image?.startsWith('http')
   </article>
 </section>
 
-<style>
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  [data-astro-transition-scope="hero-details"] {
-    view-transition-name: hero-details;
-  }
-</style>
-
 <script>
+  const postYouTubePlaybackSetup = (iframe) => {
+    if (!iframe?.contentWindow) return;
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'setVolume', args: [0] }), '*');
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+  };
+
   const initHero = () => {
     const fallback = document.getElementById('hero-fallback');
     const video = document.getElementById('hero-video') as HTMLVideoElement;
@@ -144,16 +157,21 @@ const backgroundImage = event.image?.startsWith('http')
 
     if (fallback) {
       if (video) {
+        video.play().catch(() => {});
         video.addEventListener('playing', () => fallback.style.opacity = '0');
         if (video.readyState >= 3) fallback.style.opacity = '0';
       }
       if (iframe) {
-        iframe.addEventListener('load', () => setTimeout(() => fallback.style.opacity = '0', 1500));
+        iframe.addEventListener('load', () => {
+          postYouTubePlaybackSetup(iframe);
+          setTimeout(() => fallback.style.opacity = '0', 1500);
+        }, { once: true });
+        postYouTubePlaybackSetup(iframe);
       }
     }
   };
 
   initHero();
   document.addEventListener('astro:after-swap', initHero);
-  document.addEventListener('guitarena:youtube-loaded', initHero);
+  document.addEventListener('guitarena:external-embed-loaded', initHero);
 </script>

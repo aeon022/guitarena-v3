@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ConsentExternalEmbed from '../components/ConsentExternalEmbed.astro';
 import Social from '../components/Social.astro';
 ---
 
-<BaseLayout title="Kontakt & Anfahrt">
+<BaseLayout title="Anfahrt & Kontakt">
   <main class="pt-32 pb-24 px-8 md:px-16 max-w-7xl mx-auto">
     
     <!-- Header Section -->
@@ -13,7 +14,7 @@ import Social from '../components/Social.astro';
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Kontakt</span>
       </div>
       <h1 class="text-6xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-12">
-        Anfahrt & <span class="italic text-orten-amber">Dialog</span>
+        Anfahrt & <span class="italic text-orten-amber">Kontakt</span>
       </h1>
     </header>
 
@@ -27,19 +28,22 @@ import Social from '../components/Social.astro';
           <div class="relative z-10 space-y-12">
             <div>
               <h3 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Adresse</h3>
-              <p class="text-2xl md:text-3xl font-serif text-orten-text leading-tight">
-                Guitarena, Schloss Porcia<br>
-                Burgplatz 1<br>
-                9800 Spittal an der Drau
-              </p>
+              <div class="text-orten-text leading-tight">
+                <p class="text-3xl md:text-4xl font-serif mb-2">Guitarena</p>
+                <p class="text-xl md:text-2xl font-serif opacity-80">
+                  Schloss Porcia<br>
+                  Burgplatz 1<br>
+                  9800 Spittal an der Drau
+                </p>
+              </div>
             </div>
 
             <div>
               <h3 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Direkter Kontakt</h3>
-              <a href="mailto:weiher.hartwig@gmail.com" class="text-xl md:text-2xl font-serif text-orten-text hover:text-orten-amber transition-colors italic border-b border-orten-border pb-2 block w-fit">
-                weiher.hartwig@gmail.com
+              <a href="mailto:hallo@guitarena.at" class="text-xl md:text-2xl font-serif text-orten-text hover:text-orten-amber transition-colors italic border-b border-orten-border pb-2 block w-fit">
+                hallo@guitarena.at
               </a>
-              <p class="text-xs text-orten-muted mt-4 font-mono uppercase tracking-widest">Hartwig Weiher, Intendanz</p>
+              <p class="text-xs text-orten-muted mt-4 font-mono uppercase tracking-widest">Hartwig Weiher</p>
             </div>
 
             <div>
@@ -63,16 +67,15 @@ import Social from '../components/Social.astro';
           <!-- Custom Map Styling Filter Overlay -->
           <div class="absolute inset-0 z-10 pointer-events-none mix-blend-color bg-orten-bg/20"></div>
           
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2731.341424343144!2d13.49555137688142!3d46.79758197113114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4770990df06ba99b%3A0x496ce0fc9df0600a!2sSchloss%20Porcia!5e0!3m2!1sde!2sat!4v1712260000000!5m2!1sde!2sat" 
-            width="100%" 
-            height="100%" 
-            style="border:0; filter: grayscale(1) contrast(1.2) invert(0.9) opacity(0.8);" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade"
-            class="transition-all duration-1000 group-hover:opacity-100 group-hover:grayscale-0 group-hover:invert-0"
-          ></iframe>
+          <ConsentExternalEmbed
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2731.341424343144!2d13.49555137688142!3d46.79758197113114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4770990df06ba99b%3A0x496ce0fc9df0600a!2sSchloss%20Porcia!5e0!3m2!1sde!2sat!4v1712260000000!5m2!1sde!2sat"
+            title="Google Maps Anfahrt zu Schloss Porcia"
+            headline="Karte aktivieren"
+            description="Mit dem Laden der Karte können personenbezogene Daten an Google übertragen werden. Die Karte wird erst nach Ihrer Zustimmung angezeigt."
+            acceptLabel="Karte laden"
+            containerClass="pointer-events-auto"
+            iframeClass="h-full w-full transition-all duration-1000 group-hover:opacity-100"
+          />
           
           <div class="absolute bottom-8 left-8 z-20 bg-orten-bg/90 backdrop-blur-md border border-orten-border px-6 py-3 rounded-full shadow-xl">
             <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber italic">Anfahrt / Ortenburgerkeller</span>
@@ -90,20 +93,10 @@ import Social from '../components/Social.astro';
                 <p class="text-white/60 font-light leading-relaxed max-w-md">Der Ortenburgerkeller befindet sich direkt unter dem Schloss Porcia. Parkplätze finden Sie in unmittelbarer Nähe im Stadtzentrum von Spittal.</p>
             </div>
             <div class="aspect-video rounded-2xl overflow-hidden border border-white/10">
-                <img src={import.meta.env.BASE_URL + "images/events/archiv/archiv_floor.webp"} alt="Ortenburgerkeller" class="w-full h-full object-cover opacity-50 grayscale" />
+                <img src={import.meta.env.BASE_URL + "images/hero.webp"} alt="Ortenburgerkeller" class="w-full h-full object-cover opacity-50 grayscale" />
             </div>
         </div>
     </section>
 
   </main>
 </BaseLayout>
-
-<style>
-    /* Prevent iframe interaction when just scrolling */
-    iframe {
-        pointer-events: none;
-    }
-    .group:hover iframe {
-        pointer-events: auto;
-    }
-</style>
