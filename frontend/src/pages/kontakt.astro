@@ -2,6 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ConsentExternalEmbed from '../components/ConsentExternalEmbed.astro';
 import Social from '../components/Social.astro';
+import { getResponsiveImage } from '../utils/responsiveImages';
+
+const heroImage = getResponsiveImage('/images/hero.webp', '(min-width: 768px) 50vw, 100vw');
 ---
 
 <BaseLayout
@@ -31,7 +34,7 @@ import Social from '../components/Social.astro';
           
           <div class="relative z-10 space-y-12">
             <div>
-              <h3 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Adresse</h3>
+              <h2 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Adresse</h2>
               <div class="text-orten-text leading-tight">
                 <p class="text-3xl md:text-4xl font-serif mb-2">Guitarena</p>
                 <p class="text-xl md:text-2xl font-serif opacity-80">
@@ -43,7 +46,7 @@ import Social from '../components/Social.astro';
             </div>
 
             <div>
-              <h3 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Direkter Kontakt</h3>
+              <h2 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Direkter Kontakt</h2>
               <a href="mailto:hallo@guitarena.at" class="text-xl md:text-2xl font-serif text-orten-text hover:text-orten-amber transition-colors italic border-b border-orten-border pb-2 block w-fit">
                 hallo@guitarena.at
               </a>
@@ -51,7 +54,7 @@ import Social from '../components/Social.astro';
             </div>
 
             <div>
-              <h3 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Kartenreservierung</h3>
+              <h2 class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Kartenreservierung</h2>
               <a href="mailto:karten@porcia.at" class="text-xl md:text-2xl font-serif text-orten-text hover:text-orten-amber transition-colors italic border-b border-orten-border pb-2 block w-fit">
                 karten@porcia.at
               </a>
@@ -97,7 +100,9 @@ import Social from '../components/Social.astro';
                 <p class="text-white/60 font-light leading-relaxed max-w-md">Der Ortenburgerkeller befindet sich direkt unter dem Schloss Porcia. Parkplätze finden Sie in unmittelbarer Nähe im Stadtzentrum von Spittal.</p>
             </div>
             <div class="aspect-video rounded-2xl overflow-hidden border border-white/10">
-                <img src={import.meta.env.BASE_URL + "images/hero.webp"} alt="Ortenburgerkeller" class="w-full h-full object-cover opacity-50 grayscale" />
+                {heroImage && (
+                  <img src={heroImage.src} srcset={heroImage.srcset} sizes={heroImage.sizes} alt="Ortenburgerkeller" width={heroImage.width} height={heroImage.height} loading="lazy" decoding="async" class="w-full h-full object-cover opacity-50 grayscale" />
+                )}
             </div>
         </div>
     </section>

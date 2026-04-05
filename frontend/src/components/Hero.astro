@@ -1,5 +1,6 @@
 ---
 import { formatDate } from '../utils/date';
+import { getResponsiveImage } from '../utils/responsiveImages';
 import ConsentYouTubeEmbed from './ConsentYouTubeEmbed.astro';
 import type { GuitarenaEvent } from '../content.config';
 
@@ -25,18 +26,28 @@ if (isYouTube && event.video) {
 const backgroundImage = event.image?.startsWith('http') 
   ? event.image 
   : event.image 
-    ? import.meta.env.BASE_URL + `images/events/${event.image}` 
-    : import.meta.env.BASE_URL + `images/hero.webp`;
+    ? `/images/events/${event.image}`
+    : '/images/hero.webp';
+const backgroundImageProps = getResponsiveImage(backgroundImage, '100vw');
 ---
 
 <section data-dark-bg class="relative h-screen min-h-[100svh] flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-[#110e0d]">
   
   <!-- Fallback Background Image -->
-  <div 
-    id="hero-fallback"
-    class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity transition-opacity duration-1000 z-0"
-    style={`background-image: url('${backgroundImage}')`}
-  ></div>
+  {backgroundImageProps && (
+    <img
+      id="hero-fallback"
+      src={backgroundImageProps.src}
+      srcset={backgroundImageProps.srcset}
+      sizes={backgroundImageProps.sizes}
+      width={backgroundImageProps.width}
+      height={backgroundImageProps.height}
+      alt=""
+      fetchpriority="high"
+      decoding="async"
+      class="absolute inset-0 h-full w-full object-cover opacity-30 mix-blend-luminosity transition-opacity duration-1000 z-0"
+    />
+  )}
 
   <!-- Video Background Overlay -->
   {event.video && (
@@ -48,7 +59,8 @@ const backgroundImage = event.image?.startsWith('http')
         <ConsentYouTubeEmbed
           youtubeId={youtubeId}
           title={`${event.title} Video`}
-          containerClass="pointer-events-auto opacity-70 mix-blend-luminosity"
+          containerClass="pointer-events-auto"
+          mediaClass="absolute inset-0 opacity-70 mix-blend-luminosity"
           iframeClass="absolute top-1/2 left-1/2 h-[135vh] w-[220vw] -translate-x-1/2 -translate-y-1/2 object-cover md:h-[120vh] md:w-[120vw]"
         />
       ) : (
@@ -69,7 +81,9 @@ const backgroundImage = event.image?.startsWith('http')
   <!-- Audio Toggle Button -->
   {event.video && (
     <button 
+      type="button"
       data-audio-toggle
+      aria-label="Ton für Hintergrundvideo umschalten"
       class="absolute bottom-12 right-8 md:right-16 z-20 flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-black/20 backdrop-blur-md text-white/60 hover:text-orten-amber hover:border-orten-amber/40 transition-all cursor-pointer group"
       title="Ton einschalten"
     >

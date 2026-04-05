@@ -28,7 +28,7 @@
   --orten-card: #1c1816;
   --orten-text: #f0ebe1;
   --orten-border: rgba(255, 255, 255, 0.1);
-  --orten-muted: rgba(255, 255, 255, 0.5);
+  --orten-muted: rgba(255, 255, 255, 0.68);
   --orten-red: #ef4444;
 }
 
@@ -123,4 +123,27 @@
 
 .reveal-on-scroll.active {
   @apply opacity-100 translate-y-0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-pulse-slow,
+  .animate-infinite-scroll,
+  .reveal-on-scroll,
+  .reveal-on-scroll.active {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }

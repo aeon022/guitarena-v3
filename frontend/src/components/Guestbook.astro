@@ -55,15 +55,15 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
 
   <!-- Cinematic Lightbox Modal -->
   <div id="guestbook-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500 backdrop-blur-xl bg-orten-bg/90">
-    <button id="modal-prev" class="absolute left-4 md:left-8 text-orten-text/30 hover:text-orten-amber transition-colors z-[110] p-4 cursor-pointer">
+    <button id="modal-prev" type="button" aria-label="Vorherigen Gästebucheintrag anzeigen" class="absolute left-4 md:left-8 text-orten-text/30 hover:text-orten-amber transition-colors z-[110] p-4 cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
 
-    <button id="modal-next" class="absolute right-4 md:right-8 text-orten-text/30 hover:text-orten-amber transition-colors z-[110] p-4 cursor-pointer">
+    <button id="modal-next" type="button" aria-label="Nächsten Gästebucheintrag anzeigen" class="absolute right-4 md:right-8 text-orten-text/30 hover:text-orten-amber transition-colors z-[110] p-4 cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
 
-    <button id="modal-close" class="absolute top-8 right-8 text-orten-text/50 hover:text-orten-amber transition-colors z-[110] cursor-pointer">
+    <button id="modal-close" type="button" aria-label="Gästebuchansicht schließen" class="absolute top-8 right-8 text-orten-text/50 hover:text-orten-amber transition-colors z-[110] cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
 

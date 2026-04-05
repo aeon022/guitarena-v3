@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import ConsentYouTubeEmbed from '../../components/ConsentYouTubeEmbed.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getResponsiveImage } from '../../utils/responsiveImages';
 import { formatDate, formatTime } from '../../utils/date';
 import { stripMarkdown, toAbsoluteUrl, truncate } from '../../utils/seo';
 
@@ -40,10 +41,12 @@ if (isYouTube && video) {
 const backgroundImage = image?.startsWith('http') 
   ? image 
   : image 
-    ? base + `images/events/${image}` 
-    : base + `images/hero.webp`;
+    ? `/images/events/${image}` 
+    : '/images/hero.webp';
     
-const imageUrl = image?.startsWith('http') ? image : base + `images/events/${image}`;
+const imageUrl = image?.startsWith('http') ? image : image ? `/images/events/${image}` : null;
+const backgroundImageProps = getResponsiveImage(backgroundImage, '100vw');
+const detailImageProps = getResponsiveImage(imageUrl, '(min-width: 1024px) 40rem, 100vw');
 const site = Astro.site ?? new URL('https://guitarena.at');
 const description = truncate(
   stripMarkdown(event.body || `${title} live im Ortenburgerkeller in Spittal an der Drau.`),
@@ -92,7 +95,20 @@ const structuredData = {
   <article class="relative min-h-screen">
     
     <section data-dark-bg class="relative h-[70vh] md:h-[85vh] flex flex-col justify-end overflow-hidden bg-[#110e0d]">
-      <div id="detail-fallback" class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity z-0" style={`background-image: url('${backgroundImage}')`}></div>
+      {backgroundImageProps && (
+        <img
+          id="detail-fallback"
+          src={backgroundImageProps.src}
+          srcset={backgroundImageProps.srcset}
+          sizes={backgroundImageProps.sizes}
+          width={backgroundImageProps.width}
+          height={backgroundImageProps.height}
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover opacity-30 mix-blend-luminosity z-0"
+        />
+      )}
 
       {video && (
         <div id="detail-video-container" class:list={[
@@ -103,7 +119,8 @@ const structuredData = {
             <ConsentYouTubeEmbed
               youtubeId={youtubeId}
               title={`${title} Video`}
-              containerClass="pointer-events-auto opacity-70 mix-blend-luminosity"
+              containerClass="pointer-events-auto"
+              mediaClass="absolute inset-0 opacity-70 mix-blend-luminosity"
               iframeClass="absolute top-1/2 left-1/2 h-[120vh] w-[120vw] -translate-x-1/2 -translate-y-1/2 object-cover"
             />
           ) : (
@@ -117,7 +134,9 @@ const structuredData = {
       <!-- Audio Toggle Button -->
       {video && (
         <button 
+          type="button"
           data-audio-toggle
+          aria-label="Ton für Hintergrundvideo umschalten"
           class="absolute bottom-12 right-8 md:right-16 z-20 flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-black/20 backdrop-blur-md text-white/60 hover:text-orten-amber hover:border-orten-amber/40 transition-all cursor-pointer group"
           title="Ton einschalten"
         >
@@ -163,7 +182,19 @@ const structuredData = {
               <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-muted block mb-8">Impression</span>
               <div class="aspect-video bg-orten-card rounded-3xl overflow-hidden relative group shadow-2xl border border-orten-border">
                 <div class="absolute inset-0 bg-orten-amber/5 mix-blend-overlay z-10 pointer-events-none"></div>
-                <img src={imageUrl} alt={title} class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" />
+                {detailImageProps && (
+                  <img
+                    src={detailImageProps.src}
+                    srcset={detailImageProps.srcset}
+                    sizes={detailImageProps.sizes}
+                    width={detailImageProps.width}
+                    height={detailImageProps.height}
+                    alt={title}
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
+                  />
+                )}
               </div>
             </div>
           )}

@@ -6,6 +6,7 @@ interface Props {
   description: string;
   acceptLabel?: string;
   containerClass?: string;
+  mediaClass?: string;
   iframeClass?: string;
   iframeAllow?: string;
 }
@@ -17,6 +18,7 @@ const {
   description,
   acceptLabel = 'Inhalt laden',
   containerClass = '',
+  mediaClass = '',
   iframeClass = '',
   iframeAllow = '',
 } = Astro.props;
@@ -29,6 +31,7 @@ const {
   ]}
   data-embed-src={src}
   data-embed-title={title}
+  data-media-class={mediaClass}
   data-iframe-class={iframeClass}
   data-iframe-allow={iframeAllow}
 >
@@ -75,6 +78,7 @@ const {
       if (node.dataset.loaded === 'true') return;
 
       const iframe = document.createElement('iframe');
+      const mediaWrapper = document.createElement('div');
       const src = new URL(node.dataset.embedSrc, window.location.origin);
       if (src.hostname.includes('youtube.com') || src.hostname.includes('youtu.be')) {
         src.searchParams.set('origin', window.location.origin);
@@ -90,8 +94,10 @@ const {
         iframe.setAttribute('allow', node.dataset.iframeAllow);
       }
       iframe.className = node.dataset.iframeClass || '';
+      mediaWrapper.className = node.dataset.mediaClass || '';
+      mediaWrapper.appendChild(iframe);
       node.innerHTML = '';
-      node.appendChild(iframe);
+      node.appendChild(mediaWrapper);
       node.dataset.loaded = 'true';
       node.dispatchEvent(new CustomEvent('guitarena:external-embed-loaded', { bubbles: true }));
     });

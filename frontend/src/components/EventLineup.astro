@@ -1,4 +1,5 @@
 ---
+import { getResponsiveImage } from '../utils/responsiveImages';
 import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
@@ -30,6 +31,10 @@ const sortedEvents = [...events].sort((a, b) => {
   <div class="flex flex-col gap-6">
     {sortedEvents.map(event => {
       const isPast = event.date < today;
+      const imagePath = event.image
+        ? (event.image.startsWith('http') ? event.image : `/images/events/${event.image}`)
+        : null;
+      const imageProps = getResponsiveImage(imagePath, '(min-width: 768px) 12rem, 100vw');
 
       return (
       <article class:list={[
@@ -59,15 +64,37 @@ const sortedEvents = [...events].sort((a, b) => {
               ? "bg-orten-bg/35"
               : "bg-orten-amber/10 mix-blend-overlay group-hover:opacity-0",
           ]}></div>
-          <img 
-            src={event.image ? (event.image.startsWith('http') ? event.image : import.meta.env.BASE_URL + `images/events/${event.image}`) : "https://via.placeholder.com/400x600/1c1816/e88b3a.png?text=Guitarena"} 
-            class:list={[
-              "w-full h-full object-cover transition-all duration-700",
-              isPast
-                ? "grayscale opacity-45"
-                : "grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105",
-            ]}
-          />
+          {imageProps ? (
+            <img
+              src={imageProps.src}
+              srcset={imageProps.srcset}
+              sizes={imageProps.sizes}
+              width={imageProps.width}
+              height={imageProps.height}
+              alt={event.title}
+              loading="lazy"
+              decoding="async"
+              class:list={[
+                "w-full h-full object-cover transition-all duration-700",
+                isPast
+                  ? "grayscale opacity-45"
+                  : "grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105",
+              ]}
+            />
+          ) : (
+            <img
+              src="https://via.placeholder.com/400x600/1c1816/e88b3a.png?text=Guitarena"
+              alt={event.title}
+              loading="lazy"
+              decoding="async"
+              class:list={[
+                "w-full h-full object-cover transition-all duration-700",
+                isPast
+                  ? "grayscale opacity-45"
+                  : "grayscale opacity-80 group-hover:grayscale-0 group-hover:scale-105",
+              ]}
+            />
+          )}
         </div>
 
         <div class="flex-1 flex flex-col justify-center py-2">

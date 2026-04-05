@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getResponsiveImage } from '../utils/responsiveImages';
 import Social from '../components/Social.astro';
 
 const artists = [
@@ -23,6 +24,7 @@ const artists = [
   "Thomas Kleemaier", "Thomas Leeb", "Tim Sparks", "Tom Lumen", "Triplets", 
   "Ulli Bögershausen", "Werner Lämmerhirt", "Willie Salomon", "Woody Mann", "Zane Charron"
 ];
+const aboutImage = getResponsiveImage('/images/about.webp', '(min-width: 1024px) 32rem, 100vw');
 ---
 
 <BaseLayout
@@ -60,7 +62,7 @@ const artists = [
             Tief unten, im dämmrigen Kreuzgewölbe des Ortenburgerkellers, verbirgt sich seit über 25 Jahren eine der unwahrscheinlichsten und zugleich faszinierendsten Pilgerstätten der internationalen Musikwelt. Ein Ort, der so intim und roh ist, dass man ihn eher in den Hinterhöfen von Greenwich Village als in einer beschaulichen Kärntner Kleinstadt vermuten würde.
           </p>
 
-          <h3 class="font-serif text-3xl text-orten-text pt-8 border-t border-orten-border">Die Initialzündung</h3>
+          <h2 class="font-serif text-3xl text-orten-text pt-8 border-t border-orten-border">Die Initialzündung</h2>
           <p>
             Alles begann mit einem Moment der absoluten Klarheit. In den 1980er-Jahren saß Hartwig Weiher – damals selbst noch als Musiker auf den Bühnen unterwegs – in eben diesem Schloss und hörte den österreichischen Virtuosen Peter Ratzenbeck spielen. 
           </p>
@@ -68,7 +70,7 @@ const artists = [
             Was 1998 aus Weihers schierer Besessenheit für die akustische Gitarre entstand, wuchs von einem ambitionierten Liebhaberprojekt zu einer Kulturinstitution heran, die Spittal fest auf der Landkarte der globalen Fingerstyle-Szene verankert hat.
           </p>
 
-          <h3 class="font-serif text-3xl text-orten-text pt-8 border-t border-orten-border">Wo Distanz ein Fremdwort ist</h3>
+          <h2 class="font-serif text-3xl text-orten-text pt-8 border-t border-orten-border">Wo Distanz ein Fremdwort ist</h2>
           <p>
             Man sucht bei uns vergebens nach gigantischen Lautsprechertürmen, gleißenden LED-Wänden oder der sterilen Distanz moderner Konzerthallen. Der Ortenburgerkeller erzwingt Intimität. 
           </p>
@@ -96,18 +98,26 @@ const artists = [
       <aside class="lg:col-span-5 space-y-12 sticky top-32">
         <div class="relative group rounded-2xl overflow-hidden shadow-2xl border border-orten-border bg-orten-card">
           <div class="absolute inset-0 bg-orten-amber/10 mix-blend-overlay z-10"></div>
-          <img 
-            src={import.meta.env.BASE_URL + "images/about.webp"} 
-            alt="Ortenburgerkeller Atmosphäre" 
-            class="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-          />
+          {aboutImage && (
+            <img 
+              src={aboutImage.src}
+              srcset={aboutImage.srcset}
+              sizes={aboutImage.sizes}
+              alt="Ortenburgerkeller Atmosphäre" 
+              width={aboutImage.width}
+              height={aboutImage.height}
+              loading="lazy"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+            />
+          )}
           <div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-orten-bg via-orten-bg/20 to-transparent z-20">
             <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">Location / Ortenburgerkeller</span>
           </div>
         </div>
 
         <div class="bg-orten-card p-10 rounded-2xl border border-orten-border space-y-8">
-            <h3 class="font-serif text-2xl text-orten-text border-b border-orten-border pb-4">Das Refugium</h3>
+            <h2 class="font-serif text-2xl text-orten-text border-b border-orten-border pb-4">Das Refugium</h2>
             
             <div class="text-[13px] md:text-sm leading-relaxed text-orten-muted text-justify">
                 {artists.map((artist, index) => (
