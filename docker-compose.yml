@@ -1,0 +1,13 @@
+services:
+  guitarena-astro:
+    build: .
+    container_name: guitarena-astro
+    restart: always
+    ports:
+      - "8080:80"
+    networks:
+      - guitarena-net
+
+networks:
+  guitarena-net:
+    driver: bridge
