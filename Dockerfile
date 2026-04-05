@@ -16,9 +16,6 @@ server {
     root /usr/share/nginx/html;
     index index.html;
     
-    # Support for trailingSlash: 'always'
-    rewrite ^/(.*[^/])$ /$1/ permanent;
-
     location / {
         try_files $uri $uri/ /index.html;
     }

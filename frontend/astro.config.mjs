@@ -6,7 +6,7 @@ import icon from "astro-icon";
 export default defineConfig({
   site: 'https://guitarena.at',
   base: '/',
-  trailingSlash: 'always',
+  trailingSlash: 'ignore',
   integrations: [
     icon(),
   ],
