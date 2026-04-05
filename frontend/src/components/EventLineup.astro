@@ -20,15 +20,15 @@ const sortedEvents = [...events].sort((a, b) => {
 });
 ---
 
-<section id="programm" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24">
-  <div class="mb-16 flex flex-col md:flex-row justify-between md:items-end gap-8 border-b border-orten-border pb-8">
-    <h2 class="text-6xl md:text-7xl font-serif text-orten-text leading-none">
-      Lineup <span class="text-4xl md:text-5xl italic text-orten-amber ml-4 opacity-80">2026</span>
+<section id="programm" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24 landscape:py-16">
+  <div class="mb-16 landscape:mb-10 flex flex-col md:flex-row justify-between md:items-end gap-8 landscape:gap-4 border-b border-orten-border pb-8 landscape:pb-6">
+    <h2 class="text-6xl landscape:text-4xl md:text-7xl font-serif text-orten-text leading-none">
+      Lineup <span class="text-4xl landscape:text-3xl md:text-5xl italic text-orten-amber ml-4 opacity-80">2026</span>
     </h2>
   </div>
 
 
-  <div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-6 landscape:gap-4">
     {sortedEvents.map(event => {
       const isPast = event.date < today;
       const imagePath = event.image
@@ -38,7 +38,7 @@ const sortedEvents = [...events].sort((a, b) => {
 
       return (
       <article class:list={[
-        "group relative flex flex-col md:flex-row gap-6 md:gap-10 p-6 -mx-6 rounded-2xl transition-all border border-transparent",
+        "group relative flex flex-col md:flex-row gap-6 landscape:gap-4 md:gap-10 p-6 landscape:p-4 -mx-6 rounded-2xl transition-all border border-transparent",
         isPast ? "opacity-50 hover:opacity-70" : "hover:bg-orten-card hover:border-orten-border",
       ]}>
         <a href={import.meta.env.BASE_URL + `programm/${event.id}/`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
@@ -99,15 +99,15 @@ const sortedEvents = [...events].sort((a, b) => {
 
         <div class="flex-1 flex flex-col justify-center py-2">
           {isPast && (
-            <span class="inline-flex w-fit items-center rounded-full border border-orten-border bg-orten-card/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.28em] text-orten-muted mb-5">
+            <span class="inline-flex w-fit items-center rounded-full border border-orten-border bg-orten-card/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.28em] text-orten-muted mb-5 landscape:mb-3">
               Schon vorbei
             </span>
           )}
           <h3 class:list={[
-            "text-4xl md:text-5xl font-serif mb-4 transition-transform duration-300",
+            "text-4xl landscape:text-3xl md:text-5xl font-serif mb-4 landscape:mb-2 transition-transform duration-300",
             isPast ? "text-orten-text/70" : "text-orten-text group-hover:translate-x-2",
           ]}>{event.title}</h3>
-          <p class="text-orten-muted max-w-xl font-light leading-relaxed text-lg line-clamp-2">
+          <p class="text-orten-muted max-w-xl font-light leading-relaxed text-lg landscape:text-base line-clamp-2">
             {event.body}
           </p>
         </div>

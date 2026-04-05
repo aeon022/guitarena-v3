@@ -19,21 +19,21 @@ const upcomingEvents = currentYearEvents.filter(event => isUpcoming(event.data.d
   description={`Alle Guitarena-Konzerte ${currentYear} im Ortenburgerkeller von Schloss Porcia in Spittal an der Drau. Termine, Künstler und Ticketinfos im Überblick.`}
   image="/images/hero.webp"
 >
-  <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 pb-24">
-    <header class="mb-20 border-b border-orten-border pb-12">
-      <div class="flex items-center gap-4 mb-8">
+  <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 landscape:pt-28 md:pt-32 pb-24 landscape:pb-16">
+    <header class="mb-20 landscape:mb-12 border-b border-orten-border pb-12 landscape:pb-8">
+      <div class="flex items-center gap-4 mb-8 landscape:mb-5">
         <span class="w-12 h-[1px] bg-orten-amber"></span>
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Programm {currentYear}</span>
       </div>
-      <h1 class="text-7xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4">
+      <h1 class="text-7xl landscape:text-5xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4 landscape:mb-2">
         Programm<span class="italic text-orten-amber">.</span>
       </h1>
-      <p class="font-mono text-sm text-orten-muted uppercase tracking-widest mt-8">
+      <p class="font-mono text-sm landscape:text-xs text-orten-muted uppercase tracking-widest mt-8 landscape:mt-4">
         Handgemachte Musik im Ortenburgerkeller
       </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 landscape:gap-6 md:gap-16">
       {currentYearEvents.map(event => (
         <EventCard event={{ id: event.id, ...event.data }} />
       ))}
