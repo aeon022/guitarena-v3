@@ -14,7 +14,11 @@ const currentYearEvents = allEvents
 const upcomingEvents = currentYearEvents.filter(event => isUpcoming(event.data.date));
 ---
 
-<BaseLayout title="Programm">
+<BaseLayout
+  title={`Programm ${currentYear}`}
+  description={`Alle Guitarena-Konzerte ${currentYear} im Ortenburgerkeller von Schloss Porcia in Spittal an der Drau. Termine, Künstler und Ticketinfos im Überblick.`}
+  image="/images/hero.webp"
+>
   <div class="max-w-6xl mx-auto px-8 md:px-16 pt-32 pb-24">
     <header class="mb-20 border-b border-orten-border pb-12">
       <div class="flex items-center gap-4 mb-8">

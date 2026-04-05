@@ -8,11 +8,29 @@ import Social from '../components/Social.astro';
 interface Props {
 	title: string;
 	description?: string;
+	image?: string;
+	noindex?: boolean;
+	ogType?: 'website' | 'article';
+	structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = Astro.props;
+const {
+	title,
+	description = "Guitarena bringt seit 1993 internationale Gitarrenkunst in den Ortenburgerkeller von Schloss Porcia in Spittal an der Drau.",
+	image = '/images/hero.webp',
+	noindex = false,
+	ogType = 'website',
+	structuredData,
+} = Astro.props;
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+const site = Astro.site ?? new URL('https://guitarena.at');
+const canonicalUrl = new URL(Astro.url.pathname, site).toString();
+const ogImageUrl = new URL(image, site).toString();
+const robotsContent = noindex ? 'noindex,follow' : 'index,follow';
+const structuredDataPayload = structuredData
+	? JSON.stringify(Array.isArray(structuredData) ? structuredData : [structuredData])
+	: null;
 
 const navItems = [
 	{ label: 'Home', href: base },
@@ -25,7 +43,7 @@ const navItems = [
 ---
 
 <!doctype html>
-<html lang="de" class="scroll-smooth">
+<html lang="de-AT" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -34,6 +52,23 @@ const navItems = [
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Guitarena</title>
 		<meta name="description" content={description} />
+		<meta name="robots" content={robotsContent} />
+		<meta name="theme-color" content="#110e0d" />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta property="og:site_name" content="Guitarena" />
+		<meta property="og:locale" content="de_AT" />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:title" content={`${title} | Guitarena`} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:alt" content={`${title} | Guitarena`} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={`${title} | Guitarena`} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+		<meta name="twitter:image:alt" content={`${title} | Guitarena`} />
+		{structuredDataPayload && <script type="application/ld+json" set:html={structuredDataPayload} />}
 		<ClientRouter />
 		<script is:inline>
 			const applyTheme = () => {

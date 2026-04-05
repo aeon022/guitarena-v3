@@ -9,6 +9,7 @@ import Guestbook from '../components/Guestbook.astro';
 import About from '../components/About.astro';
 import Supporters from '../components/Supporters.astro';
 import { isUpcoming } from '../utils/date';
+import { toAbsoluteUrl } from '../utils/seo';
 
 const allEvents = await getCollection('events');
 const currentYear = new Date().getFullYear();
@@ -20,9 +21,44 @@ const upcomingEvents = allEvents
   .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 
 const nextEvent = upcomingEvents[0];
+const site = Astro.site ?? new URL('https://guitarena.at');
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Guitarena',
+    url: site.toString(),
+    inLanguage: 'de-AT',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Guitarena',
+    url: site.toString(),
+    logo: toAbsoluteUrl('/icon-512.png', site),
+    email: 'hartwig@guitarena.com',
+    sameAs: [
+      'https://www.facebook.com/Guitarena/',
+      'https://x.com/guitarena',
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Burgplatz 1',
+      postalCode: '9800',
+      addressLocality: 'Spittal an der Drau',
+      addressCountry: 'AT',
+    },
+  },
+];
 ---
 
-<BaseLayout title="Home">
+<BaseLayout
+  title="Guitarena in Spittal an der Drau"
+  description="Konzertreihe für akustische Gitarrenmusik im Ortenburgerkeller von Schloss Porcia. Termine, Tickets, Archiv und Gästebuch der Guitarena."
+  image="/images/hero.webp"
+  structuredData={structuredData}
+>
+  <h1 class="sr-only">Guitarena in Spittal an der Drau: Konzerte, Tickets und Archiv</h1>
   {nextEvent && <Hero event={{ id: nextEvent.id, ...nextEvent.data }} />}
   
   <Intro />

@@ -3,6 +3,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import ConsentYouTubeEmbed from '../../components/ConsentYouTubeEmbed.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatDate, formatTime } from '../../utils/date';
+import { stripMarkdown, toAbsoluteUrl, truncate } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -40,9 +41,51 @@ const backgroundImage = image?.startsWith('http')
     : base + `images/hero.webp`;
     
 const imageUrl = image?.startsWith('http') ? image : base + `images/events/${image}`;
+const site = Astro.site ?? new URL('https://guitarena.at');
+const description = truncate(
+  stripMarkdown(event.body || `${title} live im Ortenburgerkeller in Spittal an der Drau.`),
+  155
+);
+const absoluteImageUrl = image
+  ? (image?.startsWith('http') ? image : toAbsoluteUrl(`/images/events/${image}`, site))
+  : toAbsoluteUrl('/images/hero.webp', site);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: title,
+  description,
+  image: [absoluteImageUrl],
+  startDate: date.toISOString(),
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: date.getTime() >= Date.now()
+    ? 'https://schema.org/EventScheduled'
+    : 'https://schema.org/EventCompleted',
+  location: {
+    '@type': 'Place',
+    name: location.split(',')[0],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Burgplatz 1',
+      postalCode: '9800',
+      addressLocality: 'Spittal an der Drau',
+      addressCountry: 'AT',
+    },
+  },
+  organizer: {
+    '@type': 'Organization',
+    name: 'Guitarena',
+    url: site.toString(),
+  },
+};
 ---
 
-<BaseLayout title={title}>
+<BaseLayout
+  title={`${title} live in Spittal an der Drau`}
+  description={description}
+  image={absoluteImageUrl}
+  ogType="article"
+  structuredData={structuredData}
+>
   <article class="relative min-h-screen">
     
     <section data-dark-bg class="relative h-[70vh] md:h-[85vh] flex flex-col justify-end overflow-hidden bg-[#110e0d]">
