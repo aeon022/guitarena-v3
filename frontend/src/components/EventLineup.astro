@@ -10,6 +10,13 @@ const { events } = Astro.props;
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 const today = new Date();
 today.setHours(0, 0, 0, 0);
+const sortedEvents = [...events].sort((a, b) => {
+  const aPast = a.date < today;
+  const bPast = b.date < today;
+
+  if (aPast !== bPast) return aPast ? 1 : -1;
+  return a.date.getTime() - b.date.getTime();
+});
 ---
 
 <section id="programm" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24">
@@ -21,7 +28,7 @@ today.setHours(0, 0, 0, 0);
 
 
   <div class="flex flex-col gap-6">
-    {events.map(event => {
+    {sortedEvents.map(event => {
       const isPast = event.date < today;
 
       return (
@@ -64,6 +71,11 @@ today.setHours(0, 0, 0, 0);
         </div>
 
         <div class="flex-1 flex flex-col justify-center py-2">
+          {isPast && (
+            <span class="inline-flex w-fit items-center rounded-full border border-orten-border bg-orten-card/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.28em] text-orten-muted mb-5">
+              Schon vorbei
+            </span>
+          )}
           <h3 class:list={[
             "text-4xl md:text-5xl font-serif mb-4 transition-transform duration-300",
             isPast ? "text-orten-text/70" : "text-orten-text group-hover:translate-x-2",

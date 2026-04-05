@@ -29,7 +29,7 @@ const backgroundImage = event.image?.startsWith('http')
     : import.meta.env.BASE_URL + `images/hero.webp`;
 ---
 
-<section data-dark-bg class="relative h-screen flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-[#110e0d]">
+<section data-dark-bg class="relative h-screen min-h-[100svh] flex flex-col justify-end p-8 md:p-16 overflow-hidden bg-[#110e0d]">
   
   <!-- Fallback Background Image -->
   <div 
@@ -49,7 +49,7 @@ const backgroundImage = event.image?.startsWith('http')
           youtubeId={youtubeId}
           title={`${event.title} Video`}
           containerClass="pointer-events-auto opacity-70 mix-blend-luminosity"
-          iframeClass="absolute top-1/2 left-1/2 h-[120vh] w-[120vw] -translate-x-1/2 -translate-y-1/2 object-cover"
+          iframeClass="absolute top-1/2 left-1/2 h-[135vh] w-[220vw] -translate-x-1/2 -translate-y-1/2 object-cover md:h-[120vh] md:w-[120vw]"
         />
       ) : (
         <video
@@ -58,7 +58,7 @@ const backgroundImage = event.image?.startsWith('http')
           muted
           loop
           playsinline
-          class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover"
+          class="absolute inset-0 h-full w-full scale-[1.22] object-cover md:top-1/2 md:left-1/2 md:h-auto md:w-auto md:min-w-full md:min-h-full md:scale-100 md:-translate-x-1/2 md:-translate-y-1/2"
         >
           <source src={event.video} type="video/mp4" />
         </video>

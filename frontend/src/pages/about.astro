@@ -1,6 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Social from '../components/Social.astro';
+
+const artists = [
+  "Adam Rafferty", "Al Cook & Charly Lloyd", "Alberto Lombardi", "Alex Kabasser", 
+  "Allan Taylor", "Andrea Valeri", "Attila Vural", "Axel Schultheiss", 
+  "Beppe Gambetta", "Bernhard Steiner", "Biber Herrmann", "Bluesbreakers", 
+  "Bob Brozman", "Chris Proctor", "Chris Shermer", "Chuck LeMonds", 
+  "Claude Bourbon", "Claus Boesser-Ferrari", "Crossing Strings (Duo: Carina Linder & Markus Schlesinger)", 
+  "Dakota Dave Hull", "Daniel Oman", "Dave Goodman", "David Mana", "Don Alder", 
+  "Eric Roche", "Eric Spitzer-Marlyn", "Erik Trauner", "Franco Morone", 
+  "Gottfried David Gfrerer (Gottfried D. Gfrerer)", "Hans Theessink", 
+  "Hans Westermeier & Rupert Paulik", "Ignaz Netzer", "Jacques Stotzem", 
+  "Jeff Aug", "John Long", "Jule Malischke & Martin Moro", "Julian Polak", 
+  "Marcus Doneus", "Mario Berger & Anne Marie Hoeller", "Mario Berger & Latin Hearts", 
+  "Mario Berger solo", "Mark Cosgrove & Liz Meyer", "Markus Schlesinger", 
+  "Matching Ties (Duo: Paul Stowe & Trevor Morriss; Trio: + Peter Corbett)", 
+  "Michael Fix", "Michael Langer", "Monika Stadler", "Sir Oliver Mally", 
+  "Sir Oliver Mally & Peter Schneider", "Oliver Podesser „Columbus“", 
+  "Peter Finger", "Peter Kern", "Peter Ratzenbeck", "Pierre Bensusan", 
+  "Rainer Falk", "Sammy Vomacka", "Sammy Vomacka Jazz Trio", "Stefan Mönkemeyer", 
+  "Thomas Kleemaier", "Thomas Leeb", "Tim Sparks", "Tom Lumen", "Triplets", 
+  "Ulli Bögershausen", "Werner Lämmerhirt", "Willie Salomon", "Woody Mann", "Zane Charron"
+];
 ---
 
 <BaseLayout
@@ -87,19 +109,12 @@ import Social from '../components/Social.astro';
         <div class="bg-orten-card p-10 rounded-2xl border border-orten-border space-y-8">
             <h3 class="font-serif text-2xl text-orten-text border-b border-orten-border pb-4">Das Refugium</h3>
             
-            <div class="space-y-6">
-                <div>
-                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-orten-amber block mb-2">Die Legenden</span>
-                    <p class="text-sm leading-relaxed text-orten-muted">Bob Brozman, Woody Mann, Tim Sparks, Alberto Lombardi, Claude Bourbon.</p>
-                </div>
-                <div>
-                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-orten-amber block mb-2">Roots & Blues</span>
-                    <p class="text-sm leading-relaxed text-orten-muted">Sir Oliver Mally, Peter Schneider, Biber Herrmann.</p>
-                </div>
-                <div>
-                    <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-orten-amber block mb-2">Crossover & Zukunft</span>
-                    <p class="text-sm leading-relaxed text-orten-muted">Crossing Strings, Jule Malischke.</p>
-                </div>
+            <div class="text-[13px] md:text-sm leading-relaxed text-orten-muted text-justify">
+                {artists.map((artist, index) => (
+                    <span>
+                        {artist}{index < artists.length - 1 && <span class="mx-2 text-orten-amber/40">•</span>}
+                    </span>
+                ))}
             </div>
 
             <div class="pt-6 border-t border-orten-border">
