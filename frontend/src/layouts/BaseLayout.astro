@@ -62,10 +62,11 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 			</a>
 			<div class="flex items-center gap-8">
 				<nav class="hidden md:flex gap-8 font-mono text-xs uppercase tracking-[0.2em] drop-shadow-md">
-					<a href={import.meta.env.BASE_URL + "programm"} class="transition-colors">Programm</a>
-					<a href={import.meta.env.BASE_URL + "gaestebuch"} class="transition-colors">Gästebuch</a>
-					<a href={import.meta.env.BASE_URL + "archiv"} class="transition-colors">Archiv</a>
-					<a href={import.meta.env.BASE_URL + "about"} class="transition-colors">Über Uns</a>
+					<a href={import.meta.env.BASE_URL + "programm/"} class="transition-colors">Programm</a>
+					<a href={import.meta.env.BASE_URL + "gaestebuch/"} class="transition-colors">Gästebuch</a>
+					<a href={import.meta.env.BASE_URL + "archiv/"} class="transition-colors">Archiv</a>
+					<a href={import.meta.env.BASE_URL + "about/"} class="transition-colors">Über Uns</a>
+					<a href={import.meta.env.BASE_URL + "kontakt/"} class="transition-colors">Kontakt</a>
 				</nav>
 				
 				<div id="theme-switcher-container" class="flex items-center border border-orten-border rounded-full px-2 py-1 gap-1 transition-colors bg-black/5 backdrop-blur-sm shadow-sm">
@@ -88,35 +89,31 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 
 		<footer class="bg-orten-card pt-24 pb-12 px-8 md:px-16 border-t border-orten-border">
 			<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 border-b border-orten-border pb-16">
-				<div class="flex items-start gap-6">
-					<div class="relative group">
-						<img 
-							src={import.meta.env.BASE_URL + "footer-guitar.png"} 
-							alt="Guitarena Logo" 
-							class="w-16 h-16 object-contain opacity-80 group-hover:opacity-100 transition-all duration-700 animate-float group-hover:scale-110 group-hover:[filter:drop-shadow(0_0_15px_rgba(232,139,58,0.4))]"
-						/>
-					</div>
-					<div>
-						<a href={import.meta.env.BASE_URL} class="footer-logo group flex items-baseline text-3xl font-serif tracking-tight mb-4 text-orten-text transition-colors">
-							<span class="flex overflow-hidden">
-								{"Guitarena".split("").map((char, i) => (
-									<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
-										{char}
-									</span>
-								))}
-							</span>
-							<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
-						</a>
-						<p class="text-orten-text/80 font-light max-w-xs leading-relaxed">
-							Kulturinitiative Spittal a. d. Drau.<br>
-							Musik, die bleibt.
-						</p>
-					</div>
+				<div>
+					<a href={import.meta.env.BASE_URL} class="footer-logo group flex items-baseline text-3xl font-serif tracking-tight mb-4 text-orten-text transition-colors">
+						<span class="flex overflow-hidden">
+							{"Guitarena".split("").map((char, i) => (
+								<span class="inline-block transition-transform duration-500 ease-out group-hover:-translate-y-1" style={`transition-delay: ${i * 30}ms`}>
+									{char}
+								</span>
+							))}
+						</span>
+						<span class="text-orten-amber inline-block animate-pulse-slow ml-px">.</span>
+					</a>
+					<p class="text-orten-text/80 font-light max-w-xs leading-relaxed">
+						Kulturinitiative Spittal a. d. Drau.<br>
+						Musik, die bleibt.
+					</p>
 				</div>
 
-				<div class="md:text-right">
-					<p class="font-mono text-orten-muted text-xs mb-3 uppercase tracking-[0.2em]">Karten & Kontakt</p>
-					<a href="mailto:karten@porcia.at" class="text-2xl md:text-3xl font-serif text-orten-text hover:text-orten-amber transition-colors italic">karten@porcia.at</a>
+				<div class="md:text-right flex flex-col md:items-end gap-6">
+					<div>
+						<p class="font-mono text-orten-muted text-[10px] mb-2 uppercase tracking-[0.2em]">Kartenreservierung</p>
+						<a href="mailto:karten@porcia.at" class="text-2xl md:text-3xl font-serif text-orten-text hover:text-orten-amber transition-colors italic leading-none">karten@porcia.at</a>
+					</div>
+					<a href={import.meta.env.BASE_URL + "kontakt/"} class="inline-flex items-center px-8 py-4 rounded-full border border-orten-border font-mono text-[10px] uppercase tracking-[0.3em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-all">
+						Kontakt & Anfahrt
+					</a>
 				</div>
 			</div>
 			
@@ -124,9 +121,9 @@ const { title, description = "Guitarena - Ortenburgerkeller Spittal/Drau" } = As
 				<span>&copy; {new Date().getFullYear()} Guitarena</span>
 				<Social />
 				<div class="flex gap-8 text-[10px]">
-					<a href={import.meta.env.BASE_URL + "impressum"} class="hover:text-orten-text transition-colors">Impressum</a>
-					<a href={import.meta.env.BASE_URL + "datenschutz"} class="hover:text-orten-text transition-colors">Datenschutz</a>
-					<a href={import.meta.env.BASE_URL + "cookies"} class="hover:text-orten-text transition-colors">Cookies</a>
+					<a href={import.meta.env.BASE_URL + "impressum/"} class="hover:text-orten-text transition-colors">Impressum</a>
+					<a href={import.meta.env.BASE_URL + "datenschutz/"} class="hover:text-orten-text transition-colors">Datenschutz</a>
+					<a href={import.meta.env.BASE_URL + "cookies/"} class="hover:text-orten-text transition-colors">Cookies</a>
 					<button type="button" data-open-cookie-settings class="hover:text-orten-text transition-colors cursor-pointer">Cookie-Einstellungen</button>
 				</div>
 			</div>

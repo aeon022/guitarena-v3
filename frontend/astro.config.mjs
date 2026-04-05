@@ -1,20 +1,16 @@
 import { defineConfig } from 'astro/config';
-// import orbiter from '@orbiter/integration';
 import tailwindcss from '@tailwindcss/vite';
 import icon from "astro-icon";
 
+const isBuild = process.argv.includes('build');
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://yard.starbase11.com',
-  base: '/html/guitarena',
+  site: isBuild ? 'https://yard.starbase11.com' : 'http://localhost:4321',
+  base: isBuild ? '/html/guitarena' : '/',
   trailingSlash: 'always',
   integrations: [
     icon(),
-    /* 
-    orbiter({
-      pod: '../content.pod'
-    })
-    */
   ],
   vite: {
     plugins: [tailwindcss()],

@@ -20,7 +20,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
       <p class="font-mono text-sm text-orten-muted uppercase tracking-widest">Ein Stück Geschichte. Signiert.</p>
     </div>
     {limit && (
-      <a href={import.meta.env.BASE_URL + "gaestebuch"} class="group flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">
+      <a href={import.meta.env.BASE_URL + "gaestebuch/"} class="group flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">
         Alle Einträge <span class="group-hover:translate-x-2 transition-transform">&rarr;</span>
       </a>
     )}
@@ -79,7 +79,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
   {limit && (
     <div class="mt-24 text-center">
       <a 
-        href={import.meta.env.BASE_URL + "gaestebuch"} 
+        href={import.meta.env.BASE_URL + "gaestebuch/"} 
         class="inline-block px-12 py-5 rounded-full border border-orten-border font-mono text-xs uppercase tracking-[0.3em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-all"
       >
         Mehr entdecken
