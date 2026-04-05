@@ -121,8 +121,7 @@ Wir nutzen keine schweren JS-Libraries. Aha-Effekte entstehen durch native Web-A
 * **View Transitions:** Nahtlose Navigation zwischen Listen- und Detailansichten. Morphing von Event-Cards zum Hero-Cover (via nativer View Transitions API in Astro).
 * **Scroll-Driven Animations:** Sanftes Einfaden von Archiv-Einträgen gekoppelt an die Scroll-Position (via CSS `animation-timeline: view()`, Tailwind v4).
 * **Color Theming ("Ortenburgerkeller"):** Dark-Mode-First. Tiefes Anthrazit/Ebenholz mit satten Amber/Gold-Akzenten und subtilem SVG-Noise für analoge Textur. Konfiguriert via `@theme` in Tailwind v4.
-* **Bento Box Archiv:** Asymmetrisches CSS-Grid für vergangene Events, um der Historie (seit 1993) einen Magazin-Charakter zu geben.
+* **Bento Box Archiv:** Asymmetrisches CSS-Grid für vergangene Events, um der Historie (seit 1998) einen Magazin-Charakter zu geben.
 * **Micro-Tension:** Physisch wirkende Hover-States an Buttons (federnde `cubic-bezier` Transitions auf `transform: scale()`).
 * **Astro Server Islands:** Statisch gerenderte Seiten mit isolierten, asynchron ladenden Server-Komponenten (z.B. `<TicketButton server:defer />`) für Echtzeit-Verfügbarkeiten ohne Performance-Hit.
-
 

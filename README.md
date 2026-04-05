@@ -2,7 +2,7 @@
 
 **"Less Noise. Nice Data. No Bloat."**
 
-Guitarena is a premium cultural initiative based in Spittal an der Drau, Austria. Since 1993, it has brought world-class acoustic and fingerstyle guitarists to the historic atmosphere of the Ortenburgerkeller (Schloss Porcia). Version 3.0 represents a complete modernization from legacy WordPress to a high-performance, design-first Astro application.
+Guitarena is a premium cultural initiative based in Spittal an der Drau, Austria. Since 1998, it has brought world-class acoustic and fingerstyle guitarists to the historic atmosphere of the Ortenburgerkeller (Schloss Porcia). Version 3.0 represents a complete modernization from legacy WordPress to a high-performance, design-first Astro application.
 
 ## 🎯 Project Mission
 The goal was to create a "zero-maintenance" frontend that feels like a high-end digital magazine. The application focuses on speed, accessibility, and an immersive user experience that reflects the intimacy of the physical venue.
@@ -20,7 +20,7 @@ The goal was to create a "zero-maintenance" frontend that feels like a high-end 
   - **Premium Light Mode:** A warm, "parchment paper" aesthetic designed for high readability and a classic print-magazine feel.
   - **Intelligent Header:** Dynamically detects background brightness to flip text colors for maximum contrast.
 - **Cinematic Hero:** High-impact video headers that remain atmospheric and dark regardless of the site theme.
-- **Infinite Guestbook:** A massive digital archive of artist entries since 1993, featuring infinite scrolling and a custom-built **Cinematic Lightbox** with keyboard navigation.
+- **Infinite Guestbook:** A massive digital archive of artist entries since 1998, featuring infinite scrolling and a custom-built **Cinematic Lightbox** with keyboard navigation.
 - **Editorial Content:** High-quality typography using curated serif and mono fonts.
 - **Partner Marquee:** A smooth, hardware-accelerated logo loop for supporters and sponsors.
 - **WP Migration Core:** Python-based scripts to transform legacy WordPress XML exports into clean, structured Markdown content.

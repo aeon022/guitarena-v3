@@ -22,6 +22,9 @@ if (!event) return Astro.redirect(base + '404/');
 
 const { title, date, location, image, video } = event.data;
 const { Content } = await render(event);
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const isPast = date < today;
 
 const titleParts = title.split(' ');
 const firstName = titleParts[0];
@@ -169,13 +172,23 @@ const structuredData = {
         <aside class="sticky top-32">
           <div class="bg-orten-card/30 backdrop-blur-sm p-10 rounded-3xl border border-orten-border/50 shadow-xl relative overflow-hidden group transition-all duration-500 hover:shadow-orten-amber/5 hover:bg-orten-card/50">
             <div class="absolute -top-24 -right-24 w-48 h-48 bg-orten-amber/5 rounded-full blur-3xl group-hover:bg-orten-amber/15 transition-all duration-700"></div>
-            <h3 class="font-serif text-2xl text-orten-text mb-2">Reservierung</h3>
+            <h3 class="font-serif text-2xl text-orten-text mb-2">{isPast ? 'Archivierter Abend' : 'Reservierung'}</h3>
             <p class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber mb-6">Ortenburgerkeller</p>
-            <p class="text-sm text-orten-muted leading-relaxed mb-10 font-light italic">Erleben Sie die Weltelite der Gitarrenmusik im intimen Rahmen des historischen Schlosses.</p>
-            <a href="mailto:karten@porcia.at" class="group relative flex items-center justify-center w-full py-5 rounded-full border border-orten-text/20 hover:border-orten-amber hover:bg-orten-amber transition-all duration-500 ease-out overflow-hidden">
-              <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-[#110e0d] transition-colors font-bold z-10 text-orten-text">Tickets</span>
-              <div class="absolute inset-0 bg-orten-amber translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-            </a>
+            <p class="text-sm text-orten-muted leading-relaxed mb-10 font-light italic">
+              {isPast
+                ? 'Dieses Konzert hat bereits stattgefunden. Auf dieser Seite findest du Rückblick, Programmtext und Eindrücke zum Abend.'
+                : 'Erleben Sie die Weltelite der Gitarrenmusik im intimen Rahmen des historischen Schlosses.'}
+            </p>
+            {!isPast ? (
+              <a href="mailto:karten@porcia.at" class="group relative flex items-center justify-center w-full py-5 rounded-full border border-orten-text/20 hover:border-orten-amber hover:bg-orten-amber transition-all duration-500 ease-out overflow-hidden">
+                <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-[#110e0d] transition-colors font-bold z-10 text-orten-text">Tickets</span>
+                <div class="absolute inset-0 bg-orten-amber translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+              </a>
+            ) : (
+              <div class="flex items-center justify-center w-full py-5 rounded-full border border-orten-border bg-orten-bg/40">
+                <span class="font-mono text-xs uppercase tracking-[0.2em] font-bold text-orten-muted">Schon vorbei</span>
+              </div>
+            )}
             <div class="mt-12 pt-8 border-t border-orten-border/50">
               <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-3 text-[10px] font-mono text-orten-muted uppercase tracking-[0.2em]"><span class="text-orten-amber">Einlass /</span><span>19:00 Uhr</span></div>
