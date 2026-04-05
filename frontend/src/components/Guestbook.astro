@@ -20,7 +20,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
       <p class="font-mono text-sm text-orten-muted uppercase tracking-widest">Ein Stück Geschichte. Signiert.</p>
     </div>
     {limit && (
-      <a href={import.meta.env.BASE_URL + "/gaestebuch"} class="group flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">
+      <a href={import.meta.env.BASE_URL + "gaestebuch"} class="group flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber">
         Alle Einträge <span class="group-hover:translate-x-2 transition-transform">&rarr;</span>
       </a>
     )}
@@ -29,7 +29,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
   <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
     {displayEntries.map(entry => (
       <div 
-        class="guestbook-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-white/5 border border-orten-border shadow-xl reveal-on-scroll"
+        class="guestbook-card break-inside-avoid relative group cursor-pointer overflow-hidden rounded-md bg-orten-card border border-orten-border shadow-xl reveal-on-scroll"
         data-guestbook-entry
         data-filename={entry.filename}
         data-artist={entry.artistName}
@@ -38,14 +38,14 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
         <div class="absolute inset-0 bg-orten-amber/20 mix-blend-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
 
         <img 
-          src={import.meta.env.BASE_URL + `/images/guestbook/${entry.filename}`} 
+          src={import.meta.env.BASE_URL + `images/guestbook/${entry.filename}`} 
           alt={`${entry.artistName} Gästebuch`} 
           class="w-full h-auto object-cover sepia-[.30] group-hover:sepia-0 group-hover:scale-[1.03] transition-all duration-700"
           loading="lazy"
         />
 
         <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-orten-bg/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
-          <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-white/10">
+          <span class="text-orten-amber font-mono text-xs uppercase tracking-widest bg-orten-bg/80 backdrop-blur-sm px-2 py-1 border border-orten-border">
             {entry.artistName}, {entry.year}
           </span>
         </div>
@@ -79,7 +79,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
   {limit && (
     <div class="mt-24 text-center">
       <a 
-        href={import.meta.env.BASE_URL + "/gaestebuch"} 
+        href={import.meta.env.BASE_URL + "gaestebuch"} 
         class="inline-block px-12 py-5 rounded-full border border-orten-border font-mono text-xs uppercase tracking-[0.3em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-all"
       >
         Mehr entdecken
@@ -111,7 +111,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
       
       setTimeout(() => {
         const { filename, artist, year } = entry.dataset;
-        modalImg.src = `${import.meta.env.BASE_URL}/images/guestbook/${filename}`;
+        modalImg.src = `${import.meta.env.BASE_URL}images/guestbook/${filename}`;
         modalArtist.textContent = artist || '';
         modalYear.textContent = year || '';
         modalImg.style.opacity = '1';
@@ -126,7 +126,7 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
       const { filename, artist, year } = entry.dataset;
       if (!modal || !modalImg || !modalArtist || !modalYear) return;
 
-      modalImg.src = `${import.meta.env.BASE_URL}/images/guestbook/${filename}`;
+      modalImg.src = `${import.meta.env.BASE_URL}images/guestbook/${filename}`;
       modalArtist.textContent = artist || '';
       modalYear.textContent = year || '';
       currentIndex = index;
@@ -179,4 +179,3 @@ const displayEntries = limit ? allEntries.slice(0, limit) : allEntries;
   initGuestbook();
   document.addEventListener('astro:after-swap', initGuestbook);
   </script>
-

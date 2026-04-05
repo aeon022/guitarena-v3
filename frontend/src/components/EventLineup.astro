@@ -29,7 +29,7 @@ today.setHours(0, 0, 0, 0);
         "group relative flex flex-col md:flex-row gap-6 md:gap-10 p-6 -mx-6 rounded-2xl transition-all border border-transparent",
         isPast ? "opacity-50 hover:opacity-70" : "hover:bg-orten-card hover:border-orten-border",
       ]}>
-        <a href={import.meta.env.BASE_URL + `/programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
+        <a href={import.meta.env.BASE_URL + `programm/${event.id}`} class="absolute inset-0 z-20"><span class="sr-only">Details</span></a>
         
         <div class:list={[
           "flex flex-col items-center justify-center w-20 h-24 md:w-28 md:h-32 border rounded-md shrink-0 transition-colors shadow-lg",
@@ -53,7 +53,7 @@ today.setHours(0, 0, 0, 0);
               : "bg-orten-amber/10 mix-blend-overlay group-hover:opacity-0",
           ]}></div>
           <img 
-            src={event.image ? (event.image.startsWith('http') ? event.image : import.meta.env.BASE_URL + `/images/events/${event.image}`) : "https://via.placeholder.com/400x600/1c1816/e88b3a.png?text=Guitarena"} 
+            src={event.image ? (event.image.startsWith('http') ? event.image : import.meta.env.BASE_URL + `images/events/${event.image}`) : "https://via.placeholder.com/400x600/1c1816/e88b3a.png?text=Guitarena"} 
             class:list={[
               "w-full h-full object-cover transition-all duration-700",
               isPast
@@ -74,7 +74,7 @@ today.setHours(0, 0, 0, 0);
         </div>
 
         <div class="shrink-0 flex flex-col items-start md:items-end justify-center md:justify-end gap-3 md:pb-4 font-mono text-sm tracking-widest font-bold">
-          <a href={import.meta.env.BASE_URL + `/programm/${event.id}`} class:list={[
+          <a href={import.meta.env.BASE_URL + `programm/${event.id}`} class:list={[
             "relative z-30 transition-colors",
             isPast ? "text-orten-muted/70" : "text-orten-muted group-hover:text-orten-text",
           ]}>[ DETAILS ]</a>
