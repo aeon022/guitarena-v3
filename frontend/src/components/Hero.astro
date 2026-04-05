@@ -31,7 +31,7 @@ const backgroundImage = event.image?.startsWith('http')
 const backgroundImageProps = getResponsiveImage(backgroundImage, '100vw');
 ---
 
-<section data-dark-bg class="relative h-screen min-h-[100svh] landscape:min-h-[115svh] flex flex-col justify-end p-8 landscape:pt-24 landscape:pb-8 md:p-16 overflow-hidden bg-[#110e0d]">
+<section data-dark-bg class="relative h-screen min-h-[100svh] max-[900px]:landscape:min-h-[115svh] flex flex-col justify-end p-8 max-[900px]:landscape:pt-24 max-[900px]:landscape:pb-8 md:p-16 overflow-hidden bg-[#110e0d]">
   
   <!-- Fallback Background Image -->
   {backgroundImageProps && (
@@ -101,20 +101,20 @@ const backgroundImageProps = getResponsiveImage(backgroundImage, '100vw');
   <div class="absolute inset-0 bg-gradient-to-b from-[#110e0d]/50 via-transparent to-transparent z-5"></div>
   <div class="absolute inset-0 bg-radial from-transparent via-[#110e0d]/40 to-[#110e0d] opacity-90 z-5"></div>
 
-  <article class="relative z-10 max-w-6xl mx-auto w-full pb-12 landscape:pb-8 flex flex-col md:flex-row md:items-end justify-between gap-12 landscape:gap-6">
+  <article class="relative z-10 max-w-6xl mx-auto w-full pb-12 max-[900px]:landscape:pb-8 flex flex-col md:flex-row md:items-end justify-between gap-12 max-[900px]:landscape:gap-6">
     
     <div class="flex-1">
-      <div class="flex items-center gap-4 mb-6 landscape:mb-4">
+      <div class="flex items-center gap-4 mb-6 max-[900px]:landscape:mb-4">
         <span class="w-12 h-[1px] bg-orten-amber"></span>
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Nächstes Konzert</span>
       </div>
       
-      <h1 class="text-7xl landscape:text-[3rem] landscape:leading-[0.85] md:text-[9rem] font-serif tracking-tight mb-8 landscape:mb-4 text-[#f0ebe1] drop-shadow-2xl max-w-[11ch] landscape:max-w-[9ch]">
+      <h1 class="text-7xl max-[900px]:landscape:text-[3rem] max-[900px]:landscape:leading-[0.85] md:text-[9rem] font-serif tracking-tight mb-8 max-[900px]:landscape:mb-4 text-[#f0ebe1] drop-shadow-2xl max-w-[11ch] max-[900px]:landscape:max-w-[9ch]">
         {firstName}<br>
         <span class="italic text-[#f0ebe1]/90">{lastName}</span>
       </h1>
       
-      <div class="flex flex-col md:flex-row gap-6 landscape:gap-4 md:gap-12 font-mono text-sm landscape:text-xs uppercase tracking-widest text-[#f0ebe1]/50">
+      <div class="flex flex-col md:flex-row gap-6 max-[900px]:landscape:gap-4 md:gap-12 font-mono text-sm max-[900px]:landscape:text-xs uppercase tracking-widest text-[#f0ebe1]/50">
         <time datetime={event.date.toISOString()} class="flex items-center gap-3">
           <span class="text-orten-amber">Datum /</span> {formatDate(event.date)}
         </time>
@@ -124,7 +124,7 @@ const backgroundImageProps = getResponsiveImage(backgroundImage, '100vw');
       </div>
     </div>
 
-    <div class="shrink-0 landscape:scale-75 landscape:origin-bottom-right landscape:mb-10">
+    <div class="shrink-0 max-[900px]:landscape:scale-75 max-[900px]:landscape:origin-bottom-right max-[900px]:landscape:mb-10">
       <a 
         href={import.meta.env.BASE_URL + `programm/${event.id}/`} 
         data-astro-transition-scope="hero-details"
