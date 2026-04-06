@@ -21,7 +21,7 @@ const pastEvents = allEvents
         <span class="w-12 h-[1px] bg-orten-amber"></span>
         <span class="text-orten-amber font-mono text-xs uppercase tracking-[0.3em]">Unsere Geschichte</span>
       </div>
-      <h1 class="text-7xl landscape:text-5xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4 landscape:mb-2">
+      <h1 class="text-7xl landscape:text-5xl md:text-[8rem] font-serif leading-[0.9] tracking-tight text-orten-text mb-4 landscape:mb-2 landscape:whitespace-nowrap">
         Archiv<span class="italic text-orten-amber">.</span>
       </h1>
       <p class="font-mono text-sm landscape:text-xs text-orten-muted uppercase tracking-widest mt-8 landscape:mt-4 italic">
@@ -69,7 +69,7 @@ const pastEvents = allEvents
               </p>
             </div>
             
-            <div class="relative z-10 p-8 landscape:p-6 flex justify-between items-center opacity-100 translate-y-0 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 md:translate-y-2 md:group-hover:translate-y-0">
+            <div class="archive-card-actions relative z-10 p-8 landscape:p-6 flex justify-between items-center opacity-100 translate-y-0 transition-all duration-500">
                <a href={import.meta.env.BASE_URL + `programm/${event.id}/`} class="font-mono text-[10px] uppercase tracking-[0.3em] text-orten-amber font-bold italic">Details &rarr;</a>
                <div class="w-12 h-12 rounded-full border border-orten-border flex items-center justify-center text-orten-muted group-hover:border-orten-amber/30 group-hover:text-orten-amber transition-all">
                  🎸
@@ -94,3 +94,17 @@ const pastEvents = allEvents
     )}
   </div>
 </BaseLayout>
+
+<style>
+  @media (hover: hover) and (pointer: fine) {
+    .archive-card-actions {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+
+    article.group:hover .archive-card-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
