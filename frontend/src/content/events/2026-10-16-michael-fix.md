@@ -1,6 +1,6 @@
 ---
 title: "Michael Fix"
-date: 2026-10-16T19:30:00
+date: 2026-10-16T19:30:00+02:00
 location: "Ortenburgerkeller, Schloss Porcia, Spittal/Drau"
 image: "michael-fix.webp"
 video: "https://www.youtube.com/watch?v=JaeFfsbcLMc"

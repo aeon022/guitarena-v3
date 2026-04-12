@@ -1,6 +1,6 @@
 ---
 title: "Peter Kern"
-date: 2026-03-06T19:30:00
+date: 2026-03-06T19:30:00+01:00
 location: "Ortenburgerkeller, Schloss Porcia, Spittal/Drau"
 image: "peter-kern.webp"
 video: "https://www.youtube.com/watch?v=Mlw3tEh0JV4"

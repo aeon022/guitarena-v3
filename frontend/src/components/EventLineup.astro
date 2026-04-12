@@ -1,5 +1,6 @@
 ---
 import { getResponsiveImage } from '../utils/responsiveImages';
+import { isPast as isPastEvent } from '../utils/date';
 import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
@@ -9,11 +10,9 @@ interface Props {
 const { events } = Astro.props;
 
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
-const today = new Date();
-today.setHours(0, 0, 0, 0);
 const sortedEvents = [...events].sort((a, b) => {
-  const aPast = a.date < today;
-  const bPast = b.date < today;
+  const aPast = isPastEvent(a.date);
+  const bPast = isPastEvent(b.date);
 
   if (aPast !== bPast) return aPast ? 1 : -1;
   return a.date.getTime() - b.date.getTime();
@@ -30,7 +29,7 @@ const sortedEvents = [...events].sort((a, b) => {
 
   <div class="flex flex-col gap-6 landscape:gap-4">
     {sortedEvents.map(event => {
-      const isPast = event.date < today;
+      const isPast = isPastEvent(event.date);
       const imagePath = event.image
         ? (event.image.startsWith('http') ? event.image : `/images/events/${event.image}`)
         : null;

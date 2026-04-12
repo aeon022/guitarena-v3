@@ -1,6 +1,6 @@
 ---
 title: "Crossing Strings"
-date: 2026-04-10T19:30:00
+date: 2026-04-10T19:30:00+02:00
 location: "Ortenburgerkeller, Schloss Porcia, Spittal/Drau"
 image: "crossing-strings.webp"
 video: "https://www.youtube.com/watch?v=x8y0pZCsmuM"

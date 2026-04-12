@@ -3,7 +3,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import ConsentYouTubeEmbed from '../../components/ConsentYouTubeEmbed.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getResponsiveImage } from '../../utils/responsiveImages';
-import { formatDate, formatTime } from '../../utils/date';
+import { formatDate, formatTime, isPast as isPastEvent } from '../../utils/date';
 import { stripMarkdown, toAbsoluteUrl, truncate } from '../../utils/seo';
 
 export async function getStaticPaths() {
@@ -23,9 +23,7 @@ if (!event) return Astro.redirect(base + '404/');
 
 const { title, date, location, image, video } = event.data;
 const { Content } = await render(event);
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const isPast = date < today;
+const isPast = isPastEvent(date);
 
 const titleParts = title.split(' ');
 const firstName = titleParts[0];
@@ -63,9 +61,9 @@ const structuredData = {
   image: [absoluteImageUrl],
   startDate: date.toISOString(),
   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-  eventStatus: date.getTime() >= Date.now()
-    ? 'https://schema.org/EventScheduled'
-    : 'https://schema.org/EventCompleted',
+  eventStatus: isPast
+    ? 'https://schema.org/EventCompleted'
+    : 'https://schema.org/EventScheduled',
   location: {
     '@type': 'Place',
     name: location.split(',')[0],

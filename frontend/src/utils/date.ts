@@ -13,8 +13,10 @@ export const formatTime = (date: Date): string => {
   }).format(date);
 };
 
+export const isPast = (date: Date): boolean => {
+  return date.getTime() < Date.now();
+};
+
 export const isUpcoming = (date: Date): boolean => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date >= today;
+  return !isPast(date);
 };

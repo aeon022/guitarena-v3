@@ -1,5 +1,5 @@
 ---
-import { formatDate, formatTime } from '../utils/date';
+import { formatDate, formatTime, isPast as isPastEvent } from '../utils/date';
 import { getResponsiveImage } from '../utils/responsiveImages';
 import type { GuitarenaEvent } from '../content.config';
 
@@ -9,9 +9,7 @@ interface Props {
 
 const { event } = Astro.props;
 
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const isPast = event.date < today;
+const isPast = isPastEvent(event.date);
 
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 const imagePath = event.image

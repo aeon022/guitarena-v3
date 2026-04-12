@@ -1,6 +1,6 @@
 ---
 title: "Julian Polak"
-date: 2026-11-20T19:30:00
+date: 2026-11-20T19:30:00+01:00
 location: "Ortenburgerkeller, Schloss Porcia, Spittal/Drau"
 image: "julian-polak.webp"
 video: "https://www.youtube.com/watch?v=Lj9ISC4cco0"
