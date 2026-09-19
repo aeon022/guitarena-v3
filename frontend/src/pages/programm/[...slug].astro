@@ -218,6 +218,18 @@ const structuredData = {
                 <span class="font-mono text-xs uppercase tracking-[0.2em] font-bold text-orten-muted">Schon vorbei</span>
               </div>
             )}
+            <div class="mt-6 flex flex-col gap-3">
+              {!isPast && (
+                <a href={`${base}programm/${event.id}.ics`} download class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-orten-border font-mono text-[10px] uppercase tracking-[0.2em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  Kalender
+                </a>
+              )}
+              <button type="button" data-share data-share-title={title} data-share-done="Link kopiert" class="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-full border border-orten-border font-mono text-[10px] uppercase tracking-[0.2em] text-orten-text hover:border-orten-amber hover:text-orten-amber transition-colors cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+                <span data-share-label>Teilen</span>
+              </button>
+            </div>
             <div class="mt-12 pt-8 border-t border-orten-border/50">
               <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-3 text-[10px] font-mono text-orten-muted uppercase tracking-[0.2em]"><span class="text-orten-amber">Einlass /</span><span>19:00 Uhr</span></div>
@@ -258,6 +270,21 @@ const structuredData = {
       }
     }
   };
+  // Teilen: natives Share-Sheet, sonst Link in die Zwischenablage
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>('[data-share]');
+    if (!btn) return;
+    const data = { title: `${btn.dataset.shareTitle} – Guitarena`, url: location.href };
+    try {
+      if (navigator.share) return void (await navigator.share(data));
+      await navigator.clipboard.writeText(data.url);
+      const label = btn.querySelector('[data-share-label]')!;
+      const original = label.textContent;
+      label.textContent = btn.dataset.shareDone!;
+      setTimeout(() => (label.textContent = original), 2000);
+    } catch {} // Abbruch im Share-Sheet ist kein Fehler
+  });
+
   initDetailHero();
   document.addEventListener('astro:after-swap', initDetailHero);
   document.addEventListener('guitarena:external-embed-loaded', initDetailHero);
