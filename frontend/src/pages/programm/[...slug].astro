@@ -80,11 +80,23 @@ const structuredData = {
     name: 'Guitarena',
     url: site.toString(),
   },
+  ...(!isPast && {
+    offers: [
+      { name: 'Erwachsene', price: '18.00' },
+      { name: 'Ermäßigt', price: '10.00' },
+    ].map((o) => ({
+      '@type': 'Offer',
+      ...o,
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: new URL(`/programm/${event.id}/`, site).toString(),
+    })),
+  }),
 };
 ---
 
 <BaseLayout
-  title={`${title} live in Spittal an der Drau`}
+  title={isPast ? `${title} – Konzert ${date.getFullYear()} in Spittal an der Drau` : `${title} live in Spittal an der Drau`}
   description={description}
   image={absoluteImageUrl}
   ogType="article"
@@ -213,6 +225,9 @@ const structuredData = {
                 <span class="font-mono text-xs uppercase tracking-[0.2em] group-hover:text-[#110e0d] transition-colors font-bold z-10 text-orten-text">Tickets</span>
                 <div class="absolute inset-0 bg-orten-amber translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
               </a>
+              <p class="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-orten-muted">
+                oder Tel. <a href="tel:+43476242020" class="text-orten-amber hover:underline">04762 / 42020</a>
+              </p>
             ) : (
               <div class="flex items-center justify-center w-full py-5 rounded-full border border-orten-border bg-orten-bg/40">
                 <span class="font-mono text-xs uppercase tracking-[0.2em] font-bold text-orten-muted">Schon vorbei</span>

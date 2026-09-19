@@ -1,29 +1,29 @@
 <div
   id="cookie-consent"
-  class="fixed inset-x-4 bottom-4 z-[90] hidden rounded-[1.75rem] border border-orten-border bg-orten-card/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur md:inset-x-auto md:right-6 md:bottom-6 md:max-w-md"
+  class="fixed inset-x-4 bottom-4 z-[90] hidden rounded-[1.75rem] border border-orten-border bg-orten-card/95 p-4 md:p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur md:inset-x-auto md:right-6 md:bottom-6 md:max-w-md"
 >
-  <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.28em] text-orten-amber">Cookies & Externe Medien</p>
-  <h2 class="mb-3 text-2xl font-serif text-orten-text">Externe Medien nur mit Zustimmung</h2>
-  <p class="text-sm leading-relaxed text-orten-muted">
+  <p class="mb-2 hidden md:block font-mono text-[10px] uppercase tracking-[0.28em] text-orten-amber">Cookies & Externe Medien</p>
+  <h2 class="mb-2 md:mb-3 text-xl md:text-2xl font-serif text-orten-text">Externe Medien nur mit Zustimmung</h2>
+  <p class="text-xs md:text-sm leading-relaxed text-orten-muted">
     Diese Website verwendet standardmäßig keine Analyse- oder Marketing-Cookies. Externe Inhalte wie YouTube oder Google Maps werden erst nach Ihrer Zustimmung geladen.
   </p>
-  <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+  <div class="mt-4 md:mt-5 flex gap-3">
     <button
       type="button"
       data-cookie-accept
-      class="flex-1 rounded-full bg-orten-amber px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-bg transition hover:brightness-105"
+      class="flex-1 rounded-full bg-orten-amber px-3 md:px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-bg transition hover:brightness-105"
     >
       Externe Medien erlauben
     </button>
     <button
       type="button"
       data-cookie-decline
-      class="flex-1 rounded-full border border-orten-border px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-text/75 transition hover:border-orten-text/30 hover:text-orten-text"
+      class="flex-1 rounded-full border border-orten-border px-3 md:px-5 py-3 font-mono text-[10px] uppercase tracking-[0.24em] text-orten-text/75 transition hover:border-orten-text/30 hover:text-orten-text"
     >
       Ablehnen
     </button>
   </div>
-  <div class="mt-4 flex items-center justify-between gap-4 text-[11px] text-orten-muted">
+  <div class="mt-3 md:mt-4 flex items-center justify-between gap-4 text-[11px] text-orten-muted">
     <a href={import.meta.env.BASE_URL + "cookies/"} class="transition hover:text-orten-text">Cookie-Details</a>
     <a href={import.meta.env.BASE_URL + "datenschutz/"} class="transition hover:text-orten-text">Datenschutz</a>
   </div>

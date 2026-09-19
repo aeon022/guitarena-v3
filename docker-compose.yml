@@ -1,6 +1,9 @@
 services:
   guitarena-astro:
-    build: .
+    build:
+      context: .
+      args:
+        BUILD_DATE: ${BUILD_DATE:-unset}
     container_name: guitarena-astro
     restart: always
     ports:

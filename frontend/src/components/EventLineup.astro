@@ -5,9 +5,10 @@ import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
   events: (GuitarenaEvent & { id: string; body?: string })[];
+  year: number;
 }
 
-const { events } = Astro.props;
+const { events, year } = Astro.props;
 
 const months = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 const sortedEvents = [...events].sort((a, b) => {
@@ -22,7 +23,7 @@ const sortedEvents = [...events].sort((a, b) => {
 <section id="programm" class="max-w-6xl w-full mx-auto px-8 md:px-16 py-24 landscape:py-16">
   <div class="mb-16 landscape:mb-10 flex flex-col md:flex-row justify-between md:items-end gap-8 landscape:gap-4 border-b border-orten-border pb-8 landscape:pb-6">
     <h2 class="text-6xl landscape:text-4xl md:text-7xl font-serif text-orten-text leading-none">
-      Lineup <span class="text-4xl landscape:text-3xl md:text-5xl italic text-orten-amber ml-4 opacity-80">2026</span>
+      Lineup <span class="text-4xl landscape:text-3xl md:text-5xl italic text-orten-amber ml-4 opacity-80">{year}</span>
     </h2>
   </div>
 

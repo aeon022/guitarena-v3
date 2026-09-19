@@ -4,7 +4,9 @@ WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
-RUN npm run build
+# Ändert sich pro Tag -> Cache-Bust, damit ein nächtlicher Rebuild "kommend/vergangen" neu berechnet
+ARG BUILD_DATE=unset
+RUN echo "build $BUILD_DATE" && npm run build
 
 # Production stage
 FROM nginx:alpine
@@ -21,6 +23,10 @@ server {
 
     location / {
         try_files $uri $uri/ /index.html;
+    }
+
+    location ~ \.ics$ {
+        default_type text/calendar;
     }
 
     error_page 404 /404.html;

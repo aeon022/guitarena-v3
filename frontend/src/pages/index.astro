@@ -8,12 +8,12 @@ import TicketInfo from '../components/TicketInfo.astro';
 import Guestbook from '../components/Guestbook.astro';
 import About from '../components/About.astro';
 import Supporters from '../components/Supporters.astro';
-import { isUpcoming } from '../utils/date';
+import { isUpcoming, seasonYear } from '../utils/date';
 import { stripMarkdown } from '../utils/seo';
 import { toAbsoluteUrl } from '../utils/seo';
 
 const allEvents = await getCollection('events');
-const currentYear = new Date().getFullYear();
+const currentYear = seasonYear(allEvents.map((event) => event.data.date));
 const currentYearEvents = allEvents
   .filter((event) => event.data.date.getFullYear() === currentYear)
   .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
@@ -66,7 +66,7 @@ const structuredData = [
 
   {currentYearEvents.length > 0 && (
     <>
-      <EventLineup events={currentYearEvents.map(e => ({ id: e.id, ...e.data, body: stripMarkdown(e.body ?? '') }))} />
+      <EventLineup year={currentYear} events={currentYearEvents.map(e => ({ id: e.id, ...e.data, body: stripMarkdown(e.body ?? '') }))} />
       <TicketInfo />
     </>
   )}

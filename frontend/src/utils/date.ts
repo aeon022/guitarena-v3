@@ -17,6 +17,12 @@ export const isPast = (date: Date): boolean => {
   return date.getTime() < Date.now();
 };
 
+// Spielzeit-Jahr: Jahr des nächsten Konzerts, sonst des letzten (statt hartem Kalenderjahr, wichtig um den Jahreswechsel)
+export const seasonYear = (dates: Date[]): number => {
+  const sorted = [...dates].sort((a, b) => a.getTime() - b.getTime());
+  return (sorted.find((d) => !isPast(d)) ?? sorted.at(-1))?.getFullYear() ?? new Date().getFullYear();
+};
+
 export const isUpcoming = (date: Date): boolean => {
   return !isPast(date);
 };

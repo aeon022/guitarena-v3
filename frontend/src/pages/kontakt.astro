@@ -4,6 +4,25 @@ import ConsentExternalEmbed from '../components/ConsentExternalEmbed.astro';
 import Social from '../components/Social.astro';
 import { getResponsiveImage } from '../utils/responsiveImages';
 
+const site = Astro.site ?? new URL('https://guitarena.at');
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicVenue',
+  name: 'Ortenburgerkeller (Guitarena)',
+  url: new URL('/kontakt/', site).toString(),
+  image: new URL('/images/about.webp', site).toString(),
+  email: 'hallo@guitarena.at',
+  telephone: '+43 4762 42020',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Burgplatz 1',
+    postalCode: '9800',
+    addressLocality: 'Spittal an der Drau',
+    addressRegion: 'Kärnten',
+    addressCountry: 'AT',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 46.79758, longitude: 13.49555 },
+};
 const heroImage = getResponsiveImage('/images/hero.webp', '(min-width: 768px) 50vw, 100vw');
 ---
 
@@ -11,6 +30,7 @@ const heroImage = getResponsiveImage('/images/hero.webp', '(min-width: 768px) 50
   title="Kontakt & Anfahrt"
   description="Kontakt, Kartenreservierung und Anfahrt zur Guitarena im Ortenburgerkeller von Schloss Porcia in Spittal an der Drau."
   image="/images/about.webp"
+  structuredData={structuredData}
 >
   <main class="pt-32 pb-24 px-8 md:px-16 max-w-7xl mx-auto">
     
@@ -58,6 +78,7 @@ const heroImage = getResponsiveImage('/images/hero.webp', '(min-width: 768px) 50
               <a href="mailto:karten@porcia.at" class="text-xl md:text-2xl font-serif text-orten-text hover:text-orten-amber transition-colors italic border-b border-orten-border pb-2 block w-fit">
                 karten@porcia.at
               </a>
+              <a href="tel:+43476242020" class="mt-6 text-lg font-serif text-orten-text hover:text-orten-amber transition-colors block w-fit">Tel. 04762 / 42020</a>
               <p class="text-xs text-orten-muted mt-4 font-mono uppercase tracking-widest">Porcia Kartenbüro</p>
             </div>
 
