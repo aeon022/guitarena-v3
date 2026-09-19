@@ -4,7 +4,7 @@ import { isPast as isPastEvent } from '../utils/date';
 import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
-  events: (GuitarenaEvent & { id: string })[];
+  events: (GuitarenaEvent & { id: string; body?: string })[];
 }
 
 const { events } = Astro.props;

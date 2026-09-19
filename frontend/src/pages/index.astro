@@ -9,6 +9,7 @@ import Guestbook from '../components/Guestbook.astro';
 import About from '../components/About.astro';
 import Supporters from '../components/Supporters.astro';
 import { isUpcoming } from '../utils/date';
+import { stripMarkdown } from '../utils/seo';
 import { toAbsoluteUrl } from '../utils/seo';
 
 const allEvents = await getCollection('events');
@@ -65,7 +66,7 @@ const structuredData = [
 
   {currentYearEvents.length > 0 && (
     <>
-      <EventLineup events={currentYearEvents.map(e => ({ id: e.id, ...e.data }))} />
+      <EventLineup events={currentYearEvents.map(e => ({ id: e.id, ...e.data, body: stripMarkdown(e.body ?? '') }))} />
       <TicketInfo />
     </>
   )}

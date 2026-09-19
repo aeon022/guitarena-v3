@@ -4,7 +4,7 @@ import { getResponsiveImage } from '../utils/responsiveImages';
 import type { GuitarenaEvent } from '../content.config';
 
 interface Props {
-  event: GuitarenaEvent & { id: string };
+  event: GuitarenaEvent & { id: string; body?: string };
 }
 
 const { event } = Astro.props;

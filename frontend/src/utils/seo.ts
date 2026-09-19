@@ -5,7 +5,8 @@ export const stripMarkdown = (input: string): string => {
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/^>\s?/gm, '')
-    .replace(/[*_#~-]+/g, ' ')
+    .replace(/^\s*[-*+#]+\s+/gm, '')
+    .replace(/[*_~]+/g, ' ')
     .replace(/<\/?[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
