@@ -17,8 +17,18 @@ Drei Spuren, die parallel laufen können:
 | Kontakt: Google-Karte füllt Rahmen, Aktivieren-Button sichtbar, mobil geprüft | live (`27809fa`) |
 | Programm: kommende Konzerte oben, vergangene darunter (neueste zuerst) | live |
 | Teaser-Text auf Karten und Startseite (`body` wurde nicht durchgereicht), `stripMarkdown` behält Bindestriche | live |
-| Kalender-Export: `.ics` pro Konzert (`/programm/<id>.ics`), Button „Kalender" auf der Detailseite | lokal fertig, noch nicht deployt |
-| Teilen: Button „Teilen" (Share-Sheet am Handy, sonst Link kopieren) auf der Detailseite | lokal fertig, noch nicht deployt |
+| Kalender-Export: `.ics` pro Konzert (`/programm/<id>.ics`, als `text/calendar`), Button „Kalender" auf der Detailseite | live (`52b2ad5`, `7ac568e`) |
+| Teilen: Button „Teilen" (Share-Sheet am Handy, sonst Link kopieren) | live |
+| A1.2 Tag `v3-static` (Stand `7ac568e`) | erledigt, auf GitHub |
+| A1.4 Jahreswechsel: Spielzeit-Jahr (`seasonYear`) statt hartem Kalenderjahr; „2026" im Lineup-Titel entfernt | live |
+| A1.5 Leerzustand Programm (Winterpause) mit Link zum Archiv | live |
+| A2.2 `MusicVenue`-JSON-LD auf `/kontakt/` | live |
+| A2.3 `ItemList` auf `/programm/`, `Offer` (18 € / 10 €) an kommenden Events | live |
+| A2.4 Sitemap-`lastmod` (nur vergangene Konzerte, Näherung = Konzertdatum) | live |
+| A2.5 Startseite: ein `<h1>` | live |
+| A2.6 Archiv-Titel mit Jahr („… – Konzert 2022 in Spittal an der Drau") | live |
+| A3.3 `tel:`-Links (Detailseite, Kontakt) | live |
+| A3.4 Cookie-Banner mobil kompakter | live |
 
 ## Ausgangslage (geprüft)
 
@@ -41,10 +51,9 @@ Drei Spuren, die parallel laufen können:
 ### A1 Betrieb & Sicherheit
 | # | Aufgabe | Aufwand | Fertig, wenn |
 |---|---|---|---|
-| A1.1 | **Nächtlicher Rebuild** per Plesk-Cron (`cd …/guitarena-astro && docker compose up -d --build`, z. B. 03:00) | S | Ein vergangenes Konzert wechselt ohne Deploy von „Kommend" zu „Vergangen" |
-| A1.2 | Tag `v3-static` setzen (Rückfallpunkt für Spur B) | S | `git tag` auf GitHub sichtbar |
+| A1.1 | **Nächtlicher Rebuild** per Plesk-„Geplante Aufgaben" (z. B. 03:00): `cd /var/www/vhosts/starbase11.com/guitarena.at/guitarena-astro && BUILD_DATE=$(date +%F) docker compose up -d --build`. Code-Seite ist fertig (`BUILD_DATE` bricht den Docker-Cache, sonst würde der Build nichts neu berechnen); **der Cron selbst muss noch in Plesk angelegt werden** | S | Ein vergangenes Konzert wechselt ohne Deploy von „Kommend" zu „Vergangen" |
 | A1.3 | Passwort von `wolf359` ändern, SSH-Key (`ssh-copy-id`) | S | Push auf `production` ohne Passwortabfrage |
-| A1.4 | **Jahres-Logik 2027 absichern:** `EventLineup` hat „2026" fest im Titel; `programm/index` und Startseite filtern hart auf das laufende Kalenderjahr. Am 01.01.2027 wären beide leer, solange kein 2027-Konzert eingetragen ist. Besser: „nächste Konzerte" unabhängig vom Jahr + Titel aus dem Jahr des nächsten Konzerts | S–M | Test mit gefaktem Datum 2027-01-01: Programm zeigt weder Leere noch „2026" |
+| ~~A1.4~~ | ~~**Jahres-Logik 2027 absichern:** `EventLineup` hat „2026" fest im Titel; `programm/index` und Startseite filtern hart auf das laufende Kalenderjahr. Am 01.01.2027 wären beide leer, solange kein 2027-Konzert eingetragen ist. Besser: „nächste Konzerte" unabhängig vom Jahr + Titel aus dem Jahr des nächsten Konzerts | S–M | Test mit gefaktem Datum 2027-01-01: Programm zeigt weder Leere noch „2026" — erledigt, `seasonYear` per Skript geprüft |
 | A1.5 | Programm-Leerzustand für die Winterpause (Nov → Programmstart): freundlicher Hinweis „Programm 2027 folgt", Link zum Archiv | S | Zustand lokal mit leerer Kommend-Liste geprüft |
 
 ### A2 SEO
