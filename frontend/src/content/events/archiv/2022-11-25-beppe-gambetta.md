@@ -7,7 +7,7 @@ video: "https://www.youtube.com/embed/wvQkcdl8wWI"
 ticketLink: "mailto:karten@porcia.at"
 ---
 
-<h1>"Flatpicking Guitar"</h1>
+<h2>"Flatpicking Guitar"</h2>
 
 
 
