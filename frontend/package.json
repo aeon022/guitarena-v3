@@ -1,25 +1,42 @@
 {
-  "name": "guitarena-2026",
+  "name": "guitarena-orbiter-frontend",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --port 4331",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prebuild": "node scripts/export-content.mjs",
+    "predev": "node scripts/export-content.mjs",
+    "cms:import": "node scripts/import-content.mjs",
+    "cms:export": "node scripts/export-content.mjs",
+    "cms:admin": "node scripts/admin.mjs"
   },
   "dependencies": {
+    "@a83/orbiter-admin": "file:../vendor/a83-orbiter-admin-0.3.89.tgz",
+    "@a83/orbiter-core": "file:../vendor/a83-orbiter-core-0.3.21.tgz",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.76",
-    "@tailwindcss/vite": "^4.0.0",
-    "astro": "^6.1.3",
-    "astro-icon": "^1.1.5",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.12",
+    "astro-icon": "^1.2.0",
+    "entities": "6.0.1",
+    "fast-xml-parser": "^5.12.1",
     "marked": "^17.0.5",
     "tailwindcss": "^4.0.0",
-    "zod": "^3.23.8"
+    "vite": "^8.3.8",
+    "yaml": "2.8.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^25.5.0"
+  },
+  "engines": {
+    "node": ">=22.12 <23"
+  },
+  "overrides": {
+    "@hono/node-server": "^1.19.18"
   }
 }
