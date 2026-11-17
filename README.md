@@ -1,74 +1,53 @@
-# Guitarena.at (v3.0 — "Omniscient Core")
+# Guitarena mit Orbiter
 
-**"Less Noise. Nice Data. No Bloat."**
+Separater lokaler Klon der statischen Guitarena-Website, Ausgangscommit `77ac4d8`.
+Orbiter verwaltet die Inhalte; Astro erzeugt weiterhin statische Seiten mit den bisherigen URLs.
 
-Guitarena is a premium cultural initiative based in Spittal an der Drau, Austria. Since 1998, it has brought world-class acoustic and fingerstyle guitarists to the historic atmosphere of the Ortenburgerkeller (Schloss Porcia). Version 3.0 represents a complete modernization from legacy WordPress to a high-performance, design-first Astro application.
+## Start
 
-## 🎯 Project Mission
-The goal was to create a "zero-maintenance" frontend that feels like a high-end digital magazine. The application focuses on speed, accessibility, and an immersive user experience that reflects the intimacy of the physical venue.
-
-## 🚀 Tech Stack
-- **Framework:** [Astro 6+](https://astro.build/) (Static Site Generation with Server-Side capabilities).
-- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) (Using the latest CSS-variable-first engine).
-- **Icons:** [Astro Icon](https://github.com/natemoo-re/astro-icon) with Iconify integration.
-- **Validation:** [Zod](https://zod.dev/) for strictly typed content schema.
-- **Animation:** Native View Transitions API, CSS-only marquees, and IntersectionObserver-driven header logic.
-
-## ✨ Key Features
-- **Dual-Theme System:**
-  - **Atmospheric Dark Mode:** The signature "cellar" vibe with deep tones and amber accents.
-  - **Premium Light Mode:** A warm, "parchment paper" aesthetic designed for high readability and a classic print-magazine feel.
-  - **Intelligent Header:** Dynamically detects background brightness to flip text colors for maximum contrast.
-- **Cinematic Hero:** High-impact video headers that remain atmospheric and dark regardless of the site theme.
-- **Infinite Guestbook:** A massive digital archive of artist entries since 1998, featuring infinite scrolling and a custom-built **Cinematic Lightbox** with keyboard navigation.
-- **Editorial Content:** High-quality typography using curated serif and mono fonts.
-- **Partner Marquee:** A smooth, hardware-accelerated logo loop for supporters and sponsors.
-- **WP Migration Core:** Python-based scripts to transform legacy WordPress XML exports into clean, structured Markdown content.
-
-## 📂 Project Structure
-```text
-/
-├── frontend/               # Astro 6 Source Code
-│   ├── src/
-│   │   ├── components/     # Reusable UI blocks (.astro only)
-│   │   ├── content/        # Markdown-based event data (Upcoming & Archiv)
-│   │   ├── layouts/        # BaseLayout with theme switching logic
-│   │   ├── pages/          # Routing (Home, Programm, Archiv, Guestbook)
-│   │   └── styles/         # Global Tailwind v4 configuration
-│   └── public/             # Optimized WebP assets & images
-├── drafts & content/       # Migration source (WordPress XML & drafts)
-├── MASTER_CONCEPT.md       # The architectural blueprint
-├── parse_xml.py            # WordPress to Markdown transformation script
-└── download_images.py      # Automated media recovery script
+```sh
+nvm use
+npm ci --prefix frontend
+npm run cms:import # nur bei frischem Klon ohne cms/content.pod
+npm run dev        # http://localhost:4331
+# zweites Terminal, ebenfalls Node 22:
+npm run cms:admin  # http://localhost:4332
 ```
 
-## 🛠 Installation & Development
+Login: Benutzer `admin`; zufällig erzeugtes Passwort in `cms/admin-login.txt` (nur lokal, Dateimodus 600).
+Nach dem Bearbeiten und Veröffentlichen im Admin `npm run build` ausführen bzw. den Dev-Server neu starten.
+Automatisches Publizieren auf einen Server ist noch nicht eingerichtet.
 
-### Prerequisites
-- Node.js (v20 or higher)
-- npm or pnpm
+## Inhalte
 
-### Setup
-1. Clone the repository.
-2. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+| Bereich | Importierter Bestand |
+|---|---:|
+| Konzerte | 1 |
+| Konzertarchiv | 19 |
+| Gästebuch | 215 |
+| Bisherige Künstler | 68 |
+| Unterstützer | 6 |
+| Seiten/SEO | 9 |
+| Website-Texte, nach Quelldatei zugeordnet | 292 |
+| Medien | 270 |
 
-## 🏛 Migration Logic
-The project includes specialized Python tools to migrate 30+ years of history:
-- `parse_xml.py`: Parses WordPress exports, extracts metadata (dates, artists, locations), and generates clean Frontmatter-heavy Markdown.
-- `update_archiv_webp.py`: Batch processes legacy JPG/PNG images into modern WebP format for optimal performance.
+Die Textbausteine erhalten das vorhandene Layout. Komponenten und interaktive Funktionen bleiben im Code;
+redaktionelle Texte, Konzertbeschreibungen, Seitenmetadaten, Künstler, Gästebuch und Partner kommen aus dem Pod.
+Schema: `frontend/cms/schema.mjs`. Ursprungsdaten: `migration/content.json` und Event-Markdown.
+Importbericht mit Quellprüfsummen und Bildersatz: `cms/import-report.json`.
 
----
+`archive` und `concerts` liefern gemeinsam die Astro-Collection `events`; Slugs bleiben unverändert.
+Der Import bewahrt Markdown einschließlich HTML und historische, teilweise unvollständige Gästebuchdaten.
+Ein fehlendes Crossing-Strings-Archivbild wurde durch das vorhandene Duo-Bild ersetzt; `legacyImage` bewahrt den alten Namen.
 
-**Guitarena.at — Music that remains.**
-© 2026 Kulturinitiative Spittal a. d. Drau.
+## Betrieb
+
+- `cms/content.pod` enthält Inhalte, Medien und Benutzer. Separat sichern; niemals committen.
+- `npm run cms:export` validiert die veröffentlichten Daten, exportiert Medien und erzeugt den statischen Snapshot.
+- Veröffentlichten Pflicht-Text oder benötigte Seiten nicht löschen: Der Build bricht bei fehlenden Einträgen ab.
+- Neue Medien werden exportiert; bisherige responsive Varianten bleiben erhalten. Neue Uploads verwenden zunächst das Originalbild.
+- `vendor/` enthält lokale Orbiter-Pakete, weil Admin und Core als geprüfte Archive mitgeführt werden.
+- `fast-xml-parser` ist ausdrücklich installiert, da es in dieser Admin-Paketfassung als Laufzeitabhängigkeit fehlt.
+- `docker compose up --build` baut eine lokale statische Vorschau auf Port 8081. Docker-Build noch nicht getestet.
+- Kein Production-Remote, kein neues GitHub-Remote, keine Veröffentlichung. `upstream-static` verweist nur zum lokalen Ausgangsrepo.
+- npm meldet bekannte Abhängigkeitslücken, darunter kritische; Admin deshalb nur lokal vorbereitet. Vor öffentlichem Betrieb Abhängigkeiten prüfen/aktualisieren.

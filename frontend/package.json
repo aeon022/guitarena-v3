@@ -15,8 +15,8 @@
     "cms:admin": "node scripts/admin.mjs"
   },
   "dependencies": {
-    "@a83/orbiter-admin": "file:../vendor/a83-orbiter-admin-0.3.89.tgz",
-    "@a83/orbiter-core": "file:../vendor/a83-orbiter-core-0.3.21.tgz",
+    "@a83/orbiter-admin": "file:../vendor/a83-orbiter-admin-0.3.105.tgz",
+    "@a83/orbiter-core": "file:../vendor/a83-orbiter-core-0.3.22.tgz",
     "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.76",
     "@tailwindcss/vite": "^4.3.5",
@@ -27,7 +27,7 @@
     "marked": "^17.0.5",
     "tailwindcss": "^4.0.0",
     "vite": "^8.3.8",
-    "yaml": "2.8.1",
+    "yaml": "^2.9.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
